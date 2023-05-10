@@ -61,7 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              "Welcome",
+              "Welcome to Merchant Application",
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.w500,

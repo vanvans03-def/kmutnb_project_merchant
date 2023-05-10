@@ -28,7 +28,7 @@ class AuthService {
         email: email,
         token: '',
         password: password,
-        type: 'user',
+        type: 'merchant',
         phoneNumber: '',
         address: '',
         cart: [],
@@ -84,7 +84,6 @@ class AuthService {
           var responseJson = jsonDecode(res.body);
           var data = responseJson['data'];
           var token = data['token'];
-          print("login :");
 
           if (token == null) {
             // ignore: use_build_context_synchronously
@@ -104,7 +103,7 @@ class AuthService {
               BottomBar.routeName,
               (route) => false,
             );*/
-          } else if (data['type'] == 'admin') {
+          } else if (data['type'] == 'merchant') {
             // ignore: use_build_context_synchronously
             Navigator.push(
               context,
