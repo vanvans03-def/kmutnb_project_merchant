@@ -16,6 +16,7 @@ class Product {
   final String relatedProduct;
   final String? id;
   final List<Rating>? rating;
+  final String storeId;
   Product({
     required this.productName,
     required this.category,
@@ -30,6 +31,7 @@ class Product {
     required this.relatedProduct,
     this.id,
     this.rating,
+    required this.storeId,
   });
 
   Map<String, dynamic> toMap() {
@@ -46,6 +48,7 @@ class Product {
       'stockStatus': stockStatus,
       'relatedProduct': relatedProduct,
       'rating': rating,
+      'storeId': storeId,
     };
   }
 
@@ -70,6 +73,7 @@ class Product {
               ),
             )
           : null,
+      storeId: map['storeId'],
     );
   }
 
