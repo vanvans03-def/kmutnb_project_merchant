@@ -28,6 +28,7 @@ class AdminService {
     required String productType_,
     required String stockStatus_,
     required String relatedProduct_,
+
     // required String id,
   }) async {
     try {
@@ -53,6 +54,7 @@ class AdminService {
         productType: productType_,
         stockStatus: stockStatus_,
         relatedProduct: relatedProduct_,
+        storeId: '',
         //  id: id,
       );
       //print("this is product object");
@@ -85,9 +87,10 @@ class AdminService {
   Future<List<Product>> fetchAllProduct(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
+    final storeId = "645b646d062f8471f04fc710";
     try {
-      http.Response res =
-          await http.get(Uri.parse('$uri/api/product'), headers: {
+      http.Response res = await http
+          .get(Uri.parse('$uri/api/product/store/$storeId'), headers: {
         'Content-Type': 'application/json; charset=UTF=8',
       });
       // ignore: use_build_context_synchronously
