@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/features/admin/screens/post_screen.dart';
+import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project/providers/store_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
@@ -7,7 +9,7 @@ import '../../../providers/user_provider.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
-
+  static const String routeName = '/admin-screen';
   @override
   State<AdminScreen> createState() => _AdminScreenState();
 }
@@ -17,6 +19,8 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarWidth = 42;
   double bottomBarBorderWidth = 5;
   get user => Provider.of<UserProvider>(context).user;
+
+  final AuthService authService = AuthService();
   List<Widget> pages = [
     const PostScreen(),
     const Center(

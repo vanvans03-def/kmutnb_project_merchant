@@ -73,6 +73,8 @@ class _AddProductScreenState extends State<AddProductScreen> {
         relatedProduct_: 'test',
         stockStatus_: 'test',
       );
+
+      setState(() {});
     } else {
       // Show an error message to the user
       ScaffoldMessenger.of(context).showSnackBar(

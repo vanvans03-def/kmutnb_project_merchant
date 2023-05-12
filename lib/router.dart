@@ -8,6 +8,7 @@ import 'package:kmutnb_project/features/search/screens/search_screen.dart';
 import 'package:kmutnb_project/models/product.dart';
 
 import 'features/admin/screens/add_products_screen.dart';
+import 'features/admin/screens/admin_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
 import 'models/order.dart';
@@ -37,7 +38,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const AddProductScreen(),
       );
-
+    case AdminScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AdminScreen(),
+      );
     case CategoryDealsScreen.routeName:
       var category = routeSettings.arguments as String;
       return MaterialPageRoute(

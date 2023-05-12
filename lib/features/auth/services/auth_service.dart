@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -12,6 +13,8 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../common/widgets/bottom_bar.dart';
+import '../../../models/store.dart';
+import '../../../providers/store_provider.dart';
 
 class AuthService {
   // Sign up user
@@ -84,6 +87,7 @@ class AuthService {
           var responseJson = jsonDecode(res.body);
           var data = responseJson['data'];
           var token = data['token'];
+          // ignore: use_build_context_synchronously
 
           if (token == null) {
             // ignore: use_build_context_synchronously
@@ -105,6 +109,8 @@ class AuthService {
             );*/
           } else if (data['type'] == 'merchant') {
             // ignore: use_build_context_synchronously
+
+            // ignore: use_build_context_synchronously
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -119,46 +125,36 @@ class AuthService {
     }
   }
 
-//รอแก้
-  // get data user
-  void getUserData(
-    BuildContext context,
-  ) async {
+  Future<Store> getStoreData({
+    required BuildContext context,
+  }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('x-auth-token');
+      final userProvider = Provider.of<UserProvider>(context, listen: false);
+      final uid = userProvider.user.id;
 
-      if (token == null) {
-        prefs.setString('x-auth-token', '');
-        return;
-      }
-
-      var tokenRes = await http.post(
-        Uri.parse('$uri/tokenIsValid'),
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/my-store/$uid'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'x-auth-token': token
+        },
+      );
+      var data;
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          var responseJson = json.decode(res.body);
+          data = responseJson['data'];
+          Store.fromJson(data);
         },
       );
 
-      var response = jsonDecode(tokenRes.body);
-
-      if (response['success'] == true) {
-        http.Response userRes = await http.get(
-          Uri.parse('$uri/'),
-          headers: <String, String>{
-            'Content-Type': 'application/json; charset=UTF-8',
-            'x-auth-token': token
-          },
-        );
-
-        if (userRes.statusCode == 200) {
-          var userProvider = Provider.of<UserProvider>(context, listen: false);
-          // userProvider.setUser(userRes.body);
-        }
-      }
+      return Store.fromJson(data);
     } catch (e) {
       showSnackBar(context, e.toString());
+      rethrow;
     }
   }
 }
