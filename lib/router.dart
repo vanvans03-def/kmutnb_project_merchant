@@ -11,6 +11,7 @@ import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
+import 'features/store/screens/add_store_screen.dart';
 import 'models/order.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
@@ -37,6 +38,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const AddProductScreen(),
+      );
+    case AddStoreScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const AddStoreScreen(),
       );
     case AdminScreen.routeName:
       return MaterialPageRoute(

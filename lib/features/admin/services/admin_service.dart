@@ -37,9 +37,9 @@ class AdminService {
     try {
       final cloudinary = CloudinaryPublic('dp6dsdn8y', 'x2sxr5vn');
       List<String> imageUrls = [];
-      final AuthService authService = AuthService();
-      final Store store = await authService.getStoreData(context: context);
-      print(store.storeId);
+
+      final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+
       for (int i = 0; i < productImage_.length; i++) {
         CloudinaryResponse res = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(productImage_[i].path, folder: productName_),
@@ -59,7 +59,7 @@ class AdminService {
         productType: productType_,
         stockStatus: stockStatus_,
         relatedProduct: relatedProduct_,
-        storeId: store.storeId,
+        storeId: storeProvider.store.storeId,
         //  id: id,
       );
       //print("this is product object");
@@ -80,7 +80,7 @@ class AdminService {
         context: context,
         onSuccess: () {
           //showSnackBar(context, 'Product Added Successfully!');
-          Navigator.popAndPushNamed(context, '/admin-screen');
+          Navigator.popAndPushNamed(context, '/add-product');
         },
       );
     } catch (e) {
@@ -92,7 +92,10 @@ class AdminService {
   Future<List<Product>> fetchAllProduct(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
-    final storeId = "645b646d062f8471f04fc710";
+    final AuthService authService = AuthService();
+    await authService.getStoreData(context: context);
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    final storeId = storeProvider.store.storeId;
     try {
       http.Response res = await http
           .get(Uri.parse('$uri/api/product/store/$storeId'), headers: {

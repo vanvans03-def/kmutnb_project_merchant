@@ -108,7 +108,7 @@ class AuthService {
               (route) => false,
             );*/
           } else if (data['type'] == 'merchant') {
-            // ignore: use_build_context_synchronously
+            // ignore: use_build_context_synchronously, await_only_futures
 
             // ignore: use_build_context_synchronously
             Navigator.push(
@@ -125,11 +125,12 @@ class AuthService {
     }
   }
 
-  Future<Store> getStoreData({
+  Future<void> getStoreData({
     required BuildContext context,
   }) async {
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
+      // ignore: use_build_context_synchronously
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       final uid = userProvider.user.id;
 
@@ -147,11 +148,16 @@ class AuthService {
         onSuccess: () {
           var responseJson = json.decode(res.body);
           data = responseJson['data'];
-          Store.fromJson(data);
+          if (data == null) {
+            Navigator.pushReplacementNamed(
+              context,
+              '/add-store',
+            );
+          } else {
+            Provider.of<StoreProvider>(context, listen: false).setStore(data);
+          }
         },
       );
-
-      return Store.fromJson(data);
     } catch (e) {
       showSnackBar(context, e.toString());
       rethrow;

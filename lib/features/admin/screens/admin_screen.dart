@@ -20,7 +20,6 @@ class _AdminScreenState extends State<AdminScreen> {
   double bottomBarBorderWidth = 5;
   get user => Provider.of<UserProvider>(context).user;
 
-  final AuthService authService = AuthService();
   List<Widget> pages = [
     const PostScreen(),
     const Center(
@@ -35,6 +34,11 @@ class _AdminScreenState extends State<AdminScreen> {
     setState(() {
       _page = page;
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override

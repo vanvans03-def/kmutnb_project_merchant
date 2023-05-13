@@ -15,8 +15,10 @@ class StoreProvider extends ChangeNotifier {
 
   Store get store => _store;
 
-  void setStore(Map<String, dynamic> storeData) {
-    _store = Store.fromMap(storeData['data']);
+  void setStore(dynamic storeData) {
+    final data = storeData is List ? storeData.first : storeData;
+    _store = Store.fromMap(data);
+
     notifyListeners();
   }
 

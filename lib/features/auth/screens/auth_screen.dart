@@ -3,6 +3,9 @@ import 'package:kmutnb_project/common/widgets/custom_textfield.dart';
 import 'package:kmutnb_project/common/widgets/customer_button.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:provider/provider.dart';
+
+import '../../../providers/store_provider.dart';
 
 enum Auth {
   signin,
@@ -44,7 +47,7 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
-  void signInUser() {
+  void signInUser() async {
     authService.signInUser(
       context: context,
       email: _emailController.text,
