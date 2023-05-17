@@ -34,35 +34,39 @@ class AddStoreService {
   }) async {
     try {
       final cloudinary = CloudinaryPublic('dp6dsdn8y', 'x2sxr5vn');
-      List<String> imageUrls = [];
-
+      List<String> profileImageUrls = [];
+      List<String> bannerImageUrls = [];
       final storeProvider = Provider.of<StoreProvider>(context, listen: false);
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       for (int i = 0; i < storeImage_.length; i++) {
         CloudinaryResponse res = await cloudinary.uploadFile(
           CloudinaryFile.fromFile(storeImage_[i].path, folder: storetName_),
         );
-        imageUrls.add(res.secureUrl);
+        profileImageUrls.add(res.secureUrl);
       }
 
+      for (int i = 0; i < banner_.length; i++) {
+        CloudinaryResponse res = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(banner_[i].path, folder: storetName_),
+        );
+        bannerImageUrls.add(res.secureUrl);
+      }
       Store store = Store(
         storeId: storeProvider.store.storeId,
         storeName: storetName_,
-        banner: imageUrls,
+        banner: bannerImageUrls,
         phone: phone_,
         storeDescription: storetDescription_,
-        storeImage: imageUrls,
+        storeImage: profileImageUrls,
         storeShortDescription: '',
         storeStatus: '0',
         user: userProvider.user.id,
         province: province_,
-        //  id: id,
+        idcardImage: profileImageUrls,
       );
-      //print("this is product object");
-      //print(product.productName);
 
       final data = jsonEncode(store);
-      //print(data);
+
       http.Response res = await http.post(
         Uri.parse('$uri/api/store'),
         body: store.toJson(),
@@ -76,7 +80,7 @@ class AddStoreService {
         context: context,
         onSuccess: () {
           //showSnackBar(context, 'Product Added Successfully!');
-          Navigator.popAndPushNamed(context, '/add-product');
+          Navigator.popAndPushNamed(context, '/admin-screen');
         },
       );
     } catch (e) {

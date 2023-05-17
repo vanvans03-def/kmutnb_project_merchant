@@ -6,6 +6,7 @@ class Store {
   final String storeName;
   final List<String> storeImage;
   final List<String> banner;
+  final List<String> idcardImage;
   final String phone;
   final String storeDescription;
   final String storeShortDescription;
@@ -17,6 +18,7 @@ class Store {
     required this.user,
     required this.storeName,
     required this.storeImage,
+    required this.idcardImage,
     required this.banner,
     required this.phone,
     required this.storeDescription,
@@ -32,6 +34,7 @@ class Store {
     result.addAll({'user': user});
     result.addAll({'storeName': storeName});
     result.addAll({'storeImage': storeImage});
+    result.addAll({'idcardImage': idcardImage});
     result.addAll({'banner': banner});
     result.addAll({'phone': phone});
     result.addAll({'storeDescription': storeDescription});
@@ -47,13 +50,14 @@ class Store {
       storeId: map['storeId'] ?? '',
       user: map['user'] ?? '',
       storeName: map['storeName'] ?? '',
-      storeImage: map['storeImage'] ?? '',
-      banner: map['banner'] ?? '',
+      storeImage: List<String>.from(map['storeImage']),
+      banner: List<String>.from(map['banner']),
       phone: map['phone'] ?? '',
       storeDescription: map['storeDescription'] ?? '',
       storeShortDescription: map['storeShortDescription'] ?? '',
       storeStatus: map['storeStatus'] ?? '',
       province: map['province'] ?? '',
+      idcardImage: List<String>.from(map['idcardImage']),
     );
   }
 

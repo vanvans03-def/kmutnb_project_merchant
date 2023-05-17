@@ -88,7 +88,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
           storeShortDescription_: '',
           storeStatus_: '',
           user_: '',
-          province_: '');
+          province_: selectedProvinceId);
 
       setState(() {});
     } else {
