@@ -185,9 +185,10 @@ class ProvinceService {
           for (int i = 0; i < data.length; i++) {
             Province province = Province.fromMap(data[i]);
             provinceList.add(province);
-            print(data[i]);
+
             //data น่าจะมาไม่ครบ
           }
+          print(data.length);
         },
       );
     } catch (e) {

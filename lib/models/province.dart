@@ -2,17 +2,17 @@ import 'dart:convert';
 
 class Province {
   String id;
-  int provinceID;
+  String provinceID;
   String provinceThai;
   String provinceEng;
   String officialRegion;
   String fourRegion;
   String tourismRegion;
   String bangkokMetropolitan;
-  double area;
-  int population62;
-  int malePopulation62;
-  int femalePopulation62;
+  String area;
+  String population62;
+  String malePopulation62;
+  String femalePopulation62;
 
   Province({
     required this.id,
@@ -48,18 +48,18 @@ class Province {
 
   factory Province.fromMap(Map<String, dynamic> map) {
     return Province(
-      id: map['_id'],
-      provinceID: map['ProvinceID'],
+      id: map['_id'].toString(),
+      provinceID: map['ProvinceID'].toString(),
       provinceThai: map['ProvinceThai'],
       provinceEng: map['ProvinceEng'],
       officialRegion: map['ภูมิภาคอย่างเป็นทางการ'],
       fourRegion: map['ภูมิภาคแบบสี่ภูมิภาค'],
       tourismRegion: map['ภูมิภาคท่องเที่ยวแห่งประเทศไทย'],
       bangkokMetropolitan: map['กรุงเทพปริมณฑลต่างจังหวัด'],
-      area: map['พื้นที่ ตรกม'],
-      population62: map['ประชากรรวม62'],
-      malePopulation62: map['ประชากรชาย62'],
-      femalePopulation62: map['ประชากรหญิง62'],
+      area: map['พื้นที่ ตรกม'].toString(),
+      population62: map['ประชากรรวม62'].toString(),
+      malePopulation62: map['ประชากรชาย62'].toString(),
+      femalePopulation62: map['ประชากรหญิง62'].toString(),
     );
   }
 
