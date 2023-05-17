@@ -8,10 +8,13 @@ import 'package:kmutnb_project/common/widgets/custom_textfield.dart';
 import 'package:kmutnb_project/common/widgets/customer_button.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
 import 'package:http/http.dart' as http;
+import 'package:kmutnb_project/models/province.dart';
 import '../../../constants/global_variables.dart';
 import '../../../constants/utills.dart';
 import '../../../models/category.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../services/add_store_service.dart';
 
 class AddStoreScreen extends StatefulWidget {
   static const String routeName = '/add-store';
@@ -22,24 +25,22 @@ class AddStoreScreen extends StatefulWidget {
 }
 
 class _AddStoreScreenState extends State<AddStoreScreen> {
-  final TextEditingController productNameController = TextEditingController();
+  final TextEditingController storeNameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
-  final TextEditingController quantityController = TextEditingController();
-  final TextEditingController productTypeController = TextEditingController();
-  final AdminService adminServices = AdminService();
-  final CategoryService categoryServices = CategoryService();
+  final TextEditingController phoneController = TextEditingController();
+
+  final AddStoreService addStoreService = AddStoreService();
+  final ProvinceService provinceService = ProvinceService();
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
-
+  File? _profileImage;
+  File? _coverImage;
   @override
   void dispose() {
     super.dispose();
-    productNameController.dispose();
+    storeNameController.dispose();
     descriptionController.dispose();
-    priceController.dispose();
-    quantityController.dispose();
-    productTypeController.dispose();
+    phoneController.dispose();
   } //สร้างตัวแปรตาม json
 
   @override
@@ -62,35 +63,32 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         },
       );
     });
-    _getCategories();
+    _getProvinces();
   }
 
-  List<Category> categories = [];
-  String selectedCategoryId = '';
+  List<Province> provinces = [];
+  String selectedProvinceId = '';
 
-  void _getCategories() async {
-    categories = await categoryServices.fetchAllCategory(context);
-    selectedCategoryId = categories.first.categoryId;
+  void _getProvinces() async {
+    provinces = await provinceService.fetchAllProvince(context);
+    selectedProvinceId = provinces.first.id;
 
     setState(() {});
   }
 
   void sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
-      adminServices.sellProduct(
-        context: context,
-        productName_: productNameController.text,
-        productDescription_: descriptionController.text,
-        category_: selectedCategoryId,
-        productImage_: images,
-        productPrice_: double.parse(priceController.text),
-        productSKU_: quantityController.text,
-        productSalePrice_: 0,
-        productShortDescription_: 'test',
-        productType_: 'test',
-        relatedProduct_: 'test',
-        stockStatus_: 'test',
-      );
+      addStoreService.createStore(
+          context: context,
+          storetName_: storeNameController.text,
+          storetDescription_: descriptionController.text,
+          storeImage_: images,
+          banner_: images,
+          phone_: phoneController.text,
+          storeShortDescription_: '',
+          storeStatus_: '',
+          user_: '',
+          province_: '');
 
       setState(() {});
     } else {
@@ -123,6 +121,32 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
     }
   }
 
+  Future<void> _pickProfileImage() async {
+    final imagePicker = ImagePicker();
+    final pickedImage = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
+    if (pickedImage != null) {
+      setState(() {
+        _profileImage = File(pickedImage.path);
+      });
+    }
+  }
+
+  Future<void> _pickCoverImage() async {
+    final imagePicker = ImagePicker();
+    final pickedImage = await imagePicker.pickImage(
+      source: ImageSource.gallery,
+      imageQuality: 50,
+    );
+    if (pickedImage != null) {
+      setState(() {
+        _coverImage = File(pickedImage.path);
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -151,7 +175,65 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: TextSpan(
+                      text: "ชื่อร้านค้า",
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(1.0),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  CustomTextField(
+                    controller: storeNameController,
+                    hintText: 'Store Name',
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Store Name is required';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: TextSpan(
+                      text: "คำอธิบายร้านค้า",
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(1.0),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  CustomTextField(
+                    controller: descriptionController,
+                    hintText: 'Description',
+                    maxLines: 7,
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: TextSpan(
+                      text: "เบอร์โทรศัพท์ร้านค้า",
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(1.0),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  CustomTextField(
+                    controller: phoneController,
+                    hintText: 'Phone number',
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
                       text: "รูปบัตรประชาชน",
@@ -213,31 +295,10 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                             ),
                           ),
                         ),
-                  const SizedBox(height: 30),
-                  RichText(
-                    text: TextSpan(
-                      text: "ชื่อสินค้า",
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(1.0),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  CustomTextField(
-                    controller: productNameController,
-                    hintText: 'Product Name',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Product Name is required';
-                      }
-                      return null;
-                    },
-                  ),
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
-                      text: "รายละเอียดสินค้า",
+                      text: "จังหวัดที่ตั้งของร้านค้า",
                       style: TextStyle(
                         color: Colors.black.withOpacity(1.0),
                         fontWeight: FontWeight.bold,
@@ -245,80 +306,37 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                     ),
                   ),
                   const SizedBox(height: 5),
-                  CustomTextField(
-                    controller: descriptionController,
-                    hintText: 'Description',
-                    maxLines: 7,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  RichText(
-                    text: TextSpan(
-                      text: "ราคาสินค้า",
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(1.0),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  CustomTextField(
-                    controller: priceController,
-                    hintText: 'Price',
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  RichText(
-                    text: TextSpan(
-                      text: "จำนวนสินค้า",
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(1.0),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  CustomTextField(
-                    controller: quantityController,
-                    hintText: 'quantitiy',
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                  SizedBox(
+                  Container(
+                    height: 50,
                     width: double.infinity,
-                    child: DropdownButton(
-                      hint: Text('Select a category'),
-                      icon: const Icon(Icons.keyboard_arrow_down),
-                      items: categories.map((categories) {
-                        return DropdownMenuItem<String>(
-                          value: categories.categoryId,
-                          child: Text(categories.categoryName),
-                        );
-                      }).toList(),
-                      onChanged: (String? newVal) {
-                        setState(() {
-                          selectedCategoryId = newVal!;
-                        });
-                      },
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedProvinceId,
+                        onChanged: (String? newVal) {
+                          setState(() {
+                            selectedProvinceId = newVal!;
+                          });
+                        },
+                        items: provinces.map((province) {
+                          return DropdownMenuItem<String>(
+                            value: province.id,
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(province.provinceThai),
+                            ),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
-                  Text(() {
-                    try {
-                      final category = categories.firstWhere((category) =>
-                          category.categoryId == selectedCategoryId);
-                      return category.categoryName;
-                    } catch (e) {
-                      return 'No category selected';
-                    }
-                  }()),
                   const SizedBox(height: 10),
                   CustomButton(
-                    text: 'Sell',
+                    text: 'ยืนยันการสร้างร้านค้า',
                     onTap: sellProduct,
                   ),
                 ],

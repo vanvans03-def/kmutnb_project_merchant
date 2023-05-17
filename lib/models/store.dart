@@ -4,12 +4,13 @@ class Store {
   final String storeId;
   final String user;
   final String storeName;
-  final String storeImage;
-  final String banner;
+  final List<String> storeImage;
+  final List<String> banner;
   final String phone;
   final String storeDescription;
   final String storeShortDescription;
   final String storeStatus;
+  final String province;
 
   Store({
     required this.storeId,
@@ -21,6 +22,7 @@ class Store {
     required this.storeDescription,
     required this.storeShortDescription,
     required this.storeStatus,
+    required this.province,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,6 +37,7 @@ class Store {
     result.addAll({'storeDescription': storeDescription});
     result.addAll({'storeShortDescription': storeShortDescription});
     result.addAll({'storeStatus': storeStatus});
+    result.addAll({'province': province});
 
     return result;
   }
@@ -50,6 +53,7 @@ class Store {
       storeDescription: map['storeDescription'] ?? '',
       storeShortDescription: map['storeShortDescription'] ?? '',
       storeStatus: map['storeStatus'] ?? '',
+      province: map['province'] ?? '',
     );
   }
 
