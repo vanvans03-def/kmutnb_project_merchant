@@ -27,6 +27,7 @@ class _OrdersState extends State<Orders> {
 
   void fetchOrders() async {
     orders = await accountServices.fetchMyOrder(context);
+
     setState(() {});
   }
 
@@ -68,23 +69,29 @@ class _OrdersState extends State<Orders> {
               Container(
                 height: 170,
                 padding: const EdgeInsets.only(left: 10, top: 20, right: 0),
-                child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: orders!.length,
-                    itemBuilder: (context, index) {
-                      return GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            OrderDetailScreen.routeName,
-                            arguments: orders![index],
+                child: orders != null
+                    ? ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: orders!.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                OrderDetailScreen.routeName,
+                                arguments: orders![index],
+                              );
+                            },
+                            child: SingleProduct(
+                              image: orders![index]
+                                  .products[0]
+                                  .product
+                                  .productImage[0],
+                            ),
                           );
                         },
-                        child: SingleProduct(
-                          image: orders![index].products[0].productImage[0],
-                        ),
-                      );
-                    }),
+                      )
+                    : const SizedBox(),
               ),
             ],
           );

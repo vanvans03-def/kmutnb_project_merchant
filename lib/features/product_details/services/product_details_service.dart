@@ -20,6 +20,7 @@ class ProductDetailsServices {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     final productId = product.id;
+    //print(productId);
     try {
       http.Response res = await http.post(
         Uri.parse('$uri/api/cart'),

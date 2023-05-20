@@ -22,19 +22,16 @@ class AccountServices {
 
       // ignore: use_build_context_synchronously
       httpErrorHandle(
-          response: res,
-          context: context,
-          onSuccess: () {
-            for (int i = 0; i < jsonDecode(res.body).length; i++) {
-              orderList.add(
-                Order.fromJson(jsonEncode(
-                  jsonDecode(res.body)[i],
-                )),
-              );
-            }
-          });
+        response: res,
+        context: context,
+        onSuccess: () {
+          List<dynamic> decodedData = jsonDecode(res.body);
+          orderList =
+              decodedData.map<Order>((item) => Order.fromMap(item)).toList();
+        },
+      );
     } catch (e) {
-      showSnackBar(context, e.toString());
+      //showSnackBar(context, e.toString());
     }
     return orderList;
   }

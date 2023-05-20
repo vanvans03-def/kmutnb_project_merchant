@@ -7,6 +7,7 @@ class Store {
   final List<String> storeImage;
   final List<String> banner;
   final List<String> idcardImage;
+  final String idcardNo;
   final String phone;
   final String storeDescription;
   final String storeShortDescription;
@@ -25,6 +26,7 @@ class Store {
     required this.storeShortDescription,
     required this.storeStatus,
     required this.province,
+    required this.idcardNo,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,6 +37,7 @@ class Store {
     result.addAll({'storeName': storeName});
     result.addAll({'storeImage': storeImage});
     result.addAll({'idcardImage': idcardImage});
+    result.addAll({'idcardNo': idcardNo});
     result.addAll({'banner': banner});
     result.addAll({'phone': phone});
     result.addAll({'storeDescription': storeDescription});
@@ -58,6 +61,7 @@ class Store {
       storeStatus: map['storeStatus'] ?? '',
       province: map['province'] ?? '',
       idcardImage: List<String>.from(map['idcardImage']),
+      idcardNo: map['idcardNo'] ?? '',
     );
   }
 

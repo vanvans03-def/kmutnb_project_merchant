@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/category.dart';
 import '../../../models/order.dart';
+import '../../../models/orderStore.dart';
 import '../../../providers/store_provider.dart';
 
 class AdminService {
@@ -168,6 +169,70 @@ class AdminService {
       showSnackBar(context, e.toString());
     }
     return orderList;
+  }
+
+  Future<List<OrderStore>> fetchOrders(BuildContext context) async {
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    final storeId = storeProvider.store.storeId;
+    List<OrderStore> orderList = [];
+    try {
+      http.Response res = await http
+          .get(Uri.parse('$uri/api/order-merchant/$storeId'), headers: {
+        'Content-Type': 'application/json; charset=UTF=8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              orderList.add(
+                OrderStore.fromJson(
+                  jsonEncode(jsonDecode(res.body)[i]),
+                ),
+              );
+            }
+          });
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+    return orderList;
+  }
+
+  void changeOrderStatus({
+    required BuildContext context,
+    required int status,
+    required String orderId,
+    required String storeId,
+    required String productId,
+    required VoidCallback onSuccess,
+  }) async {
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/change-order-status'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF=8',
+        },
+        body: jsonEncode(
+          {
+            'orderId': orderId,
+            'storeId': storeId,
+            'status': status,
+          },
+        ),
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          onSuccess();
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
   }
 }
 

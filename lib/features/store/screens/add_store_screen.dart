@@ -28,7 +28,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   final TextEditingController storeNameController = TextEditingController();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
-
+  final TextEditingController idcardController = TextEditingController();
   final AddStoreService addStoreService = AddStoreService();
   final ProvinceService provinceService = ProvinceService();
   List<File> images = [];
@@ -79,16 +79,18 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   void sellProduct() {
     if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
       addStoreService.createStore(
-          context: context,
-          storetName_: storeNameController.text,
-          storetDescription_: descriptionController.text,
-          storeImage_: images,
-          banner_: images,
-          phone_: phoneController.text,
-          storeShortDescription_: '',
-          storeStatus_: '',
-          user_: '',
-          province_: selectedProvinceId);
+        context: context,
+        storetName_: storeNameController.text,
+        storetDescription_: descriptionController.text,
+        storeImage_: images,
+        banner_: images,
+        phone_: phoneController.text,
+        storeShortDescription_: '',
+        storeStatus_: '',
+        user_: '',
+        province_: selectedProvinceId,
+        idcardNo_: idcardController.text,
+      );
 
       setState(() {});
     } else {
@@ -229,6 +231,24 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                   CustomTextField(
                     controller: phoneController,
                     hintText: 'Phone number',
+                    validator: (value) {
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: TextSpan(
+                      text: "รหัสบัตรประชาชน 13 หลัก",
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(1.0),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  CustomTextField(
+                    controller: idcardController,
+                    hintText: 'ID No.',
                     validator: (value) {
                       return null;
                     },

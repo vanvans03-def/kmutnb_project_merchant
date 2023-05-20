@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kmutnb_project/features/admin/screens/orders_screen.dart';
 import 'package:kmutnb_project/features/admin/screens/post_screen.dart';
 import 'package:kmutnb_project/features/auth/services/auth_service.dart';
 import 'package:kmutnb_project/providers/store_provider.dart';
@@ -25,9 +26,7 @@ class _AdminScreenState extends State<AdminScreen> {
     const Center(
       child: Text('Analytics Page'),
     ),
-    const Center(
-      child: Text('Cart Page'),
-    ),
+    const OrderScreen(),
   ];
 
   void updatePage(int page) {
@@ -43,6 +42,8 @@ class _AdminScreenState extends State<AdminScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    final storeName = storeProvider.store.storeName;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -64,9 +65,9 @@ class _AdminScreenState extends State<AdminScreen> {
                   color: Colors.black,
                 ),
               ),
-              const Text(
-                'Admin',
-                style: TextStyle(
+              Text(
+                storeName,
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),

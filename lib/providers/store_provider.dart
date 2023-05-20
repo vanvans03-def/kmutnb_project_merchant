@@ -13,7 +13,8 @@ class StoreProvider extends ChangeNotifier {
       storeStatus: '',
       storeShortDescription: '',
       province: '',
-      idcardImage: []);
+      idcardImage: [],
+      idcardNo: '');
 
   Store get store => _store;
 

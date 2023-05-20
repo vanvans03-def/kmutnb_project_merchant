@@ -5,12 +5,14 @@ import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
 import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
+import 'package:kmutnb_project/models/orderStore.dart';
 import 'package:kmutnb_project/models/product.dart';
 
 import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
+import 'features/order_detail/screens/order_store_details.dart';
 import 'features/store/screens/add_store_screen.dart';
 import 'models/order.dart';
 
@@ -86,6 +88,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => OrderDetailScreen(
+          order: order,
+        ),
+      );
+    case OrderStoreDetailScreen.routeName:
+      var order = routeSettings.arguments as OrderStore;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => OrderStoreDetailScreen(
           order: order,
         ),
       );

@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kmutnb_project/providers/user_provider.dart';
 import 'package:provider/provider.dart';
+import '../../../common/widgets/customer_button.dart';
 import '../../../constants/global_variables.dart';
-import '../../../models/order.dart';
-import '../../../providers/user_provider.dart';
+import '../../../models/orderStore.dart';
 import '../../search/screens/search_screen.dart';
 
-class OrderDetailScreen extends StatefulWidget {
-  static const String routeName = '/order-details';
-  final Order order;
-  const OrderDetailScreen({super.key, required this.order});
+class OrderStoreDetailScreen extends StatefulWidget {
+  static const String routeName = '/order-store-details';
+  final OrderStore order;
+  const OrderStoreDetailScreen({super.key, required this.order});
 
   @override
-  State<OrderDetailScreen> createState() => _OrderDetailScreenState();
+  State<OrderStoreDetailScreen> createState() => _OrderStoreDetailScreen();
 }
 
-class _OrderDetailScreenState extends State<OrderDetailScreen> {
+class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
   int currentStep = 0;
   int indexProduct = 0;
   bool showContainer = false;
@@ -32,10 +33,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     }
   }
 
+  void changeOrderstatus(int status) {}
+
   @override
   Widget build(BuildContext context) {
     //final user = Provider.of<UserProvider>(context).user;
-
+    final user = Provider.of<UserProvider>(context).user;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -174,7 +177,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         child: Row(
                           children: [
                             Image.network(
-                              widget.order.products[i].product.productImage[0],
+                              widget.order.products[i].productImage[0],
                               height: 120,
                               width: 120,
                             ),
@@ -184,8 +187,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    widget
-                                        .order.products[i].product.productName,
+                                    widget.order.products[i].productName,
                                     style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
@@ -194,7 +196,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    'Qty: ${widget.order.products[i].productSKU}',
+                                    'Qty: ${widget.order.products[i].productQuantity}',
+                                  ),
+                                  Text(
+                                    'Price: ${widget.order.products[i].productPrice}',
                                   ),
                                 ],
                               ),
@@ -223,6 +228,12 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                   child: Stepper(
                     currentStep: currentStep,
                     controlsBuilder: (context, details) {
+                      if (user.type == 'merchant') {
+                        return CustomButton(
+                            text: 'Done',
+                            onTap: () =>
+                                changeOrderstatus(details.currentStep));
+                      }
                       return const SizedBox();
                     },
                     steps: [

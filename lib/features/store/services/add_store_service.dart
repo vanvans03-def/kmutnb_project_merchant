@@ -29,6 +29,7 @@ class AddStoreService {
     required String storeStatus_,
     required String user_,
     required String province_,
+    required String idcardNo_,
 
     // required String id,
   }) async {
@@ -63,6 +64,7 @@ class AddStoreService {
         user: userProvider.user.id,
         province: province_,
         idcardImage: profileImageUrls,
+        idcardNo: idcardNo_,
       );
 
       final data = jsonEncode(store);
