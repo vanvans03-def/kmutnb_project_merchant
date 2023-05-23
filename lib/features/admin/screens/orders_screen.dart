@@ -9,10 +9,10 @@ import '../../../models/orderStore.dart';
 import '../../order_detail/screens/order_store_details.dart';
 
 class OrderScreen extends StatefulWidget {
-  const OrderScreen({super.key});
+  const OrderScreen({Key? key}) : super(key: key);
 
   @override
-  State<OrderScreen> createState() => _OrderScreenState();
+  _OrderScreenState createState() => _OrderScreenState();
 }
 
 class _OrderScreenState extends State<OrderScreen> {
@@ -31,27 +31,42 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   @override
+  void didUpdateWidget(covariant OrderScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    fetchOrders();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return orders == null
-        ? const Loader()
-        : GridView.builder(
-            itemCount: orders!.length,
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2),
-            itemBuilder: (context, index) {
-              final orderData = orders![index];
-              return GestureDetector(
-                onTap: () {
-                  Navigator.pushNamed(context, OrderStoreDetailScreen.routeName,
-                      arguments: orderData);
-                },
-                child: SizedBox(
-                  height: 140,
-                  child: SingleProduct(
-                    image: orderData.products[0].productImage[0],
+    return Scaffold(
+      body: orders == null
+          ? const Loader()
+          : GridView.builder(
+              itemCount: orders!.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+              ),
+              itemBuilder: (context, index) {
+                final orderData = orders![index];
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.pushNamed(
+                      context,
+                      OrderStoreDetailScreen.routeName,
+                      arguments: orderData,
+                    ).then((value) {
+                      fetchOrders();
+                    });
+                  },
+                  child: SizedBox(
+                    height: 140,
+                    child: SingleProduct(
+                      image: orderData.products[0].productImage[0],
+                    ),
                   ),
-                ),
-              );
-            });
+                );
+              },
+            ),
+    );
   }
 }

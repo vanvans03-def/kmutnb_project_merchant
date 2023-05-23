@@ -165,9 +165,13 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                           setState(() {
                             if (indexProduct == i && showContainer) {
                               showContainer = false;
+                              currentStep =
+                                  widget.order.products[i].statusProductOrder;
                             } else {
                               showContainer = true;
                               indexProduct = i;
+                              currentStep =
+                                  widget.order.products[i].statusProductOrder;
                             }
                           });
                         },

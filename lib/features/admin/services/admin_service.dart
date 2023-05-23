@@ -186,6 +186,7 @@ class AdminService {
           context: context,
           onSuccess: () {
             for (int i = 0; i < jsonDecode(res.body).length; i++) {
+              // print(jsonDecode(res.body)[i]);
               orderList.add(
                 OrderStore.fromJson(
                   jsonEncode(jsonDecode(res.body)[i]),
@@ -211,13 +212,14 @@ class AdminService {
       http.Response res = await http.post(
         Uri.parse('$uri/api/change-order-status'),
         headers: {
-          'Content-Type': 'application/json; charset=UTF=8',
+          'Content-Type': 'application/json; charset=UTF-8', // แก้ไขตรงนี้
         },
         body: jsonEncode(
           {
             'orderId': orderId,
             'storeId': storeId,
             'status': status,
+            'productId': productId
           },
         ),
       );
@@ -231,7 +233,7 @@ class AdminService {
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
+      //showSnackBar(context, e.toString());
     }
   }
 }

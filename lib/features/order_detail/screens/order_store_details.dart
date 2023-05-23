@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kmutnb_project/features/admin/services/admin_service.dart';
 import 'package:kmutnb_project/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../common/widgets/customer_button.dart';
@@ -20,6 +21,10 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
   int currentStep = 0;
   int indexProduct = 0;
   bool showContainer = false;
+  String storeId = '';
+  String productId = '';
+  String orderId = '';
+  AdminService adminService = AdminService();
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
@@ -30,10 +35,25 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
     currentStep = widget.order.products[indexProduct].statusProductOrder;
     if (widget.order.products.length == 1) {
       showContainer = true;
+      storeId = widget.order.products[indexProduct].storeId;
+      productId = widget.order.products[indexProduct].id;
+      orderId = widget.order.id;
     }
   }
 
-  void changeOrderstatus(int status) {}
+  void changeOrderstatus(
+      int status, String orderId, String productId, String storeId) {
+    adminService.changeOrderStatus(
+        context: context,
+        status: status + 1,
+        orderId: orderId,
+        storeId: storeId,
+        productId: productId,
+        onSuccess: () {});
+    setState(() {
+      currentStep += 1;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,7 +188,18 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                           setState(() {
                             if (indexProduct == i && showContainer) {
                               showContainer = false;
+                              storeId = widget.order.products[i].storeId;
+                              productId = widget.order.products[i].id;
+                              orderId = widget.order.id;
+                              currentStep =
+                                  widget.order.products[i].statusProductOrder;
                             } else {
+                              storeId = widget.order.products[i].storeId;
+                              productId = widget.order.products[i].id;
+                              orderId = widget.order.id;
+                              currentStep =
+                                  widget.order.products[i].statusProductOrder;
+
                               showContainer = true;
                               indexProduct = i;
                             }
@@ -228,11 +259,12 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                   child: Stepper(
                     currentStep: currentStep,
                     controlsBuilder: (context, details) {
-                      if (user.type == 'merchant') {
+                      if (user.type == 'merchant' && currentStep != 3) {
                         return CustomButton(
-                            text: 'Done',
-                            onTap: () =>
-                                changeOrderstatus(details.currentStep));
+                          text: 'Done',
+                          onTap: () => changeOrderstatus(
+                              details.currentStep, orderId, productId, storeId),
+                        );
                       }
                       return const SizedBox();
                     },
