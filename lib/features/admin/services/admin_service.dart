@@ -17,6 +17,7 @@ import '../../../models/category.dart';
 import '../../../models/order.dart';
 import '../../../models/orderStore.dart';
 import '../../../providers/store_provider.dart';
+import '../model/sales.dart';
 
 class AdminService {
   void sellProduct({
@@ -235,6 +236,47 @@ class AdminService {
     } catch (e) {
       //showSnackBar(context, e.toString());
     }
+  }
+
+  Future<Map<String, dynamic>> getEarnings(BuildContext context) async {
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    List<Sales> sales = [];
+    final storeId = storeProvider.store.storeId;
+    int totalEarning = 0;
+
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/analytics'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8', // แก้ไขตรงนี้
+        },
+        body: jsonEncode(
+          {
+            'storeId': storeId,
+          },
+        ),
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var response = jsonDecode(res.body);
+
+            totalEarning = response['totalEarnings'];
+            sales = [
+              Sales('Fruit', response['fruitEarnings']),
+              Sales('Vegetable', response['vegetableEarnings']),
+              Sales('Dry fruit', response['drtFruitEarnings']),
+            ];
+          });
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+    return {
+      'sales': sales,
+      'totalEarnings': totalEarning,
+    };
   }
 }
 

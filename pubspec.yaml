@@ -48,7 +48,8 @@ dependencies:
   pay: ^1.0.8
   intl: ^0.17.0
   image_picker: ^0.8.4+4
-  
+  fl_chart: ^0.62.0
+  charts_flutter_new: ^0.12.0
 
 dev_dependencies:
   flutter_test:

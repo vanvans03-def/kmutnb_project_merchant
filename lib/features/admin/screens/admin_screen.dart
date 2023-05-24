@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
+import 'analtyics_screen.dart';
 
 class AdminScreen extends StatefulWidget {
   const AdminScreen({super.key});
@@ -23,9 +24,7 @@ class _AdminScreenState extends State<AdminScreen> {
 
   List<Widget> pages = [
     const PostScreen(),
-    const Center(
-      child: Text('Analytics Page'),
-    ),
+    const AnalyticsScreen(),
     const OrderScreen(),
   ];
 
