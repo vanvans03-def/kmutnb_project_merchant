@@ -8,6 +8,7 @@ import '../../../constants/error_handling.dart';
 import '../../../constants/global_variables.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
+import '../../../models/store.dart';
 import '../../../providers/user_provider.dart';
 
 class HomeService {
@@ -62,5 +63,31 @@ class HomeService {
       showSnackBar(context, e.toString());
     }
     return categoriesList;
+  }
+
+  Future<List<Store>> fetchAllStore(BuildContext context) async {
+    List<Store> storeList = [];
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/store'),
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          var responseJson = json.decode(res.body);
+          var data = responseJson['data'];
+
+          for (int i = 0; i < data.length; i++) {
+            storeList.add(Store.fromJson(json.encode(data[i])));
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return storeList;
   }
 }

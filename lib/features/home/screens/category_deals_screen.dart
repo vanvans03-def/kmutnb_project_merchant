@@ -6,6 +6,7 @@ import 'package:kmutnb_project/features/product_details/screens/product_deatails
 import '../../../constants/global_variables.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
+import '../../../models/store.dart';
 
 class CategoryDealsScreen extends StatefulWidget {
   static const String routeName = '/category-deals';
@@ -18,6 +19,7 @@ class CategoryDealsScreen extends StatefulWidget {
 
 class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
   List<Product>? productList;
+  List<Store>? storeList;
   final HomeService homeService = HomeService();
   @override
   void initState() {
@@ -28,10 +30,15 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
   fetchCategory() async {
     String categoryId = widget.category;
     List<Product> products = await homeService.fetchAllProduct(context);
+    storeList = await homeService.fetchAllStore(context);
 
     // Filter the products that match the desired category ID
     productList =
         products.where((product) => product.category == categoryId).toList();
+
+    for (int i = 0; i < storeList!.length; i++) {
+      print(storeList![i].storeName);
+    }
 
     setState(() {});
   }
@@ -47,9 +54,9 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
               gradient: GlobalVariables.appBarGradient,
             ),
           ),
-          title: Text(
-            widget.category,
-            style: const TextStyle(
+          title: const Text(
+            'Fruit Category',
+            style: TextStyle(
               color: Colors.black,
             ),
           ),
@@ -64,7 +71,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Keep Shopping for ${widget.category}',
+                    'Keep Shopping for Fruit',
                     style: const TextStyle(
                       fontSize: 20,
                     ),

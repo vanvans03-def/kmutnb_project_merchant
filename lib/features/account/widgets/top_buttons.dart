@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kmutnb_project/features/account/services/account_service.dart';
 import 'package:kmutnb_project/features/account/widgets/account_button.dart';
 
 class TopButtons extends StatefulWidget {
@@ -30,7 +31,7 @@ class _TopButtonsState extends State<TopButtons> {
           children: [
             AccountButtons(
               text: 'Log Out',
-              onTap: () {},
+              onTap: () => AccountServices().logOut(context),
             ),
             AccountButtons(
               text: 'Your Wish List',

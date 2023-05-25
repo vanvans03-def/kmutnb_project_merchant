@@ -1,3 +1,4 @@
+import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
 import 'package:kmutnb_project/features/admin/widgets/category_product_chart.dart';
@@ -34,17 +35,29 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
   Widget build(BuildContext context) {
     return earnings == null || totalSales == null
         ? const Loader()
-        : Column(
-            children: [
-              Text(
-                '฿ $totalSales',
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+        : SingleChildScrollView(
+            child: Column(
+              children: [
+                Text(
+                  '฿ $totalSales',
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
-              ),
-              CategoryProductsChart(sectors: earnings)
-            ],
+                CategoryProductsChart(
+                  sectors: earnings!,
+                  seriesList: [
+                    charts.Series(
+                      id: 'Sales',
+                      data: earnings!,
+                      domainFn: (Sales sales, _) => sales.label,
+                      measureFn: (Sales sales, _) => sales.earning,
+                    )
+                  ],
+                )
+              ],
+            ),
           );
   }
 }

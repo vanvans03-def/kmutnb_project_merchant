@@ -85,6 +85,35 @@ class AddressService {
       showSnackBar(context, e.toString());
     }
   }
+
+  Future<String?> getQrCode({
+    required BuildContext context,
+    required double totalSum,
+  }) async {
+    try {
+      http.Response res = await http.post(Uri.parse('$uri/api/generateQR'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode({
+            'amount': totalSum,
+            'storeTel': '0989503183',
+          }));
+      var data = '';
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          var responseJson = json.decode(res.body);
+          data = responseJson['Result'];
+        },
+      );
+      return data;
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
 }
 
 class CategoryService {

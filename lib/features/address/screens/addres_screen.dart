@@ -25,7 +25,7 @@ class _AddressScreenState extends State<AddressScreen> {
   final _addressFormKey = GlobalKey<FormState>();
   String addressToBeUsed = "";
   List<PaymentItem> _paymentItems = [];
-
+  String? image64 = '';
   final AddressService addressService = AddressService();
   @override
   void initStete() {
@@ -44,6 +44,14 @@ class _AddressScreenState extends State<AddressScreen> {
     areaController.dispose();
     pincodeController.dispose();
     cityController.dispose();
+  }
+
+  Future<void> getQrCode() async {
+    image64 = await addressService.getQrCode(
+        context: context, totalSum: double.parse(widget.totalAmount));
+    setState(() {
+      print(image64);
+    });
   }
 
   void onGooglePayResult(paymentResult) {
@@ -192,6 +200,28 @@ class _AddressScreenState extends State<AddressScreen> {
                   child: CircularProgressIndicator(),
                 ),
               ),
+              const SizedBox(height: 5),
+              const Text(
+                'OR',
+                style: TextStyle(fontSize: 16),
+              ),
+              const SizedBox(height: 5),
+              SizedBox(
+                width: double.infinity,
+                height: 50,
+                child: ElevatedButton(
+                  style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50.0),
+                              side: BorderSide(color: Colors.white)))),
+                  onPressed: () {
+                    getQrCode();
+                  },
+                  child: Text("PromptPay QrCode".toUpperCase(),
+                      style: TextStyle(fontSize: 14)),
+                ),
+              )
             ],
           ),
         ),
