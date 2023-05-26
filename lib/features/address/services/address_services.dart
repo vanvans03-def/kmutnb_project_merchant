@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
@@ -91,28 +92,61 @@ class AddressService {
     required double totalSum,
   }) async {
     try {
-      http.Response res = await http.post(Uri.parse('$uri/api/generateQR'),
-          headers: {
-            'Content-Type': 'application/json; charset=UTF-8',
-          },
-          body: jsonEncode({
-            'amount': totalSum,
-            'storeTel': '0989503183',
-          }));
-      var data = '';
+      final res = await http.post(
+        Uri.parse('$uri/api/generateQR'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'totalAmount': totalSum,
+          'storeTel': '0989503183',
+        }),
+      );
+
+      if (res.statusCode == 200) {
+        final responseJson = json.decode(res.body);
+        final data = responseJson['Result'];
+        return data;
+      } else {
+        showSnackBar(context, 'Error: ${res.statusCode}');
+        return null;
+      }
+    } catch (e) {
+      showSnackBar(context, e.toString());
+      return null;
+    }
+  }
+
+  Future<Category> getCategory({
+    required BuildContext context,
+    required String categoryId,
+  }) async {
+    final completer = Completer<Category>();
+
+    try {
+      http.Response res = await http.get(
+        Uri.parse('$uri/api/category/$categoryId'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
       // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
         onSuccess: () {
           var responseJson = json.decode(res.body);
-          data = responseJson['Result'];
+          var data = responseJson['data'];
+          completer.complete(Category.fromJson(data));
         },
       );
-      return data;
     } catch (e) {
       showSnackBar(context, e.toString());
+      completer.completeError(e);
     }
+
+    return completer.future;
   }
 }
 
