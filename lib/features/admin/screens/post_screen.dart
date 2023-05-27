@@ -19,6 +19,7 @@ class _PostScreenState extends State<PostScreen> {
   List<Product>? products = [];
   final AdminService adminService = AdminService();
   get store => Provider.of<StoreProvider>(context).store;
+
   @override
   void initState() {
     super.initState();
@@ -62,76 +63,96 @@ class _PostScreenState extends State<PostScreen> {
       return products == null
           ? const Loader()
           : Scaffold(
-              body: GridView.builder(
-                itemCount: products!.length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
-                itemBuilder: (context, index) {
-                  final productData = products![index];
-                  return Column(
-                    children: [
-                      SizedBox(
-                        height: 110,
-                        child: SingleProduct(
-                          image: productData.productImage[0],
-                        ),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+              body: OrientationBuilder(
+                builder: (context, orientation) {
+                  return GridView.builder(
+                    itemCount: products!.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount:
+                          orientation == Orientation.portrait ? 2 : 4,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio:
+                          orientation == Orientation.portrait ? 1.0 : 1.2,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    itemBuilder: (context, index) {
+                      final productData = products![index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Flexible(
-                            fit: FlexFit.tight,
-                            child: Text(
-                              productData.productName,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: const TextStyle(fontSize: 14),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          SizedBox(
-                            width: 60, // set the width of the icon
-                            height: 30, // set the height of the icon
-                            child: GestureDetector(
-                              onTap: () {
-                                showDialog(
-                                  // ... showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: const Text('Delete product?'),
-                                      content: const Text(
-                                          'Are you sure you want to delete this product?'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('Cancel'),
-                                          onPressed: () =>
-                                              Navigator.of(context).pop(),
-                                        ),
-                                        TextButton(
-                                          child: const Text(
-                                            'Delete',
-                                            style: TextStyle(
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                          onPressed: () {
-                                            deleteProduct(productData, index);
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: const Icon(
-                                Icons.delete_outline,
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.grey.withOpacity(0.5),
+                                    spreadRadius: 2,
+                                    blurRadius: 5,
+                                    offset: const Offset(0, 3),
+                                  ),
+                                ],
+                              ),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: SingleProduct(
+                                  image: productData.productImage[0],
+                                ),
                               ),
                             ),
                           ),
+                          const SizedBox(height: 5),
+                          Text(
+                            productData.productName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                          const SizedBox(height: 5),
+                          GestureDetector(
+                            onTap: () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('Delete product?'),
+                                    content: const Text(
+                                        'Are you sure you want to delete this product?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('Cancel'),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          'Delete',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          deleteProduct(productData, index);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Icon(
+                              Icons.delete_outline,
+                              color: Colors.red,
+                            ),
+                          ),
                         ],
-                      ),
-                    ],
+                      );
+                    },
                   );
                 },
               ),

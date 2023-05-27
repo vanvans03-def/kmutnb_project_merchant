@@ -32,6 +32,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
   @override
   void initState() {
     super.initState();
+
     currentStep = widget.order.products[indexProduct].statusProductOrder;
     if (widget.order.products.length == 1) {
       showContainer = true;

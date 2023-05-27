@@ -8,7 +8,7 @@ class Product {
   final String productShortDescription;
   final String productDescription;
   final double productPrice;
-  final double productSalePrice;
+  final String productSalePrice;
   final List<String> productImage;
   final String productSKU;
   final String productType;
@@ -59,7 +59,7 @@ class Product {
       productShortDescription: map['productShortDescription'] ?? '',
       productDescription: map['productDescription'] ?? '',
       productPrice: map['productPrice']?.toDouble() ?? 0.0,
-      productSalePrice: map['productSalePrice']?.toDouble() ?? 0.0,
+      productSalePrice: map['productSalePrice']?.toString() ?? '',
       productImage: List<String>.from(map['productImage']),
       productSKU: map['productSKU'] ?? '',
       productType: map['productType'] ?? '',

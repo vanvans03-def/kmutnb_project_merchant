@@ -30,7 +30,9 @@ class _SearchScreenState extends State<SearchScreen> {
     products = await searchServices.fetchAllProduct(
         context: context, searchQuery: widget.searchQuery);
 
-    setState(() {});
+    setState(() {
+      print(products);
+    });
   }
 
   void navigateToSearchScreen(String query) {
@@ -94,7 +96,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                   width: 1,
                                 ),
                               ),
-                              hintText: 'Search Amazon.in',
+                              hintText: 'Search ',
                               hintStyle: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 17,

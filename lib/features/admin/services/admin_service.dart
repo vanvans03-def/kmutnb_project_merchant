@@ -8,6 +8,7 @@ import 'package:kmutnb_project/constants/utills.dart';
 import 'package:kmutnb_project/features/auth/services/auth_service.dart';
 import 'package:kmutnb_project/models/product.dart';
 import 'package:http/http.dart' as http;
+import 'package:kmutnb_project/models/productprice.dart';
 import 'package:kmutnb_project/models/store.dart';
 import 'package:kmutnb_project/providers/user_provider.dart';
 
@@ -27,7 +28,7 @@ class AdminService {
     required String productShortDescription_,
     required String productDescription_,
     required double productPrice_,
-    required double productSalePrice_,
+    required String productSalePrice_,
     required List<File> productImage_,
     required String productSKU_,
     required String productType_,
@@ -277,6 +278,64 @@ class AdminService {
       'sales': sales,
       'totalEarnings': totalEarning,
     };
+  }
+
+  Future<List<ProductPrice>> fetchAllProductprice(BuildContext context) async {
+    //final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<ProductPrice> productpricesList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/productprices'), headers: {
+        'Content-Type': 'application/json; charset=UTF=8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+            var data = responseJson;
+
+            for (int i = 0; i < data.length; i++) {
+              productpricesList
+                  .add(ProductPrice.fromJson(json.encode(data[i])));
+            }
+          });
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+    return productpricesList;
+  }
+
+  Future<List<ProductPrice>> searchProductprice({
+    required BuildContext context,
+    required String productName,
+  }) async {
+    //final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<ProductPrice> productpricesList = [];
+    try {
+      http.Response res = await http.get(
+          Uri.parse('$uri/api/productprices/search?productName=$productName'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF=8',
+          });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+            var data = responseJson;
+
+            for (int i = 0; i < data.length; i++) {
+              productpricesList
+                  .add(ProductPrice.fromJson(json.encode(data[i])));
+            }
+          });
+    } catch (e) {
+      // showSnackBar(context, e.toString());
+    }
+    return productpricesList;
   }
 }
 
