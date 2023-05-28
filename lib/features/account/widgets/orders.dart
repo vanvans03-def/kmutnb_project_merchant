@@ -1,24 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/account/services/account_service.dart';
+import 'package:kmutnb_project/features/account/widgets/single_order_product.dart';
 import 'package:kmutnb_project/features/account/widgets/single_product.dart';
 import 'package:kmutnb_project/features/order_detail/screens/order_details.dart';
 import 'package:kmutnb_project/models/order.dart';
-
-import '../../../common/widgets/loader.dart';
+import 'package:kmutnb_project/common/widgets/loader.dart';
+import 'package:image_card/image_card.dart';
 
 class Orders extends StatefulWidget {
-  const Orders({super.key});
+  const Orders({Key? key}) : super(key: key);
 
   @override
   State<Orders> createState() => _OrdersState();
 }
 
 class _OrdersState extends State<Orders> {
-  //temporary list
-
   List<Order>? orders;
   final AccountServices accountServices = AccountServices();
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +28,6 @@ class _OrdersState extends State<Orders> {
 
   void fetchOrders() async {
     orders = await accountServices.fetchMyOrder(context);
-
     setState(() {});
   }
 
@@ -45,7 +45,7 @@ class _OrdersState extends State<Orders> {
                       left: 15,
                     ),
                     child: const Text(
-                      'Yours Orders',
+                      'Your Orders',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -65,33 +65,37 @@ class _OrdersState extends State<Orders> {
                   ),
                 ],
               ),
-              //display
               Container(
-                height: 170,
+                height: 250,
                 padding: const EdgeInsets.only(left: 10, top: 20, right: 0),
-                child: orders != null
-                    ? ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemCount: orders!.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                OrderDetailScreen.routeName,
-                                arguments: orders![index],
-                              );
-                            },
-                            child: SingleProduct(
-                              image: orders![index]
-                                  .products[0]
-                                  .product
-                                  .productImage[0],
-                            ),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(orders!.length, (index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            OrderDetailScreen.routeName,
+                            arguments: orders![index],
                           );
                         },
-                      )
-                    : const SizedBox(),
+                        child: Expanded(
+                          child: SingleOrderProduct(
+                            image: orders![index]
+                                .products[0]
+                                .product
+                                .productImage[0],
+                            date: DateFormat().format(
+                              DateTime.fromMillisecondsSinceEpoch(
+                                  orders![index].orderedAt),
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
               ),
             ],
           );

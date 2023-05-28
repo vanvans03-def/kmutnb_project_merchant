@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
 
-class SingleProduct extends StatelessWidget {
+class SingleOrderProduct extends StatelessWidget {
   final String image;
-  const SingleProduct({Key? key, required this.image}) : super(key: key);
+  final String date;
+  const SingleOrderProduct({Key? key, required this.image, required this.date})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +18,7 @@ class SingleProduct extends StatelessWidget {
           imageProvider: NetworkImage(image),
           tags: [_tag('Product', () {})],
           title: _title(color: Colors.white),
-          description: _content(color: Colors.white),
+          description: _content(color: Colors.white, date: date),
         ),
       ),
     );
@@ -50,10 +52,10 @@ class SingleProduct extends StatelessWidget {
     );
   }
 
-  Widget _content({required Color color}) {
-    return const Text(
-      'Description',
-      style: TextStyle(
+  Widget _content({required Color color, required String date}) {
+    return Text(
+      date,
+      style: const TextStyle(
         color: Colors.white,
         fontSize: 14,
       ),

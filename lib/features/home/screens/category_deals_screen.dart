@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:image_card/image_card.dart';
 import 'package:kmutnb_project/common/widgets/loader.dart';
 import 'package:kmutnb_project/features/address/services/address_services.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
@@ -206,7 +207,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                       ),
                                       Expanded(
                                         child: Container(
-                                          alignment: Alignment.topLeft,
+                                          alignment: Alignment.topRight,
                                           padding: const EdgeInsets.only(
                                             left: 0,
                                             top: 0,
@@ -214,21 +215,8 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                           ),
                                           child: Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
+                                                MainAxisAlignment.end,
                                             children: [
-                                              const Expanded(
-                                                child: Text(
-                                                  '',
-                                                  style: TextStyle(
-                                                    fontSize: 8,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
                                               if (product.productSalePrice !=
                                                   '0')
                                                 for (int i = 0;
@@ -244,7 +232,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                                       child: Padding(
                                                         padding:
                                                             const EdgeInsets
-                                                                .all(8.0),
+                                                                .all(6.0),
                                                         child: Text(
                                                           'ราคากลางวันนี้ ${productpricesList[i].priceMax} ฿',
                                                           style:
