@@ -26,9 +26,10 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
   List<Product>? productList;
   List<Store>? storeList;
   String categoryName = '';
+  String mocPrice = '';
   final HomeService homeService = HomeService();
   final AddressService addressService = AddressService();
-  final AdminService adminServices = AdminService();
+
   @override
   void initState() {
     super.initState();
@@ -36,6 +37,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
     _getProductprices();
   }
 
+  final AdminService adminServices = AdminService();
   List<ProductPrice> productpricesList = [];
   void _getProductprices() async {
     productpricesList = await adminServices.fetchAllProductprice(context);
@@ -52,7 +54,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
     categoryName = category.categoryName;
     List<Product> products = await homeService.fetchAllProduct(context);
     storeList = await homeService.fetchAllStore(context);
-
+    print(categoryId);
     // Filter the products that match the desired category ID
     productList =
         products.where((product) => product.category == categoryId).toList();
@@ -86,6 +88,17 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                  decoration: BoxDecoration(
+                    color: Colors.white70,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 2),
+                      ),
+                    ],
+                  ),
                   alignment: Alignment.topLeft,
                   child: Text(
                     'Keep Shopping for $categoryName',
@@ -122,18 +135,13 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                           ),
                           SizedBox(
                             height: 200,
-                            child: GridView.builder(
+                            child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               padding: const EdgeInsets.only(left: 15),
                               itemCount: productsInStore.length,
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 1,
-                                childAspectRatio: 1.5,
-                                mainAxisSpacing: 10,
-                              ),
                               itemBuilder: (context, index) {
                                 final product = productsInStore[index];
+
                                 return GestureDetector(
                                   onTap: () {
                                     Navigator.pushNamed(
@@ -142,118 +150,12 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                       arguments: product,
                                     );
                                   },
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        height: 130,
-                                        child: Card(
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            side: const BorderSide(
-                                              color: Colors.black12,
-                                              width: 0.5,
-                                            ),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: Image.network(
-                                                product.productImage[0],
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.topLeft,
-                                          padding: const EdgeInsets.only(
-                                            left: 5,
-                                            top: 5,
-                                            right: 5,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                child: Text(
-                                                  product.productName,
-                                                  style: const TextStyle(
-                                                    fontSize: 12,
-                                                    fontWeight:
-                                                        FontWeight.normal,
-                                                  ),
-                                                  maxLines: 2,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              Text(
-                                                '${product.productPrice.toString()}฿',
-                                                style: const TextStyle(
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.normal,
-                                                ),
-                                                maxLines: 2,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Expanded(
-                                        child: Container(
-                                          alignment: Alignment.topRight,
-                                          padding: const EdgeInsets.only(
-                                            left: 0,
-                                            top: 0,
-                                            right: 0,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.end,
-                                            children: [
-                                              if (product.productSalePrice !=
-                                                  '0')
-                                                for (int i = 0;
-                                                    i <
-                                                        productpricesList
-                                                            .length;
-                                                    i++)
-                                                  if (productpricesList[i]
-                                                          .productId ==
-                                                      product.productSalePrice)
-                                                    Card(
-                                                      color: Colors.red,
-                                                      child: Padding(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                .all(6.0),
-                                                        child: Text(
-                                                          'ราคากลางวันนี้ ${productpricesList[i].priceMax} ฿',
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 8,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .normal,
-                                                            color: Colors.white,
-                                                          ),
-                                                          maxLines: 2,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
-                                                      ),
-                                                    ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
+                                  child: SingleOrderProduct(
+                                    image: product.productImage[0],
+                                    price: product.productPrice.toString(),
+                                    salePrice: product.productSalePrice,
+                                    productPriceList: productpricesList,
+                                    productName: product.productName,
                                   ),
                                 );
                               },
@@ -266,6 +168,112 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                 ),
               ],
             ),
+    );
+  }
+}
+
+class SingleOrderProduct extends StatelessWidget {
+  final String image;
+  final String price;
+  final String? salePrice;
+  final String productName;
+  final List<ProductPrice> productPriceList;
+
+  const SingleOrderProduct({
+    Key? key,
+    required this.image,
+    required this.price,
+    this.salePrice,
+    required this.productPriceList,
+    required this.productName,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    String mocPrice = '';
+
+    // ignore: no_leading_underscores_for_local_identifiers
+    void _getSalePrice() {
+      if (salePrice != null && salePrice != '0') {
+        for (int i = 0; i < productPriceList.length; i++) {
+          if (productPriceList[i].productId == salePrice) {
+            mocPrice = productPriceList[i].priceMax.toString();
+          }
+        }
+      }
+    }
+
+    _getSalePrice();
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      child: Stack(
+        children: [
+          TransparentImageCard(
+            width: 200,
+            height: 200,
+            imageProvider: NetworkImage(image),
+            title: _title(color: Colors.white, productName: productName),
+            description: _content(color: Colors.white, price: price),
+          ),
+          Positioned(
+            top: 0,
+            left: 0,
+            child: Visibility(
+              visible: mocPrice != '',
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(4),
+                ),
+                child: Text(
+                  'ราคาตลาดวันนี้ $mocPrice ฿',
+                  style: const TextStyle(color: Colors.white, fontSize: 12),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _tag(String label, VoidCallback onPressed) {
+    return GestureDetector(
+      onTap: onPressed,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.circular(4),
+        ),
+        child: Text(
+          label,
+          style: const TextStyle(color: Colors.white, fontSize: 12),
+        ),
+      ),
+    );
+  }
+
+  Widget _content({required Color color, required String price}) {
+    return Text(
+      "$price฿",
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
+      style: const TextStyle(
+          color: Colors.white, fontSize: 14, fontWeight: FontWeight.bold),
+    );
+  }
+
+  Widget _title({Color? color, required String productName}) {
+    return Text(
+      productName,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: color,
+      ),
     );
   }
 }

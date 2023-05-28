@@ -9,17 +9,15 @@ class SingleOrderProduct extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
-        child: TransparentImageCard(
-          width: 200,
-          height: 200,
-          imageProvider: NetworkImage(image),
-          tags: [_tag('Product', () {})],
-          title: _title(color: Colors.white),
-          description: _content(color: Colors.white, date: date),
-        ),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+      child: TransparentImageCard(
+        width: 200,
+        height: 200,
+        imageProvider: NetworkImage(image),
+        tags: [_tag('Order', () {})],
+        // title: _title(color: Colors.white),
+        description: _content(color: Colors.white, date: date),
       ),
     );
   }
@@ -30,7 +28,7 @@ class SingleOrderProduct extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.blue,
+          color: Colors.orange,
           borderRadius: BorderRadius.circular(4),
         ),
         child: Text(
@@ -41,20 +39,11 @@ class SingleOrderProduct extends StatelessWidget {
     );
   }
 
-  Widget _title({required Color color}) {
-    return const Text(
-      'Title',
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      ),
-    );
-  }
-
   Widget _content({required Color color, required String date}) {
     return Text(
       date,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         color: Colors.white,
         fontSize: 14,

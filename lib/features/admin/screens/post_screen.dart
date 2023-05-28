@@ -73,7 +73,7 @@ class _PostScreenState extends State<PostScreen> {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                       childAspectRatio:
-                          orientation == Orientation.portrait ? 1.0 : 1.2,
+                          orientation == Orientation.portrait ? 0.62 : 0.56,
                     ),
                     padding: const EdgeInsets.all(10),
                     itemBuilder: (context, index) {
@@ -85,25 +85,21 @@ class _PostScreenState extends State<PostScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(0, 3),
-                                  ),
-                                ],
                               ),
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
                                 child: SingleProduct(
                                   image: productData.productImage[0],
+                                  productName: productData.productName,
+                                  category: productData.category,
+                                  productPrice:
+                                      productData.productPrice.toString(),
                                 ),
                               ),
                             ),
                           ),
-                          const SizedBox(height: 5),
-                          Text(
+                          const SizedBox(height: 10),
+                          /* Text(
                             productData.productName,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
@@ -112,7 +108,7 @@ class _PostScreenState extends State<PostScreen> {
                               fontSize: 14,
                               fontWeight: FontWeight.w500,
                             ),
-                          ),
+                          ),*/
                           const SizedBox(height: 5),
                           GestureDetector(
                             onTap: () {

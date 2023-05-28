@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../common/widgets/loader.dart';
 import '../../../models/order.dart';
 import '../../../models/orderStore.dart';
+import '../../account/widgets/single_order_product.dart';
 import '../../order_detail/screens/order_store_details.dart';
 
 class OrderScreen extends StatefulWidget {
@@ -50,7 +51,7 @@ class _OrderScreenState extends State<OrderScreen> {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                     childAspectRatio:
-                        orientation == Orientation.portrait ? 1.2 : 1.6,
+                        orientation == Orientation.portrait ? 0.8 : 0.7,
                   ),
                   padding: const EdgeInsets.all(10),
                   itemBuilder: (context, index) {
@@ -73,36 +74,30 @@ class _OrderScreenState extends State<OrderScreen> {
                           borderRadius: BorderRadius.circular(10),
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
+                              color: Colors.grey.withOpacity(0.1),
                               spreadRadius: 2,
-                              blurRadius: 5,
+                              blurRadius: 2,
                               offset: const Offset(0, 3),
                             ),
                           ],
                         ),
+                        // ...
+
                         child: Column(
                           children: [
                             Expanded(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(10),
-                                child: SingleProduct(
+                                child: SingleOrderProduct(
                                   image: orderData.products[0].productImage[0],
+                                  date: orderDate,
                                 ),
-                              ),
-                            ),
-                            const SizedBox(height: 5),
-                            Text(
-                              'orderAt: $orderDate',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              textAlign: TextAlign.center,
-                              style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w500,
                               ),
                             ),
                           ],
                         ),
+
+// ...
                       ),
                     );
                   },

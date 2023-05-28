@@ -94,7 +94,8 @@ class _CategoryProductsChartState extends State<CategoryProductsChart> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    widget.sectors[i].earning.toString(),
+                                    // ignore: prefer_interpolation_to_compose_strings
+                                    widget.sectors[i].earning.toString() + "฿",
                                     style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.bold,
