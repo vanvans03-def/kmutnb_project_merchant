@@ -10,6 +10,7 @@ import 'package:kmutnb_project/models/product.dart';
 
 import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
+import 'features/chat/screens/chat_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
 import 'features/order_detail/screens/order_store_details.dart';
@@ -98,6 +99,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => OrderStoreDetailScreen(
           order: order,
         ),
+      );
+    case ChatScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ChatScreen(),
       );
     default:
       return MaterialPageRoute(

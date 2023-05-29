@@ -23,6 +23,7 @@ class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
     super.initState();
+
     fetchAllProducts();
   }
 

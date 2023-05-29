@@ -43,6 +43,7 @@ class _AdminScreenState extends State<AdminScreen> {
   Widget build(BuildContext context) {
     final storeProvider = Provider.of<StoreProvider>(context, listen: false);
     final storeName = storeProvider.store.storeName;
+
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),

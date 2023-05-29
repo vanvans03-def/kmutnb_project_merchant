@@ -18,7 +18,7 @@ class OrderDetailScreen extends StatefulWidget {
 class _OrderDetailScreenState extends State<OrderDetailScreen> {
   int currentStep = 0;
   int indexProduct = 0;
-  bool showContainer = false;
+  bool showContainer = true;
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
   }
@@ -164,7 +164,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                         onTap: () {
                           setState(() {
                             if (indexProduct == i && showContainer) {
-                              showContainer = false;
+                              if (widget.order.products.length != 1) {
+                                showContainer = false;
+                              }
+
                               currentStep =
                                   widget.order.products[i].statusProductOrder;
                             } else {
@@ -199,6 +202,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                   ),
                                   Text(
                                     'Qty: ${widget.order.products[i].productSKU}',
+                                  ),
+                                  Radio(
+                                    value:
+                                        i, // ค่าที่แตกต่างกันสำหรับแต่ละรายการสินค้า
+                                    groupValue:
+                                        indexProduct, // ค่าปัจจุบันของรายการสินค้าที่ถูกเลือก
+                                    onChanged: (value) {
+                                      setState(() {
+                                        indexProduct = value as int;
+                                      });
+                                    },
                                   ),
                                 ],
                               ),
