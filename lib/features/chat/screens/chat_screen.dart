@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
-// ignore: library_prefixes
+import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+
+import '../../../providers/user_provider.dart';
 
 class ChatScreen extends StatefulWidget {
   static const String routeName = '/chat';
-  const ChatScreen({Key? key}) : super(key: key);
+  final String userId;
+  final String userName;
+  const ChatScreen({Key? key, required this.userId, required this.userName})
+      : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -14,42 +19,54 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   late IO.Socket socket;
   TextEditingController messageController = TextEditingController();
+  List<String> chatMessages = [];
 
   @override
   void initState() {
     super.initState();
-    // เชื่อมต่อกับเซิร์ฟเวอร์ Socket.IO
+    connectSocket();
+    print(widget.userName);
+  }
+
+  void connectSocket() {
     socket = IO.io(uri, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
+      'userId': widget.userId,
+      'userName': widget.userName,
     });
-    // ตัวอย่างการตั้งค่า event listener
     socket.on('connect', (_) {
-      // ignore: avoid_print
       print('Connected to socket.io server');
     });
     socket.on('chat message', (data) {
-      // ignore: avoid_print
-      print('Received message: $data');
+      setState(() {
+        chatMessages.add(data);
+      });
     });
-    socket.connect(); // เชื่อมต่อกับเซิร์ฟเวอร์ Socket.IO
+    socket.connect();
   }
 
   void sendMessage(String message) {
-    // ส่งข้อความผ่าน socket
-    socket.emit('chat message', message);
+    socket.emit('chat message', {
+      'userId': widget.userId,
+      'userName': widget.userName,
+      'message': message,
+    });
     messageController.clear();
   }
 
   @override
   void dispose() {
-    // ยกเลิกการเชื่อมต่อ socket เมื่อหน้าจอถูกทำลาย
     socket.disconnect();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<UserProvider>(context, listen: false);
+    final userIdA = user.user.id;
+    final userNameA = user.user.fullName;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -58,21 +75,19 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Chat Screen'),
+        title: Text('Chat Screen - ${widget.userName}'),
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
-              // แสดงรายการข้อความแชท
               itemBuilder: (context, index) {
-                // TODO: ดึงข้อมูลข้อความแชทจากสถานะที่เก็บไว้ (เช่น List<String>)
-                // และแสดงผลในรูปแบบที่คุณต้องการ
+                final message = chatMessages[index];
                 return ListTile(
-                  title: Text('Message $index'),
+                  title: Text(message),
                 );
               },
-              itemCount: 10, // TODO: แก้ไขจำนวนรายการข้อความแชทที่แสดง
+              itemCount: chatMessages.length,
             ),
           ),
           Padding(

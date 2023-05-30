@@ -10,6 +10,7 @@ import 'package:kmutnb_project/models/product.dart';
 
 import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
+import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
@@ -101,9 +102,22 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         ),
       );
     case ChatScreen.routeName:
+      var arguments = routeSettings.arguments as Map<String, dynamic>;
+      var userIdB = arguments['userIdB'] as String;
+      var userNameB = arguments['userNameB'] as String;
+
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const ChatScreen(),
+        builder: (_) => ChatScreen(
+          userId: userIdB,
+          userName: userNameB,
+        ),
+      );
+
+    case ChatHistoryScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => ChatHistoryScreen(),
       );
     default:
       return MaterialPageRoute(

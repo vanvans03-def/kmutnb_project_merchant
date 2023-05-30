@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
+import '../../chat/screens/chat_history_screen.dart';
 import 'analtyics_screen.dart';
 
 class AdminScreen extends StatefulWidget {
@@ -63,6 +64,25 @@ class _AdminScreenState extends State<AdminScreen> {
                   width: 120,
                   height: 45,
                   color: Colors.black,
+                ),
+              ),
+              Container(
+                color: Colors.transparent,
+                height: 42,
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.chat,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      ChatHistoryScreen.routeName,
+                      arguments: {},
+                    );
+                  },
                 ),
               ),
               Text(

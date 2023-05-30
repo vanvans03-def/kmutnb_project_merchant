@@ -4,8 +4,12 @@ import 'package:kmutnb_project/features/home/widgets/carousel_image.dart';
 import 'package:kmutnb_project/features/home/widgets/deal_of_day.dart';
 import 'package:kmutnb_project/features/home/widgets/top_categories.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../../providers/user_provider.dart';
+import '../../chat/screens/chat_history_screen.dart';
+import '../../chat/screens/chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -22,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final String user = userProvider.user.id;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
@@ -98,7 +104,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   onPressed: () {
                     Navigator.pushNamed(
                       context,
-                      '/chat',
+                      ChatHistoryScreen.routeName,
+                      arguments: {},
                     );
                   },
                 ),

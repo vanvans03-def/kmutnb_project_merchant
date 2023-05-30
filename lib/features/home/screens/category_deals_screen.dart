@@ -5,12 +5,14 @@ import 'package:kmutnb_project/features/address/services/address_services.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/productprice.dart';
 import '../../../models/store.dart';
+import '../../../providers/user_provider.dart';
 
 class CategoryDealsScreen extends StatefulWidget {
   static const String routeName = '/category-deals';
@@ -122,16 +124,40 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            child: Text(
-                              'Store: ${store.storeName}',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                          Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15, vertical: 10),
+                                child: Text(
+                                  'Store: ${store.storeName}',
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                            ),
+                              Container(
+                                color: Colors.transparent,
+                                height: 42,
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: IconButton(
+                                  icon: const Icon(
+                                    Icons.chat,
+                                    color: Colors.black,
+                                    size: 25,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(context, '/chat',
+                                        arguments: {
+                                          'userIdB': store.storeId,
+                                          'userNameB': store.storeName,
+                                        });
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
                           SizedBox(
                             height: 200,
