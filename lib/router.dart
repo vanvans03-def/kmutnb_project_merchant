@@ -5,11 +5,13 @@ import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
 import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
+import 'package:kmutnb_project/models/ChatModel.dart';
 import 'package:kmutnb_project/models/orderStore.dart';
 import 'package:kmutnb_project/models/product.dart';
 
 import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
+import 'features/chat/screens/ChatPage.dart';
 import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
 import 'features/home/screens/home_screen.dart';
@@ -102,22 +104,37 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         ),
       );
     case ChatScreen.routeName:
-      var arguments = routeSettings.arguments as Map<String, dynamic>;
-      var userIdB = arguments['userIdB'] as String;
-      var userNameB = arguments['userNameB'] as String;
-
+      var chatmodel = routeSettings.arguments as ChatModel;
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => ChatScreen(
-          userId: userIdB,
-          userName: userNameB,
+          chatModel: chatmodel,
+          sourchat: chatmodel,
         ),
       );
+    case ChatPage.routeName:
+      var arguments = routeSettings.arguments;
+      if (arguments is ChatModel) {
+        // ignore: unnecessary_cast
+        var chatmodel = arguments as ChatModel;
+        return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => ChatPage(
+            sourchat: chatmodel,
+            chatmodels: [chatmodel],
+          ),
+        );
+      } else {
+        throw Exception("Invalid arguments for ChatPage");
+      }
 
     case ChatHistoryScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => ChatHistoryScreen(),
+        builder: (_) => ChatHistoryScreen(
+          chatModel: null,
+          sourchat: null,
+        ),
       );
     default:
       return MaterialPageRoute(

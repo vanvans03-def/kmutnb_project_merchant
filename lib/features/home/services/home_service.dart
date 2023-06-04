@@ -40,6 +40,33 @@ class HomeService {
     return productList;
   }
 
+  Future<List<Product>> fetchProductDeal(BuildContext context) async {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Product> productList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/deal-of-day'), headers: {
+        'Content-Type': 'application/json; charset=UTF=8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+
+            for (int i = 0; i < responseJson.length; i++) {
+              productList.add(
+                Product.fromJson(responseJson[i] as Map<String, dynamic>),
+              );
+            }
+          });
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+
   Future<List<Category>> fetchAllCategory(BuildContext context) async {
     List<Category> categoriesList = [];
     try {

@@ -68,8 +68,9 @@ class ProductDetailsServices {
           'authorization': userProvider.user.token,
         },
         body: jsonEncode({
-          'id': product.id!,
+          'productId': product.id!,
           'rating': rating,
+          'userId': userProvider.user.id
         }),
       );
       //print(userProvider.user.token);

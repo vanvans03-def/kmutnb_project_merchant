@@ -1,9 +1,11 @@
+// ChatHistoryScreen
 import 'package:flutter/material.dart';
 
 class ChatHistoryScreen extends StatelessWidget {
   static const String routeName = '/chat_history';
 
-  const ChatHistoryScreen({super.key});
+  const ChatHistoryScreen({Key? key, required chatModel, required sourchat})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +13,7 @@ class ChatHistoryScreen extends StatelessWidget {
 
     // สมมติให้ประวัติการแชทเป็น List ของผู้ใช้ (User) ที่เกี่ยวข้อง
     List<User> chatUsers = [
-      User(id: 1, name: 'John'),
-      User(id: 2, name: 'Alice'),
-      User(id: 3, name: 'Bob'),
+      User(id: '63ec42477f5571e23fadc34b', name: 'Benjaporn '),
     ];
 
     return Scaffold(
@@ -29,7 +29,7 @@ class ChatHistoryScreen extends StatelessWidget {
               ListTile(
                 title: Text(user.name),
                 onTap: () {
-                  // เมื่อผู้ใช้ถูกแตะ เรียกเมธอดเพื่อเปิดหน้าแชท 1-1
+                  // เมื่อผู้ใช้แตะ เรียกเมธอดเพื่อเปิดหน้าแชท 1-1
                   _openChatScreen(context, user);
                 },
               ),
@@ -45,17 +45,15 @@ class ChatHistoryScreen extends StatelessWidget {
 
   void _openChatScreen(BuildContext context, User user) {
     // TODO: นำข้อมูลผู้ใช้ไปใช้ในหน้าแชท 1-1 โดยใช้ user.id หรือข้อมูลที่เกี่ยวข้อง
-
-    // ตัวอย่างการเปิดหน้าแชท 1-1
     Navigator.pushNamed(context, '/chat', arguments: {
-      'userId': user.id,
-      'userName': user.name,
+      'userIdB': user.id,
+      'userNameB': user.name,
     });
   }
 }
 
 class User {
-  final int id;
+  final String id;
   final String name;
 
   User({required this.id, required this.name});

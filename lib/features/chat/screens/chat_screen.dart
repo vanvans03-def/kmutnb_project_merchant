@@ -3,14 +3,19 @@ import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
+import '../../../models/ChatModel.dart';
 import '../../../providers/user_provider.dart';
 
 class ChatScreen extends StatefulWidget {
+  final ChatModel chatModel;
+  final ChatModel sourchat;
   static const String routeName = '/chat';
-  final String userId;
-  final String userName;
-  const ChatScreen({Key? key, required this.userId, required this.userName})
-      : super(key: key);
+
+  const ChatScreen({
+    Key? key,
+    required this.chatModel,
+    required this.sourchat,
+  }) : super(key: key);
 
   @override
   _ChatScreenState createState() => _ChatScreenState();
@@ -25,22 +30,21 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
     connectSocket();
-    print(widget.userName);
   }
 
   void connectSocket() {
-    socket = IO.io(uri, <String, dynamic>{
+    socket = IO.io('https://192.168.1.159:4000', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
-      'userId': widget.userId,
-      'userName': widget.userName,
+      'userId': 'userIdA',
+      'userName': 'userNameA',
     });
     socket.on('connect', (_) {
       print('Connected to socket.io server');
     });
     socket.on('chat message', (data) {
       setState(() {
-        chatMessages.add(data);
+        chatMessages.add(data['message']);
       });
     });
     socket.connect();
@@ -48,8 +52,8 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void sendMessage(String message) {
     socket.emit('chat message', {
-      'userId': widget.userId,
-      'userName': widget.userName,
+      'userId': 'widget.userId',
+      'userName': ' widget.userName',
       'message': message,
     });
     messageController.clear();
@@ -75,7 +79,7 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Chat Screen - ${widget.userName}'),
+        title: Text('Chat Screen - ${'widget.userName'}'),
       ),
       body: Column(
         children: [
