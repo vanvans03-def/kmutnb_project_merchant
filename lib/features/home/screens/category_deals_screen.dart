@@ -5,6 +5,7 @@ import 'package:kmutnb_project/features/address/services/address_services.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
+import 'package:kmutnb_project/models/chat.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/stars.dart';
@@ -14,6 +15,7 @@ import '../../../models/product.dart';
 import '../../../models/productprice.dart';
 import '../../../models/store.dart';
 import '../../../providers/user_provider.dart';
+import '../../chat/screens/chat_screen.dart';
 import '../../search/screens/search_screen.dart';
 
 class CategoryDealsScreen extends StatefulWidget {
@@ -72,6 +74,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
@@ -228,11 +231,15 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                     size: 25,
                                   ),
                                   onPressed: () {
-                                    Navigator.pushNamed(context, '/chat',
-                                        arguments: {
-                                          'userIdB': store.user,
-                                          'userNameB': store.storeName,
-                                        });
+                                    Navigator.pushNamed(
+                                      context,
+                                      ChatScreen.routeName,
+                                      arguments: {
+                                        'receiverId': store.user,
+                                        'chatName': store.storeName,
+                                        'senderId': userProvider.user.id,
+                                      },
+                                    );
                                   },
                                 ),
                               ),

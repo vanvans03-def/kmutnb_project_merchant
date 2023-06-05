@@ -104,14 +104,16 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         ),
       );
     case ChatScreen.routeName:
-      var chatmodel = routeSettings.arguments as ChatModel;
+      final args = routeSettings.arguments as Map<String, dynamic>;
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => ChatScreen(
-          chatModel: chatmodel,
-          sourchat: chatmodel,
+          chatName: args['chatName'],
+          receiverId: args['receiverId'],
+          senderId: args['senderId'],
         ),
       );
+
     case ChatPage.routeName:
       var arguments = routeSettings.arguments;
       if (arguments is ChatModel) {

@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
+import 'package:intl/intl.dart';
+import 'package:kmutnb_project/features/chat/services/chat_service.dart';
 import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import '../../../models/ChatModel.dart';
+import '../../../models/chat.dart';
 import '../../../providers/user_provider.dart';
 
 class ChatScreen extends StatefulWidget {
-  final ChatModel chatModel;
-  final ChatModel sourchat;
+  final String receiverId;
+  final String chatName;
+  final String senderId;
   static const String routeName = '/chat';
 
   const ChatScreen({
     Key? key,
-    required this.chatModel,
-    required this.sourchat,
+    required this.receiverId,
+    required this.senderId,
+    required this.chatName,
   }) : super(key: key);
 
   @override
@@ -23,24 +27,40 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   late IO.Socket socket;
+  double? latitude;
+  double? longtitude;
+
   TextEditingController messageController = TextEditingController();
   List<String> chatMessages = [];
-
+  List<Chat> chatHistory = [];
+  final ChatService chatService = ChatService();
   @override
   void initState() {
     super.initState();
     connectSocket();
+    loadChatHistory();
+  }
+
+  Future<void> loadChatHistory() async {
+    chatHistory = await chatService.getChatHistory(
+      context: context,
+      senderId: widget.senderId,
+      receiverId: widget.receiverId,
+    );
+
+    setState(() {
+      // อัปเดตสถานะของ UI หลังจากเรียงลำดับ
+    });
   }
 
   void connectSocket() {
-    socket = IO.io('https://192.168.1.159:4000', <String, dynamic>{
+    socket = IO.io('http://192.168.1.159:3700', <String, dynamic>{
       'transports': ['websocket'],
-      'autoConnect': false,
-      'userId': 'userIdA',
-      'userName': 'userNameA',
+      'autoConnect': true,
     });
-    socket.on('connect', (_) {
-      print('Connected to socket.io server');
+    socket.onConnect((_) {
+      print('connect');
+      socket.emit('msg', 'test');
     });
     socket.on('chat message', (data) {
       setState(() {
@@ -51,9 +71,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void sendMessage(String message) {
-    socket.emit('chat message', {
-      'userId': 'widget.userId',
-      'userName': ' widget.userName',
+    socket.emit('message', {
+      'senderId': widget.senderId,
+      'receiverId': widget.receiverId,
       'message': message,
     });
     messageController.clear();
@@ -67,10 +87,6 @@ class _ChatScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = Provider.of<UserProvider>(context, listen: false);
-    final userIdA = user.user.id;
-    final userNameA = user.user.fullName;
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -79,19 +95,67 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.pop(context);
           },
         ),
-        title: Text('Chat Screen - ${'widget.userName'}'),
+        title: Text('Chat Screen - ${widget.chatName}'),
       ),
       body: Column(
         children: [
           Expanded(
             child: ListView.builder(
+              reverse: true, // เพื่อให้เรียงลำดับจากล่าสุดไปยังเก่าสุด
+              itemCount: chatHistory.length,
               itemBuilder: (context, index) {
-                final message = chatMessages[index];
-                return ListTile(
-                  title: Text(message),
+                final chat = chatHistory[index];
+                final isSentMessage = chat.senderId == widget.senderId;
+                final timeDate = chat.timestamp.toString();
+
+                final inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'");
+                final outputFormat = DateFormat("dd/MM/yy - HH:mm 'น.'");
+
+                final parsedDate = inputFormat.parse(timeDate);
+                final formattedDate = outputFormat.format(parsedDate);
+
+                bool showDate =
+                    false; // Variable to track the display of the date
+
+                return Container(
+                  padding: const EdgeInsets.only(
+                      left: 14, right: 14, top: 10, bottom: 10),
+                  child: Align(
+                    alignment: (isSentMessage
+                        ? Alignment.topRight
+                        : Alignment.topLeft),
+                    child: GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          showDate =
+                              !showDate; // Toggle the display of the date
+                        });
+                      },
+                      child: Stack(
+                        alignment: AlignmentDirectional.centerStart,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: (isSentMessage
+                                  ? Colors.orange[200]
+                                  : Colors.grey.shade200),
+                            ),
+                            padding: EdgeInsets.all(16),
+                            child: Text(
+                              chat.message,
+                              style: TextStyle(
+                                fontWeight:
+                                    isSentMessage ? FontWeight.bold : null,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 );
               },
-              itemCount: chatMessages.length,
             ),
           ),
           Padding(
@@ -109,6 +173,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 IconButton(
                   onPressed: () {
                     sendMessage(messageController.text);
+                    messageController.clear();
                   },
                   icon: const Icon(Icons.send),
                 ),

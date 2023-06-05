@@ -50,8 +50,9 @@ class _ChatPageState extends State<ChatPage> {
               context,
               MaterialPageRoute(
                 builder: (context) => ChatScreen(
-                  chatModel: widget.chatmodels[index],
-                  sourchat: widget.sourchat,
+                  chatName: '',
+                  receiverId: '',
+                  senderId: '',
                 ),
               ),
             );

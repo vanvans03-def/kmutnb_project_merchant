@@ -19,8 +19,9 @@ class CustomCard extends StatelessWidget {
             context,
             MaterialPageRoute(
                 builder: (contex) => ChatScreen(
-                      chatModel: chatModel,
-                      sourchat: sourchat,
+                      chatName: '',
+                      receiverId: '',
+                      senderId: '',
                     )));
       },
       child: Column(
