@@ -29,10 +29,12 @@ class _ChatScreenState extends State<ChatScreen> {
   late IO.Socket socket;
   double? latitude;
   double? longtitude;
+  bool showDate = false; // Variable to track the display of the date
 
   TextEditingController messageController = TextEditingController();
   List<String> chatMessages = [];
   List<Chat> chatHistory = [];
+  int showDateIndex = 0;
   final ChatService chatService = ChatService();
   @override
   void initState() {
@@ -76,6 +78,12 @@ class _ChatScreenState extends State<ChatScreen> {
       'receiverId': widget.receiverId,
       'message': message,
     });
+
+    setState(() {
+      loadChatHistory();
+      showDateIndex = 0;
+      showDate = false;
+    });
     messageController.clear();
   }
 
@@ -109,13 +117,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 final timeDate = chat.timestamp.toString();
 
                 final inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'");
-                final outputFormat = DateFormat("dd/MM/yy - HH:mm 'น.'");
+                final outputFormat = DateFormat("HH:mm 'น.'");
 
                 final parsedDate = inputFormat.parse(timeDate);
                 final formattedDate = outputFormat.format(parsedDate);
-
-                bool showDate =
-                    false; // Variable to track the display of the date
 
                 return Container(
                   padding: const EdgeInsets.only(
@@ -124,16 +129,27 @@ class _ChatScreenState extends State<ChatScreen> {
                     alignment: (isSentMessage
                         ? Alignment.topRight
                         : Alignment.topLeft),
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         setState(() {
-                          showDate =
-                              !showDate; // Toggle the display of the date
+                          showDate = !showDate;
+                          showDateIndex = index;
                         });
                       },
-                      child: Stack(
-                        alignment: AlignmentDirectional.centerStart,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          if (showDate && index == showDateIndex)
+                            Container(
+                              //margin: const EdgeInsets.only(bottom: 4),
+                              child: Text(
+                                formattedDate,
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 8,
+                                ),
+                              ),
+                            ),
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -141,12 +157,11 @@ class _ChatScreenState extends State<ChatScreen> {
                                   ? Colors.orange[200]
                                   : Colors.grey.shade200),
                             ),
-                            padding: EdgeInsets.all(16),
+                            padding: const EdgeInsets.all(12),
                             child: Text(
                               chat.message,
-                              style: TextStyle(
-                                fontWeight:
-                                    isSentMessage ? FontWeight.bold : null,
+                              style: const TextStyle(
+                                fontSize: 14,
                               ),
                             ),
                           ),
