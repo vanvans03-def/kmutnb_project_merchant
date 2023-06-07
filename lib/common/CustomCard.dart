@@ -1,28 +1,42 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:kmutnb_project/features/chat/screens/chat_history_screen.dart';
+
 import 'package:kmutnb_project/features/chat/screens/chat_screen.dart';
+import 'package:kmutnb_project/features/chat/services/chat_service.dart';
+import 'package:kmutnb_project/models/userData.dart';
+import 'package:provider/provider.dart';
 
 import '../models/ChatModel.dart';
+import '../models/chat.dart';
+import '../models/store.dart';
+import '../models/user.dart';
+import '../providers/store_provider.dart';
+import '../providers/user_provider.dart';
 
 class CustomCard extends StatelessWidget {
-  const CustomCard({Key? key, required this.chatModel, required this.sourchat})
+  CustomCard({Key? key, required this.chatModel, required this.sourchat})
       : super(key: key);
-  final ChatModel chatModel;
-  final ChatModel sourchat;
-
+  final Chat chatModel;
+  final Chat sourchat;
+  ChatService chatService = ChatService();
   @override
   Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+
     return InkWell(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (contex) => ChatScreen(
-                      chatName: '',
-                      receiverId: '',
-                      senderId: '',
-                    )));
+      onTap: () async {
+        print(chatModel.receiverId);
+
+        // ignore: use_build_context_synchronously
+        Navigator.pushNamed(
+          context,
+          ChatScreen.routeName,
+          arguments: {
+            'receiverId': sourchat.receiverId,
+            'chatName': 'chatName',
+            'senderId': userProvider.user.id,
+          },
+        );
       },
       child: Column(
         children: [
@@ -30,7 +44,7 @@ class CustomCard extends StatelessWidget {
             leading: CircleAvatar(
               radius: 30,
               child: SvgPicture.asset(
-                chatModel.isGroup ? "assets/groups.svg" : "assets/person.svg",
+                "assets/person.svg",
                 color: Colors.white,
                 height: 36,
                 width: 36,
@@ -38,7 +52,7 @@ class CustomCard extends StatelessWidget {
               backgroundColor: Colors.blueGrey,
             ),
             title: Text(
-              chatModel.name,
+              chatModel.receiverId,
               style: TextStyle(
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
@@ -51,14 +65,14 @@ class CustomCard extends StatelessWidget {
                   width: 3,
                 ),
                 Text(
-                  chatModel.currentMessage,
+                  chatModel.message,
                   style: TextStyle(
                     fontSize: 13,
                   ),
                 ),
               ],
             ),
-            trailing: Text(chatModel.time),
+            trailing: Text(chatModel.timestamp.toString()),
           ),
           Padding(
             padding: const EdgeInsets.only(right: 20, left: 80),

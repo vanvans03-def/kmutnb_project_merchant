@@ -121,10 +121,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         var chatmodel = arguments as ChatModel;
         return MaterialPageRoute(
           settings: routeSettings,
-          builder: (_) => ChatPage(
-            sourchat: chatmodel,
-            chatmodels: [chatmodel],
-          ),
+          builder: (_) => ChatPage(),
         );
       } else {
         throw Exception("Invalid arguments for ChatPage");
@@ -133,10 +130,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
     case ChatHistoryScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => ChatHistoryScreen(
-          chatModel: null,
-          sourchat: null,
-        ),
+        builder: (_) => const ChatHistoryScreen(),
       );
     default:
       return MaterialPageRoute(

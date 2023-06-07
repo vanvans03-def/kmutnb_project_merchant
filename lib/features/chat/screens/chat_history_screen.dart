@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 class ChatHistoryScreen extends StatelessWidget {
   static const String routeName = '/chat_history';
 
-  const ChatHistoryScreen({Key? key, required chatModel, required sourchat})
-      : super(key: key);
+  const ChatHistoryScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

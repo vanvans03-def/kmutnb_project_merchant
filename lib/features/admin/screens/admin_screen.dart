@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
+import '../../chat/screens/ChatPage.dart';
 import '../../chat/screens/chat_history_screen.dart';
 import 'analtyics_screen.dart';
 
@@ -77,10 +78,11 @@ class _AdminScreenState extends State<AdminScreen> {
                     size: 25,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(
+                    Navigator.push(
                       context,
-                      ChatHistoryScreen.routeName,
-                      arguments: {},
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(),
+                      ),
                     );
                   },
                 ),

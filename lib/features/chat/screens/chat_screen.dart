@@ -41,6 +41,7 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     connectSocket();
     loadChatHistory();
+    print(widget.chatName);
   }
 
   Future<void> loadChatHistory() async {
