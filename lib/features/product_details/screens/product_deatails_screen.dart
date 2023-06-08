@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import '../../../common/widgets/stars.dart';
 import '../../../constants/global_variables.dart';
 import '../../../models/product.dart';
+import '../../cart/screens/cart_screen.dart';
 import '../../search/screens/search_screen.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -52,6 +53,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     productDetailsServices.addToCart(
       context: context,
       product: widget.product,
+    );
+  }
+
+  void addToCartAndGo() {
+    productDetailsServices.addToCart(
+      context: context,
+      product: widget.product,
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CartScreen(),
+      ),
     );
   }
 
@@ -224,7 +238,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             padding: const EdgeInsets.all(10),
             child: CustomButton(
               text: 'Buy Now',
-              onTap: () {},
+              onTap: addToCartAndGo,
             ),
           ),
           const SizedBox(height: 10),

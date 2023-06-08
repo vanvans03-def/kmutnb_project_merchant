@@ -119,8 +119,6 @@ class ChatService {
     required String userUID,
   }) async {
     try {
-      UserData userdata;
-      print(userUID);
       http.Response res = await http.get(
         Uri.parse('$uri/api/getUserData/$userUID'),
         headers: <String, String>{
@@ -134,8 +132,7 @@ class ChatService {
         context: context,
         onSuccess: () {
           var responseJson = json.decode(res.body);
-          data = responseJson;
-          print(data);
+          data = responseJson['data'];
         },
       );
       return UserData.fromJson(data);

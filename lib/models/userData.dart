@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class UserData {
-  final String id;
+  final String userId;
   final String fullName;
   final String email;
 
@@ -10,7 +10,7 @@ class UserData {
   final String address;
 
   UserData({
-    required this.id,
+    required this.userId,
     required this.fullName,
     required this.email,
     required this.type,
@@ -20,7 +20,7 @@ class UserData {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
+      'id': userId,
       'fullName': fullName,
       'email': email,
       'type': type,
@@ -31,7 +31,7 @@ class UserData {
 
   factory UserData.fromMap(Map<String, dynamic> map) {
     return UserData(
-      id: map['userId'] ?? '',
+      userId: map['userId'] ?? '',
       fullName: map['fullName'] ?? '',
       email: map['email'] ?? '',
       type: map['type'] ?? '',
@@ -40,8 +40,7 @@ class UserData {
     );
   }
 
-  String toJson() => json.encode(toMap());
+  factory UserData.fromJson(Map<String, dynamic> map) => UserData.fromMap(map);
 
-  factory UserData.fromJson(String source) =>
-      UserData.fromMap(json.decode(source)['data']);
+  String toJson() => json.encode(toMap());
 }

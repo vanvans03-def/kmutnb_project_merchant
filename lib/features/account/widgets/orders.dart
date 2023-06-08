@@ -80,15 +80,14 @@ class _OrdersState extends State<Orders> {
                             arguments: orders![index],
                           );
                         },
-                        child: Expanded(
-                          child: SingleOrderProduct(
-                            image: orders![index]
-                                .products[0]
-                                .product
-                                .productImage[0],
-                            date: DateFormat().format(
-                              DateTime.fromMillisecondsSinceEpoch(
-                                  orders![index].orderedAt),
+                        child: SingleOrderProduct(
+                          image: orders![index]
+                              .products[0]
+                              .product
+                              .productImage[0],
+                          date: DateFormat().format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              orders![index].orderedAt,
                             ),
                           ),
                         ),

@@ -39,18 +39,39 @@ class _ChatPageState extends State<ChatPage> {
     String chatName;
     Store storeData;
     UserData userdata;
+
     final storeProvider = Provider.of<StoreProvider>(context, listen: false);
-    if (storeProvider.store.user != lastchat.senderId) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    //print(lastchat.receiverId);
+
+    if (storeProvider == null) {
+      userdata = await chatService.getUserByUID(
+          context: context, userUID: lastchat.receiverId);
+      chatName = userdata.fullName;
+    } else if (lastchat.receiverId != storeProvider.store.user &&
+        storeProvider.store.user == userProvider.user.id) {
+      userdata = await chatService.getUserByUID(
+          context: context, userUID: lastchat.receiverId);
+      chatName = userdata.fullName;
+    } else if (lastchat.receiverId == storeProvider.store.user &&
+        storeProvider.store.user == userProvider.user.id) {
+      userdata = await chatService.getUserByUID(
+          context: context, userUID: lastchat.senderId);
+      chatName = userdata.fullName;
+    } else if (lastchat.receiverId != userProvider.user.id &&
+        storeProvider.store.user != userProvider.user.id) {
       storeData = await chatService.getStoreByUID(
           context: context, storeUID: lastchat.receiverId);
       chatName = storeData.storeName;
+    } else if (lastchat.receiverId == userProvider.user.id &&
+        storeProvider.store.user != userProvider.user.id) {
+      storeData = await chatService.getStoreByUID(
+          context: context, storeUID: lastchat.senderId);
+      chatName = storeData.storeName;
     } else {
-      print('get user');
-      userdata = await chatService.getUserByUID(
-          context: context, userUID: lastchat.receiverId);
-      print(userdata);
-      chatName = userdata.fullName;
+      chatName = 'Name not found';
     }
+
     return chatName;
   }
 
@@ -58,6 +79,13 @@ class _ChatPageState extends State<ChatPage> {
     final outputFormat = DateFormat("dd/MM HH:mm 'น.'");
     final formattedDate = outputFormat.format(time);
     return formattedDate;
+  }
+
+  void changeData() {
+    setState(() {
+      getAllChatHistory();
+      setState(() {});
+    });
   }
 
   Future<void> getAllChatHistory() async {
@@ -74,17 +102,36 @@ class _ChatPageState extends State<ChatPage> {
       for (final chat in chatHistory) {
         if (chat.senderId == userProvider.user.id) {
           uniqueReceiverIds.add(chat.receiverId);
+        } else if (chat.receiverId == userProvider.user.id) {
+          uniqueReceiverIds.add(chat.senderId);
         }
       }
 
       for (final receiverId in uniqueReceiverIds) {
-        final lastChat = chatHistory.lastWhere(
+        final lastSentChat = chatHistory.lastWhere(
           (chat) =>
-              chat.receiverId == receiverId &&
-              chat.senderId == userProvider.user.id,
+              chat.senderId == userProvider.user.id &&
+              chat.receiverId == receiverId,
+          orElse: () => Chat.empty(),
         );
+
+        final lastReceivedChat = chatHistory.lastWhere(
+          (chat) =>
+              chat.senderId == receiverId &&
+              chat.receiverId == userProvider.user.id,
+          orElse: () => Chat.empty(),
+        );
+
+        final lastChat =
+            lastSentChat.timestamp.isAfter(lastReceivedChat.timestamp)
+                ? lastSentChat
+                : lastReceivedChat;
+
         lastChatHistory.add(lastChat);
       }
+
+      lastChatHistory.sort((a, b) => b.timestamp.compareTo(a.timestamp));
+      setState(() {});
     });
   }
 
@@ -108,31 +155,63 @@ class _ChatPageState extends State<ChatPage> {
             onTap: () async {
               String chatName = '';
               Store storeData;
+
               UserData userdata;
               final storeProvider =
                   Provider.of<StoreProvider>(context, listen: false);
-              if (storeProvider.store.user != lastChatHistory[index].senderId) {
-                storeData = await chatService.getStoreByUID(
-                    context: context,
-                    storeUID: lastChatHistory[index].receiverId);
-                chatName = storeData.storeName;
-              } else {
+
+              if (storeProvider == null) {
                 userdata = await chatService.getUserByUID(
                     context: context,
                     userUID: lastChatHistory[index].receiverId);
                 chatName = userdata.fullName;
+              } else if (lastChatHistory[index].receiverId !=
+                      storeProvider.store.user &&
+                  storeProvider.store.user == userProvider.user.id) {
+                userdata = await chatService.getUserByUID(
+                    context: context,
+                    userUID: lastChatHistory[index].receiverId);
+                chatName = userdata.fullName;
+              } else if (lastChatHistory[index].receiverId ==
+                      storeProvider.store.user &&
+                  storeProvider.store.user == userProvider.user.id) {
+                userdata = await chatService.getUserByUID(
+                    context: context, userUID: lastChatHistory[index].senderId);
+                chatName = userdata.fullName;
+              } else if (lastChatHistory[index].receiverId !=
+                      userProvider.user.id &&
+                  storeProvider.store.user != userProvider.user.id) {
+                storeData = await chatService.getStoreByUID(
+                    context: context,
+                    storeUID: lastChatHistory[index].receiverId);
+                chatName = storeData.storeName;
+              } else if (lastChatHistory[index].receiverId ==
+                      userProvider.user.id &&
+                  storeProvider.store.user != userProvider.user.id) {
+                storeData = await chatService.getStoreByUID(
+                    context: context,
+                    storeUID: lastChatHistory[index].senderId);
+                chatName = storeData.storeName;
+              } else {
+                chatName = 'Name not found';
               }
 
               // ignore: use_build_context_synchronously
-              Navigator.pushNamed(
+              final result = await Navigator.pushNamed(
                 context,
                 ChatScreen.routeName,
                 arguments: {
-                  'receiverId': lastChatHistory[index].receiverId,
+                  'receiverId': (lastChatHistory[index].receiverId ==
+                          userProvider.user.id)
+                      ? lastChatHistory[index].senderId
+                      : lastChatHistory[index].receiverId,
                   'chatName': chatName,
                   'senderId': userProvider.user.id,
                 },
               );
+              if (result == true) {
+                changeData();
+              }
             },
             child: Column(
               children: [

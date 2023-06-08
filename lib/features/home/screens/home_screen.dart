@@ -12,6 +12,7 @@ import '../../../providers/user_provider.dart';
 import '../../chat/screens/ChatPage.dart';
 import '../../chat/screens/chat_history_screen.dart';
 import '../../chat/screens/chat_screen.dart';
+import '../widgets/filter_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = '/home';
@@ -136,6 +137,28 @@ class _HomeScreenState extends State<HomeScreen> {
               Container(
                 color: Colors.transparent,
                 height: 42,
+                width: 20,
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.filter_list,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) {
+                        return FilterWidget();
+                      },
+                    );
+                  },
+                ),
+              ),
+              Container(
+                color: Colors.transparent,
+                height: 42,
+                width: 20,
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: IconButton(
                   icon: const Icon(
@@ -144,11 +167,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     size: 25,
                   ),
                   onPressed: () {
-                    final sourceChat = chatmodels.removeAt(0);
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChatPage(),
+                        builder: (context) => const ChatPage(),
                       ),
                     );
                   },

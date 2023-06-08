@@ -41,7 +41,6 @@ class _ChatScreenState extends State<ChatScreen> {
     super.initState();
     connectSocket();
     loadChatHistory();
-    print(widget.chatName);
   }
 
   Future<void> loadChatHistory() async {
@@ -101,7 +100,7 @@ class _ChatScreenState extends State<ChatScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.pop(context, true);
           },
         ),
         title: Text('Chat Screen - ${widget.chatName}'),
