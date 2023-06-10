@@ -280,6 +280,53 @@ class AdminService {
     };
   }
 
+  Future<Map<String, dynamic>> getEarningsByDate({
+    required BuildContext context,
+    required String startDate,
+    required String endDate,
+  }) async {
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    List<Sales> sales = [];
+    final storeId = storeProvider.store.storeId;
+    int totalEarning = 0;
+
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/analytics'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8', // แก้ไขตรงนี้
+        },
+        body: jsonEncode(
+          {
+            'storeId': storeId,
+            'startDate': startDate,
+            'endDate': endDate,
+          },
+        ),
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var response = jsonDecode(res.body);
+            print(response);
+            totalEarning = response['totalEarnings'];
+            sales = [
+              Sales('Fruit', response['fruitEarnings']),
+              Sales('Vegetable', response['vegetableEarnings']),
+              Sales('Dry fruit', response['drtFruitEarnings']),
+            ];
+          });
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+    return {
+      'sales': sales,
+      'totalEarnings': totalEarning,
+    };
+  }
+
   Future<List<ProductPrice>> fetchAllProductprice(BuildContext context) async {
     //final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<ProductPrice> productpricesList = [];

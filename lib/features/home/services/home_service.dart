@@ -40,6 +40,51 @@ class HomeService {
     return productList;
   }
 
+  Future<List<Product>> fetchFilterProduct({
+    required BuildContext context,
+    required double minPrice,
+    required double maxPrice,
+    required bool sortByPriceLow,
+    required bool sortByPriceHigh,
+    required String province,
+    required String productName,
+  }) async {
+    List<Product> productList = [];
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/filter-product'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          "minPrice": minPrice,
+          "maxPrice": maxPrice,
+          "sortByPriceLow": sortByPriceLow,
+          "sortByPriceHigh": sortByPriceHigh,
+          "province": province,
+          "productName": productName
+        }),
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+            var data = responseJson['data'];
+            for (int i = 0; i < data.length; i++) {
+              productList.add(
+                Product.fromJson(data[i] as Map<String, dynamic>),
+              );
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+
   Future<List<Product>> fetchProductDeal(BuildContext context) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];

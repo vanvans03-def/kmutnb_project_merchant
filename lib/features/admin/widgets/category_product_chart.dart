@@ -6,10 +6,16 @@ import 'package:charts_flutter/flutter.dart' as chart;
 
 class CategoryProductsChart extends StatefulWidget {
   final List<Sales> sectors;
+  int? totalsale;
   final List<charts.Series<Sales, String>> seriesList;
-  const CategoryProductsChart(
-      {Key? key, required this.sectors, required this.seriesList})
-      : super(key: key);
+  final Function(DateTime, DateTime) onDateChanged;
+  CategoryProductsChart({
+    Key? key,
+    required this.sectors,
+    required this.seriesList,
+    required this.totalsale,
+    required this.onDateChanged,
+  }) : super(key: key);
 
   @override
   _CategoryProductsChartState createState() => _CategoryProductsChartState();
@@ -47,9 +53,15 @@ class _CategoryProductsChartState extends State<CategoryProductsChart> {
           aspectRatio: 1.0,
           child: _isPieChart ? _buildBarChart(context) : _buildPieChart(),
         ),
-        const SizedBox(
-          height: 20,
+        Text(
+          'Total Sale : ${widget.totalsale} ฿ ',
+          style: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Colors.black54,
+          ),
         ),
+        const SizedBox(height: 15),
         SingleChildScrollView(
           child: Column(
             children: [

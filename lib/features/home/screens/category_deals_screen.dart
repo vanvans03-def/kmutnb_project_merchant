@@ -198,7 +198,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                           .toList();
                       if (productsInStore.isEmpty) {
                         // Skip empty stores
-                        return SizedBox.shrink();
+                        return const SizedBox.shrink();
                       }
 
                       // Sort products in store by avgRatingAllProduct in descending order
@@ -209,8 +209,8 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                           Row(
                             children: [
                               Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 10),
+                                padding: const EdgeInsets.only(
+                                    left: 15, top: 10, bottom: 10),
                                 child: Text(
                                   'Store: ${store.storeName}',
                                   style: const TextStyle(
@@ -220,15 +220,15 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                 ),
                               ),
                               Container(
+                                margin:
+                                    const EdgeInsets.symmetric(horizontal: 0),
                                 color: Colors.transparent,
                                 height: 42,
-                                margin:
-                                    const EdgeInsets.symmetric(horizontal: 10),
                                 child: IconButton(
                                   icon: const Icon(
                                     Icons.chat,
                                     color: Colors.black,
-                                    size: 25,
+                                    size: 20,
                                   ),
                                   onPressed: () {
                                     Navigator.pushNamed(
