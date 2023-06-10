@@ -3,6 +3,7 @@ import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/account/screens/account_screen.dart';
 import 'package:kmutnb_project/features/cart/screens/cart_screen.dart';
 import 'package:kmutnb_project/features/home/screens/home_screen.dart';
+import 'package:kmutnb_project/features/myprofile/screens/user_profile_screen.dart';
 import 'package:kmutnb_project/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badge;
@@ -26,7 +27,7 @@ class _BottomBarState extends State<BottomBar> {
     const HomeScreen(),
     const AccountScreen(),
     const CartScreen(),
-    //const AdminScreen(),
+    const UserProfileScreen(),
   ];
 
   void updatePage(int page) {
@@ -84,7 +85,7 @@ class _BottomBarState extends State<BottomBar> {
                 ),
               ),
               child: const Icon(
-                Icons.person_outline_outlined,
+                Icons.assignment_outlined,
               ),
             ),
             label: '',
@@ -118,7 +119,7 @@ class _BottomBarState extends State<BottomBar> {
             ),
             label: '',
           ),
-          /* BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
               decoration: BoxDecoration(
@@ -136,7 +137,7 @@ class _BottomBarState extends State<BottomBar> {
               ),
             ),
             label: '',
-          ),*/
+          ),
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:kmutnb_project/features/address/screens/addres_screen.dart';
 import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
 import 'package:kmutnb_project/features/chat/screens/StoreChatPage.dart';
 import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
+import 'package:kmutnb_project/features/myprofile/screens/profile_screen.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
 import 'package:kmutnb_project/models/ChatModel.dart';
@@ -16,6 +17,7 @@ import 'features/chat/screens/ChatPage.dart';
 import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
 import 'features/home/screens/home_screen.dart';
+import 'features/myprofile/screens/user_profile_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
 import 'features/order_detail/screens/order_store_details.dart';
 import 'features/store/screens/add_store_screen.dart';
@@ -35,6 +37,16 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => const HomeScreen(),
       );
 
+    case ProfileScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const ProfileScreen(),
+      );
+    case UserProfileScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const UserProfileScreen(),
+      );
     case BottomBar.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
@@ -119,10 +131,9 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       var arguments = routeSettings.arguments;
       if (arguments is ChatModel) {
         // ignore: unnecessary_cast
-        var chatmodel = arguments as ChatModel;
         return MaterialPageRoute(
           settings: routeSettings,
-          builder: (_) => ChatPage(),
+          builder: (_) => const ChatPage(),
         );
       } else {
         throw Exception("Invalid arguments for ChatPage");
@@ -131,7 +142,6 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       var arguments = routeSettings.arguments;
       if (arguments is ChatModel) {
         // ignore: unnecessary_cast
-        var chatmodel = arguments as ChatModel;
         return MaterialPageRoute(
           settings: routeSettings,
           builder: (_) => const StoreChatPage(),

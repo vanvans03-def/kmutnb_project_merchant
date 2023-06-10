@@ -8,15 +8,13 @@ import 'package:provider/provider.dart';
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
 import '../../chat/screens/ChatPage.dart';
-import '../../chat/screens/StoreChatPage.dart';
 import '../../chat/screens/chat_history_screen.dart';
+import '../../myprofile/screens/profile_screen.dart';
 import 'analtyics_screen.dart';
 
 class AdminScreen extends StatefulWidget {
-  const AdminScreen({Key? key}) : super(key: key);
-
+  const AdminScreen({super.key});
   static const String routeName = '/admin-screen';
-
   @override
   State<AdminScreen> createState() => _AdminScreenState();
 }
@@ -31,7 +29,7 @@ class _AdminScreenState extends State<AdminScreen> {
     const PostScreen(),
     const AnalyticsScreen(),
     const OrderScreen(),
-    const StoreChatPage(), // Remove const keyword
+    const ProfileScreen(),
   ];
 
   void updatePage(int page) {
@@ -71,14 +69,36 @@ class _AdminScreenState extends State<AdminScreen> {
                   color: Colors.black,
                 ),
               ),
-              Align(
-                alignment: Alignment.topRight,
-                child: Text(
-                  storeName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.topRight,
+                  child: Text(
+                    storeName,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
                   ),
+                ),
+              ),
+              Container(
+                color: Colors.transparent,
+                height: 42,
+                margin: const EdgeInsets.symmetric(horizontal: 0),
+                child: IconButton(
+                  icon: const Icon(
+                    Icons.chat,
+                    color: Colors.black,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ChatPage(),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
@@ -134,7 +154,7 @@ class _AdminScreenState extends State<AdminScreen> {
             ),
             label: '',
           ),
-          // Order
+          // ORder
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -168,7 +188,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
               ),
               child: const Icon(
-                Icons.chat,
+                Icons.person_3_outlined,
               ),
             ),
             label: '',
