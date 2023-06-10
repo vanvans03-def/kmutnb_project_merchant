@@ -292,7 +292,7 @@ class AdminService {
 
     try {
       http.Response res = await http.post(
-        Uri.parse('$uri/api/analytics'),
+        Uri.parse('$uri/api/analyticsByDate'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8', // แก้ไขตรงนี้
         },

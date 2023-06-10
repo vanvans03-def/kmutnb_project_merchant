@@ -55,6 +55,8 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
         start = startDate.toString().substring(0, 10);
         end = endDate.toString().substring(0, 10);
       });
+      start = startDate.toString().substring(0, 10);
+      end = endDate.toString().substring(0, 10);
       await getEarnings();
     }
   }
@@ -72,59 +74,35 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     Expanded(
                       child: Row(
                         children: [
-                          const Spacer(),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: TextButton(
-                              onPressed: () => _selectDateRange(context),
-                              child: const Text(
-                                'เลือกแสดงยอดขายโดยระบุวันที่',
-                                textAlign: TextAlign.right,
-                                style: TextStyle(color: Colors.blue),
-                              ),
-                            ),
-                          ),
                           IconButton(
                             onPressed: () => _selectDateRange(context),
-                            icon: const Icon(Icons.calendar_today),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'Start Date: ${startDate.toString().substring(0, 10)}',
-                              textAlign: TextAlign.right,
+                            icon: const Icon(
+                              Icons.calendar_today,
+                              color: Colors.orange,
+                              size: 40.0, // ปรับขนาด icon เป็น 80.0
                             ),
                           ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: Row(
-                        children: [
-                          const Spacer(),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Text(
-                              'End Date: ${endDate.toString().substring(0, 10)}',
-                              textAlign: TextAlign.right,
-                            ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'From Date: ${startDate.toString().substring(0, 10)}',
+                                style: const TextStyle(
+                                  fontSize: 12.0,
+                                ), // ขนาดตัวอักษร 18.0, ตัวหนา
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                ' To Date: ${endDate.toString().substring(0, 10)}',
+                                style: const TextStyle(
+                                    fontSize:
+                                        12.0), // ขนาดตัวอักษร 18.0, ตัวหนา
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -132,8 +110,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                   ],
                 ),
                 CategoryProductsChart(
-                  key:
-                      UniqueKey(), // เพิ่ม UniqueKey เพื่อรีเฟรชวิดเจ็ต CategoryProductsChart
+                  key: UniqueKey(),
                   sectors: earnings!,
                   seriesList: [
                     charts.Series(
@@ -153,7 +130,26 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                     });
                     getEarnings();
                   },
-                )
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          start = "";
+                          end = "";
+                        });
+                        getEarnings();
+                      },
+                      child: const Text(
+                        'แสดงทั้งหมด',
+                        style: TextStyle(
+                            fontSize: 12.0), // ปรับขนาดตัวอักษรเป็น 12.0
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           );

@@ -8,12 +8,15 @@ import 'package:provider/provider.dart';
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
 import '../../chat/screens/ChatPage.dart';
+import '../../chat/screens/StoreChatPage.dart';
 import '../../chat/screens/chat_history_screen.dart';
 import 'analtyics_screen.dart';
 
 class AdminScreen extends StatefulWidget {
-  const AdminScreen({super.key});
+  const AdminScreen({Key? key}) : super(key: key);
+
   static const String routeName = '/admin-screen';
+
   @override
   State<AdminScreen> createState() => _AdminScreenState();
 }
@@ -28,6 +31,7 @@ class _AdminScreenState extends State<AdminScreen> {
     const PostScreen(),
     const AnalyticsScreen(),
     const OrderScreen(),
+    const StoreChatPage(), // Remove const keyword
   ];
 
   void updatePage(int page) {
@@ -62,38 +66,21 @@ class _AdminScreenState extends State<AdminScreen> {
                 alignment: Alignment.topLeft,
                 child: Image.asset(
                   'assets/images/online2.png',
-                  width: 120,
+                  width: 50,
                   height: 45,
                   color: Colors.black,
                 ),
               ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: IconButton(
-                  icon: const Icon(
-                    Icons.chat,
+              Align(
+                alignment: Alignment.topRight,
+                child: Text(
+                  storeName,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
                     color: Colors.black,
-                    size: 25,
                   ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ChatPage(),
-                      ),
-                    );
-                  },
                 ),
               ),
-              Text(
-                storeName,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              )
             ],
           ),
         ),
@@ -147,7 +134,7 @@ class _AdminScreenState extends State<AdminScreen> {
             ),
             label: '',
           ),
-          // ORder
+          // Order
           BottomNavigationBarItem(
             icon: Container(
               width: bottomBarWidth,
@@ -163,6 +150,25 @@ class _AdminScreenState extends State<AdminScreen> {
               ),
               child: const Icon(
                 Icons.all_inbox_outlined,
+              ),
+            ),
+            label: '',
+          ),
+          BottomNavigationBarItem(
+            icon: Container(
+              width: bottomBarWidth,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    color: _page == 3
+                        ? GlobalVariables.selectedNavBarColor
+                        : GlobalVariables.backgroundColor,
+                    width: bottomBarBorderWidth,
+                  ),
+                ),
+              ),
+              child: const Icon(
+                Icons.chat,
               ),
             ),
             label: '',

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kmutnb_project/common/widgets/bottom_bar.dart';
 import 'package:kmutnb_project/features/address/screens/addres_screen.dart';
 import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
+import 'package:kmutnb_project/features/chat/screens/StoreChatPage.dart';
 import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
@@ -126,7 +127,18 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       } else {
         throw Exception("Invalid arguments for ChatPage");
       }
-
+    case StoreChatPage.routeName:
+      var arguments = routeSettings.arguments;
+      if (arguments is ChatModel) {
+        // ignore: unnecessary_cast
+        var chatmodel = arguments as ChatModel;
+        return MaterialPageRoute(
+          settings: routeSettings,
+          builder: (_) => const StoreChatPage(),
+        );
+      } else {
+        throw Exception("Invalid arguments for ChatPage");
+      }
     case ChatHistoryScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
