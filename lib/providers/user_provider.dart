@@ -12,6 +12,7 @@ class UserProvider extends ChangeNotifier {
     address: '',
     phoneNumber: '',
     cart: [],
+    image: '',
   );
 
   User get user => _user;
@@ -37,6 +38,7 @@ class UserProvider extends ChangeNotifier {
       address: '',
       phoneNumber: '',
       cart: [],
+      image: '',
     );
   }
 }

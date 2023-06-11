@@ -29,48 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    ChatModel sourceChat;
-    List<ChatModel> chatmodels = [
-      ChatModel(
-        name: "Dev Stack",
-        isGroup: false,
-        currentMessage: "Hi Everyone",
-        time: "4:00",
-        icon: const Icon(Icons.person).toString(),
-        id: 1,
-        status: '',
-      ),
-      ChatModel(
-        name: "Kishor",
-        isGroup: false,
-        currentMessage: "Hi Kishor",
-        time: "13:00",
-        icon: "person.svg",
-        id: 2,
-        status: '',
-      ),
-      ChatModel(
-        name: "Collins",
-        isGroup: false,
-        currentMessage: "Hi Dev Stack",
-        time: "8:00",
-        icon: "person.svg",
-        id: 3,
-        status: '',
-      ),
-      ChatModel(
-        name: "Balram Rathore",
-        isGroup: false,
-        currentMessage: "Hi Dev Stack",
-        time: "2:00",
-        icon: "person.svg",
-        id: 4,
-        status: '',
-      ),
-    ];
-
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final String user = userProvider.user.id;
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),

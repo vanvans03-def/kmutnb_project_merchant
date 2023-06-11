@@ -10,6 +10,7 @@ class User {
   final String phoneNumber;
   final String address;
   final List<dynamic> cart;
+  final String image;
 
   User({
     required this.id,
@@ -21,6 +22,7 @@ class User {
     required this.phoneNumber,
     required this.address,
     required this.cart,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,11 +36,13 @@ class User {
       'address': address,
       'phoneNumber': phoneNumber,
       'cart': cart,
+      'image': image,
     };
   }
 
   factory User.fromMap(Map<String, dynamic> map) {
     return User(
+      image: map['imgage'] ?? '',
       id: map['_id'] ?? '',
       fullName: map['fullName'] ?? '',
       email: map['email'] ?? '',
@@ -72,6 +76,7 @@ class User {
     String? type,
     String? phoneNumber,
     String? token,
+    String? image,
     List<dynamic>? cart,
   }) {
     return User(
@@ -84,6 +89,7 @@ class User {
       phoneNumber: type ?? this.type,
       token: token ?? this.token,
       cart: cart ?? this.cart,
+      image: image ?? this.image,
     );
   }
 }

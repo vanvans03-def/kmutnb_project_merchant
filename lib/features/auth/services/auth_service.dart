@@ -36,6 +36,7 @@ class AuthService {
         phoneNumber: '',
         address: '',
         cart: [],
+        image: '',
       );
 
       http.Response res = await http.post(

@@ -1,31 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
 import 'package:kmutnb_project/features/address/services/address_services.dart';
+
 import '../../../models/category.dart';
 
 class SingleProduct extends StatelessWidget {
   String image;
   String productName;
-  String category;
   String productPrice;
+  String categoryName;
 
   SingleProduct({
     Key? key,
     required this.image,
     required this.productName,
-    required this.category,
     required this.productPrice,
+    required this.categoryName,
   }) : super(key: key);
-
-  final AddressService addressService = AddressService();
-
-  Future<Category> _getCategoryData(BuildContext context) async {
-    // Call the service to get category data
-    return await addressService.getCategory(
-      context: context,
-      categoryId: category,
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,27 +30,7 @@ class SingleProduct extends StatelessWidget {
             height: 300,
             width: 300,
             imageProvider: NetworkImage(image),
-            tags: [
-              FutureBuilder<Category>(
-                future: _getCategoryData(context),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const CircularProgressIndicator();
-                  }
-                  if (snapshot.hasData) {
-                    final categoryData = snapshot.data!;
-                    return _tag(
-                      categoryData.categoryName,
-                      () {
-                        // Handle onTap event
-                      },
-                      categoryData,
-                    );
-                  }
-                  return Container();
-                },
-              ),
-            ],
+            tags: _tag(label: categoryName),
             title: _title(color: Colors.white, productName: productName),
             description:
                 _content(color: Colors.white, productPrice: productPrice),
@@ -69,33 +40,34 @@ class SingleProduct extends StatelessWidget {
     );
   }
 
-  Widget _tag(String label, VoidCallback onPressed, Category categoryData) {
+  List<Widget> _tag({required String label}) {
     Color tagColor;
 
-    if (categoryData.categoryName.toString() == "Fruit") {
+    if (label == "Fruit") {
       tagColor = Colors.blue;
-    } else if (categoryData.categoryName.toString() == "Dry Friut") {
+    } else if (label == "Dry Friut") {
       tagColor = Colors.red;
-    } else if (categoryData.categoryName.toString() == "Vegetable") {
+    } else if (label == "Vegetable") {
       tagColor = Colors.green;
     } else {
-      tagColor = Colors.blue; // ค่าเริ่มต้นสำหรับกรณีอื่นๆ
+      tagColor = Colors.blue; // Default color for other cases
     }
 
-    return GestureDetector(
-      onTap: onPressed,
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          color: tagColor,
-          borderRadius: BorderRadius.circular(4),
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(color: Colors.white),
+    return [
+      GestureDetector(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+          decoration: BoxDecoration(
+            color: tagColor,
+            borderRadius: BorderRadius.circular(4),
+          ),
+          child: Text(
+            label,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
       ),
-    );
+    ];
   }
 
   Widget _title({required Color color, required String productName}) {

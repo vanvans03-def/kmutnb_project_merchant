@@ -39,11 +39,6 @@ class _AdminScreenState extends State<AdminScreen> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final storeProvider = Provider.of<StoreProvider>(context, listen: false);
     final storeName = storeProvider.store.storeName;
@@ -52,9 +47,17 @@ class _AdminScreenState extends State<AdminScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(50),
         child: AppBar(
+          elevation: 0.0,
           flexibleSpace: Container(
-            decoration: const BoxDecoration(
-              gradient: GlobalVariables.appBarGradient,
+            decoration: BoxDecoration(
+              color: Colors.orange, // เปลี่ยนสีที่นี่
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.2), // เปลี่ยนสีเงาที่นี่
+                  offset: Offset(0, 5.0),
+                  blurRadius: 4.0,
+                )
+              ],
             ),
           ),
           title: Row(
@@ -64,7 +67,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 alignment: Alignment.topLeft,
                 child: Image.asset(
                   'assets/images/online2.png',
-                  width: 50,
+                  width: 100,
                   height: 45,
                   color: Colors.black,
                 ),
@@ -95,7 +98,7 @@ class _AdminScreenState extends State<AdminScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChatPage(),
+                        builder: (context) => const ChatPage(),
                       ),
                     );
                   },

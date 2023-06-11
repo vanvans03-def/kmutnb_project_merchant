@@ -36,6 +36,7 @@ class Product {
 
   Map<String, dynamic> toMap() {
     return {
+      '_id': id,
       'productName': productName,
       'category': category,
       'productShortDescription': productShortDescription,

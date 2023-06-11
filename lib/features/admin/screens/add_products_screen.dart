@@ -88,7 +88,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     } else {
       // Show an error message to the user
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content:
               Text('Please enter valid product data and at least one image.'),
         ),

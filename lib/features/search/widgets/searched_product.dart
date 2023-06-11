@@ -81,7 +81,13 @@ class SearchProduct extends StatelessWidget {
               )
             ],
           ),
-        )
+        ),
+        const Divider(
+          height: 2,
+          thickness: 1,
+          indent: 0,
+          endIndent: 0,
+        ),
       ],
     );
   }

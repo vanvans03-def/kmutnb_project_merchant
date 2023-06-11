@@ -40,8 +40,7 @@ class _DealOfDayState extends State<DealOfDay> {
     productList = await homeService.fetchProductDeal(context);
     setState(() {
       for (int i = 0; i < productList!.length; i++) {
-        if (productList![i].productSalePrice != null &&
-            productList![i].productSalePrice != '0') {
+        if (productList![i].productSalePrice != '0') {
           for (int j = 0; j < productpricesList.length; j++) {
             if (productpricesList[i].productId ==
                 productList![i].productSalePrice) {
@@ -88,17 +87,18 @@ class _DealOfDayState extends State<DealOfDay> {
                 },
                 child: AspectRatio(
                   aspectRatio: 1,
+                  // ignore: unnecessary_null_comparison
                   child: productList!.first != null
                       ? SingleProduct(
-                          image: '${productList!.first.productImage[0]}',
+                          image: productList!.first.productImage[0],
                           price:
-                              '฿ ${productList!.first.productPrice.toString() ?? ''}/KG',
+                              '฿ ${productList!.first.productPrice.toString()}/KG',
                           productName: productList!.first.productName,
                           ratings: avgRating,
                           productPriceList: productpricesList,
                           productList: productList![0],
                         )
-                      : Loader(),
+                      : const Loader(),
                 ),
               ),
             ],
@@ -121,7 +121,7 @@ class _DealOfDayState extends State<DealOfDay> {
                   child: SizedBox(
                     width: 200,
                     height: 200,
-                    child: productList != null && productList![i] != null
+                    child: productList != null
                         ? SingleOrderProduct(
                             image: productList![i].productImage[0],
                             price: productList![i].productPrice.toString(),

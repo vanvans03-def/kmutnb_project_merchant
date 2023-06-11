@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/features/home/screens/filter_product.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
+import 'package:kmutnb_project/features/home/widgets/map_screen.dart';
 import 'package:kmutnb_project/features/store/services/add_store_service.dart';
 
 import '../../../models/product.dart';
 import '../../../models/province.dart';
 import '../../search/widgets/searched_product.dart';
+//import 'package:flutter_map/flutter_map.dart';
 
 class FilterWidget extends StatefulWidget {
   @override
@@ -60,6 +62,22 @@ class _FilterWidgetState extends State<FilterWidget> {
     minPrice = 0.0; // เพิ่มค่า default
     maxPrice = 0.0; // เพิ่มค่า default
   }
+/*
+  void _openMapScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MapScreen(),
+      ),
+    ).then((value) {
+      if (value != null) {
+        print('Selected Location: $value');
+        // ทำสิ่งที่คุณต้องการกับตำแหน่งที่เลือก
+        // เช่น แยกข้อมูลเป็นจังหวัด ถนน ตำบล
+        // และใช้ข้อมูลเหล่านี้ต่อไป
+      }
+    });
+  }*/
 
   TextEditingController searchController = TextEditingController();
 
@@ -174,8 +192,14 @@ class _FilterWidgetState extends State<FilterWidget> {
                       ),
                     ),
                     const SizedBox(height: 20),
+                    IconButton(
+                      icon: Icon(Icons.map),
+                      onPressed: () {
+                        //_openMapScreen();
+                      },
+                    ),
                     const Text(
-                      'Location',
+                      'Location Store',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

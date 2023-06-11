@@ -21,12 +21,25 @@ class _UserProfileScreen extends State<UserProfileScreen> {
       body: Column(
         children: [
           const SizedBox(height: 20),
-          CircleAvatar(
-            radius: 50,
-            backgroundImage: NetworkImage(
-              'userProvider.user',
+          if (userProvider.user.image == "") ...[
+            CircleAvatar(
+              radius: 50,
+              backgroundColor: Colors.blueGrey,
+              child: Image.asset(
+                "assets/images/user.png",
+                color: Color.fromRGBO(255, 255, 255, 1),
+                height: 60,
+                width: 60,
+              ),
             ),
-          ),
+          ] else ...[
+            CircleAvatar(
+              radius: 50,
+              backgroundImage: NetworkImage(
+                userProvider.user.image,
+              ),
+            ),
+          ],
           const SizedBox(height: 10),
           Text(
             userProvider.user.fullName,

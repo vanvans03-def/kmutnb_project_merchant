@@ -126,22 +126,24 @@ class _SearchScreenState extends State<SearchScreen> {
                   const AddressBox(),
                   const SizedBox(height: 10),
                   Expanded(
-                      child: ListView.builder(
-                          itemCount: products!.length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () {
-                                Navigator.pushNamed(
-                                  context,
-                                  ProductDetailScreen.routeName,
-                                  arguments: products![index],
-                                );
-                              },
-                              child: SearchProduct(
-                                product: products![index],
-                              ),
+                    child: ListView.builder(
+                      itemCount: products!.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              ProductDetailScreen.routeName,
+                              arguments: products![index],
                             );
-                          }))
+                          },
+                          child: SearchProduct(
+                            product: products![index],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
                 ],
               ),
             ),

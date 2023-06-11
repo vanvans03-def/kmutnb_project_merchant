@@ -82,12 +82,139 @@ class AdminService {
         response: res,
         context: context,
         onSuccess: () {
-          //showSnackBar(context, 'Product Added Successfully!');
-          Navigator.popAndPushNamed(context, '/add-product');
+          Navigator.popUntil(context, (route) => route.isFirst);
         },
       );
     } catch (e) {
       showSnackBar(context, e.toString());
+    }
+  }
+
+  void updateProduct({
+    required BuildContext context,
+    required String productName_,
+    required String category_,
+    required String productShortDescription_,
+    required String productDescription_,
+    required double productPrice_,
+    required String productSalePrice_,
+    required List<File> productImage_,
+    required String productSKU_,
+    required String productType_,
+    required String stockStatus_,
+    required String relatedProduct_,
+    required String productID,
+    required List<String> imageWidget,
+
+    // required String id,
+  }) async {
+    try {
+      final cloudinary = CloudinaryPublic('dp6dsdn8y', 'x2sxr5vn');
+      List<String> imageUrls = [];
+
+      final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+
+      for (int i = 0; i < productImage_.length; i++) {
+        CloudinaryResponse res = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(productImage_[i].path, folder: productName_),
+        );
+        imageUrls.add(res.secureUrl);
+      }
+      Product product;
+      if (productImage_.isEmpty) {
+        product = Product(
+          productName: productName_,
+          category: category_,
+          productShortDescription: productShortDescription_,
+          productDescription: productDescription_,
+          productPrice: productPrice_,
+          productSalePrice: productSalePrice_,
+          productImage: imageWidget,
+          productSKU: productSKU_,
+          productType: productType_,
+          stockStatus: stockStatus_,
+          relatedProduct: relatedProduct_,
+          storeId: storeProvider.store.storeId,
+          //  id: id,
+        );
+      } else {
+        product = Product(
+          productName: productName_,
+          category: category_,
+          productShortDescription: productShortDescription_,
+          productDescription: productDescription_,
+          productPrice: productPrice_,
+          productSalePrice: productSalePrice_,
+          productImage: imageUrls,
+          productSKU: productSKU_,
+          productType: productType_,
+          stockStatus: stockStatus_,
+          relatedProduct: relatedProduct_,
+          storeId: storeProvider.store.storeId,
+          //  id: id,
+        );
+      }
+
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/product/$productID'),
+        body: product.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, 'Product Added Successfully!');
+          Navigator.popUntil(context, (route) => route.isFirst);
+        },
+      );
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+  }
+
+  void changStatusStockProduct({
+    required BuildContext context,
+    required Product productData,
+
+    // required String id,
+  }) async {
+    try {
+      //print(data);
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/product/${productData.id}'),
+        body: ({
+          "productName": productData.productName,
+          "category": productData.category,
+          "productShortDescription": productData.productShortDescription,
+          "productDescription": productData.productDescription,
+          "productPrice": productData.productPrice,
+          "productSalePrice": productData.productSalePrice,
+          "productImage": productData.productImage,
+          "productSKU": productData.productSKU,
+          "productType": productData.productType,
+          "stockStatus": 0,
+          "storeId": productData.storeId,
+          "ratings": productData.rating,
+        }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          showSnackBar(context, 'Product Added Successfully!');
+          Navigator.popUntil(context, (route) => route.isFirst);
+        },
+      );
+    } catch (e) {
+      //showSnackBar(context, e.toString());
     }
   }
 
@@ -383,6 +510,32 @@ class AdminService {
       // showSnackBar(context, e.toString());
     }
     return productpricesList;
+  }
+
+  Future<List<Category>> fetchAllCategory(BuildContext context) async {
+    //final userProvider = Provider.of<UserProvider>(context, listen: false);
+    List<Category> categoriesList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/category'), headers: {
+        'Content-Type': 'application/json; charset=UTF=8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+            var data = responseJson['data'];
+
+            for (int i = 0; i < data.length; i++) {
+              categoriesList.add(Category.fromJson(json.encode(data[i])));
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return categoriesList;
   }
 }
 

@@ -137,13 +137,13 @@ class AddressService {
         context: context,
         onSuccess: () {
           var responseJson = json.decode(res.body);
-          var data = responseJson['data'];
+          var data = responseJson["data"];
           completer.complete(Category.fromJson(data));
         },
       );
     } catch (e) {
-      showSnackBar(context, e.toString());
-      completer.completeError(e);
+      //showSnackBar(context, e.toString());
+      //completer.completeError(e);
     }
 
     return completer.future;

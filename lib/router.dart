@@ -13,6 +13,8 @@ import 'package:kmutnb_project/models/product.dart';
 
 import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
+import 'features/admin/screens/edit_products_screen.dart';
+import 'features/admin/screens/store_category_screen.dart';
 import 'features/chat/screens/ChatPage.dart';
 import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
@@ -58,6 +60,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const AddProductScreen(),
       );
+    case EditProductScreen.routeName:
+      var product = routeSettings.arguments as Product;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => EditProductScreen(
+          productData: product,
+        ),
+      );
     case AddStoreScreen.routeName:
       return MaterialPageRoute(
         settings: routeSettings,
@@ -73,6 +83,14 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => CategoryDealsScreen(
+          category: category,
+        ),
+      );
+    case StoreCategoryScreen.routeName:
+      var category = routeSettings.arguments as String;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => StoreCategoryScreen(
           category: category,
         ),
       );
