@@ -1,13 +1,21 @@
-// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: library_private_types_in_public_api, must_be_immutable
+
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:latlong2/latlong.dart';
 
 class MapScreen extends StatefulWidget {
-  const MapScreen({super.key});
+  static const routeName = '/map';
+  double currentLat;
+  double currentLng;
+  MapScreen({
+    Key? key,
+    required this.currentLat,
+    required this.currentLng,
+  }) : super(key: key);
 
   @override
   _MapScreenState createState() => _MapScreenState();
@@ -17,31 +25,40 @@ class _MapScreenState extends State<MapScreen> {
   MapController mapController = MapController();
   var marker = <Marker>[];
   bool isTapped = false;
+  String address = '';
+
+  @override
+  void initState() {
+    super.initState();
+    updateMarker(widget.currentLat, widget.currentLng);
+    updateMarkerInfo(widget.currentLat, widget.currentLng);
+  }
+
+  void updateMarker(double lat, double long) {
+    setState(() {
+      marker = [
+        Marker(
+          width: 30.0,
+          height: 30.0,
+          point: LatLng(lat, long),
+          builder: (ctx) => const Icon(
+            Icons.location_pin,
+            color: Colors.red,
+          ),
+        ),
+      ];
+    });
+  }
+
+  void updateMarkerInfo(double lat, double lng) async {
+    String address = await reverseGeocoding(lat, lng);
+    setState(() {
+      this.address = address;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    void updateMarkerInfo(double lat, double lng) async {
-      String address = await reverseGeocoding(lat, lng);
-      print('Address: $address');
-      // ทำอะไรกับ address ต่อไป
-    }
-
-    void updateMarker(double lat, double long) {
-      setState(() {
-        marker = [
-          Marker(
-            width: 30.0,
-            height: 30.0,
-            point: LatLng(lat, long),
-            builder: (ctx) => const Icon(
-              Icons.location_pin,
-              color: Colors.red,
-            ),
-          ),
-        ];
-        updateMarkerInfo(lat, long);
-      });
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Map Screen'),
@@ -49,12 +66,86 @@ class _MapScreenState extends State<MapScreen> {
       body: Center(
         child: Column(
           children: [
+            if (isTapped)
+              Container(
+                margin:
+                    const EdgeInsets.only(left: 0, top: 1, right: 0, bottom: 0),
+                padding: const EdgeInsets.all(8.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200], // กำหนดสีพื้นหลังเป็นเทา
+                  borderRadius: BorderRadius.circular(10),
+                  border:
+                      Border.all(color: Colors.grey), // กำหนดสีเส้นรอบวงเป็นเทา
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.location_pin,
+                      color: Colors.red,
+                    ),
+                    const SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        address,
+                        textAlign: TextAlign.left,
+                        style: const TextStyle(fontSize: 12.0),
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else
+              Container(
+                margin:
+                    const EdgeInsets.only(left: 0, top: 1, right: 0, bottom: 0),
+                padding: const EdgeInsets.all(8.0),
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.grey[200], // กำหนดสีพื้นหลังเป็นเทา
+                  borderRadius: BorderRadius.circular(10),
+                  border:
+                      Border.all(color: Colors.grey), // กำหนดสีเส้นรอบวงเป็นเทา
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: const Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: const Row(
+                  children: [
+                    Icon(
+                      Icons.location_pin,
+                      color: Colors.red,
+                    ),
+                    SizedBox(width: 8.0),
+                    Expanded(
+                      child: Text(
+                        'กรุณาเลือกตำแหน่งที่ตั้งเพื่อค้นหาร้านค้าใกล้คุณ',
+                        textAlign: TextAlign.left,
+                        style: TextStyle(fontSize: 12.0),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             Flexible(
               child: FlutterMap(
                 options: MapOptions(
-                  onTap: (tapPosition, point) => {
+                  onTap: (tapPosition, point) {
                     setState(() {
-                      isTapped = !isTapped;
+                      isTapped = true;
                       String pointString = point.toString();
                       String latString = pointString.substring(
                           pointString.indexOf('latitude:') + 9,
@@ -67,12 +158,12 @@ class _MapScreenState extends State<MapScreen> {
                       double longitude = double.parse(longString);
 
                       updateMarker(latitude, longitude);
-                      setState(() {});
-                    })
+                      updateMarkerInfo(latitude, longitude);
+                    });
                   },
-                  center: LatLng(13.7563, 100.5018),
+                  center: LatLng(widget.currentLat, widget.currentLng),
                   zoom: 12.0,
-                  maxZoom: 15,
+                  maxZoom: 18,
                 ),
                 children: [
                   TileLayer(
@@ -92,10 +183,9 @@ class _MapScreenState extends State<MapScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.check),
-        onPressed: () {
-          LatLng center = mapController.center;
-          Navigator.pop(context, center);
+        child: const Icon(Icons.check),
+        onPressed: () async {
+          Navigator.pop(context, address);
         },
       ),
     );
@@ -110,16 +200,16 @@ Future<String> reverseGeocoding(double latitude, double longitude) async {
 
   if (response.statusCode == 200) {
     var jsonData = jsonDecode(response.body);
-    String road = jsonData['address']['road'] ?? '';
-    String village = jsonData['address']['village'] ?? '';
-    String town = jsonData['address']['town'] ?? '';
-    String city = jsonData['address']['city'] ?? '';
-    String state = jsonData['address']['state'] ?? '';
+    String road = jsonData['address']['road'] ?? '-';
+    String village = jsonData['address']['village'] ?? '-';
+    String town = jsonData['address']['town'] ?? '-';
+    String city = jsonData['address']['city'] ?? '-';
+    String state = jsonData['address']['state'] ?? '-';
 
     // ignore: unused_local_variable
     String address = '$road, $village, $town, $city, $state';
 
-    return state;
+    return address;
   } else {
     return '';
   }

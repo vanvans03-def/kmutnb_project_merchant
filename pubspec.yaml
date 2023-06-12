@@ -51,7 +51,9 @@ dependencies:
   cached_network_image: ^3.2.3
   flutter_map: ^3.0.0
   latlong2: ^0.8.0
-
+  geolocator: ^9.0.2
+  fluttertoast: any
+  
 dependency_overrides:
   intl: any
 

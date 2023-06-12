@@ -4,6 +4,7 @@ import 'package:kmutnb_project/features/address/screens/addres_screen.dart';
 import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
 import 'package:kmutnb_project/features/chat/screens/StoreChatPage.dart';
 import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
+import 'package:kmutnb_project/features/home/widgets/map_screen.dart';
 import 'package:kmutnb_project/features/myprofile/screens/profile_screen.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
@@ -116,6 +117,16 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => AddressScreen(
           totalAmount: totalAmount,
+        ),
+      );
+    case MapScreen.routeName:
+      var currentLat = routeSettings.arguments as double;
+      var currentLng = routeSettings.arguments as double;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => MapScreen(
+          currentLat: currentLat,
+          currentLng: currentLng,
         ),
       );
     case OrderDetailScreen.routeName:

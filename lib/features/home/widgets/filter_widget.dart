@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:kmutnb_project/features/home/screens/filter_product.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
 import 'package:kmutnb_project/features/home/widgets/map_screen.dart';
@@ -8,6 +9,8 @@ import '../../../models/product.dart';
 import '../../../models/province.dart';
 
 class FilterWidget extends StatefulWidget {
+  final String? provinceByGPS;
+  const FilterWidget({Key? key, this.provinceByGPS});
   @override
   _FilterWidgetState createState() => _FilterWidgetState();
 }
@@ -51,6 +54,23 @@ class _FilterWidgetState extends State<FilterWidget> {
     });
   }
 
+  void _navigateToMyButtonScreen() async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const MyButton(
+          index: 0,
+          text: '',
+        ),
+      ),
+    );
+
+    // รับค่าที่ส่งกลับมาจาก MyButtonScreen และอัพเดตค่าใน selectedProvince
+    setState(() {
+      print(result);
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,22 +79,6 @@ class _FilterWidgetState extends State<FilterWidget> {
     selectedProvinceId = ''; // เพิ่มค่า default
     minPrice = 0.0; // เพิ่มค่า default
     maxPrice = 0.0; // เพิ่มค่า default
-  }
-
-  void _openMapScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MapScreen(),
-      ),
-    ).then((value) {
-      if (value != null) {
-        print('Selected Location: $value');
-        // ทำสิ่งที่คุณต้องการกับตำแหน่งที่เลือก
-        // เช่น แยกข้อมูลเป็นจังหวัด ถนน ตำบล
-        // และใช้ข้อมูลเหล่านี้ต่อไป
-      }
-    });
   }
 
   TextEditingController searchController = TextEditingController();
@@ -189,13 +193,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    IconButton(
-                      icon: const Icon(Icons.map),
-                      onPressed: () {
-                        _openMapScreen();
-                      },
-                    ),
+                    const SizedBox(height: 10),
                     const Text(
                       'Location Store',
                       style: TextStyle(
@@ -231,6 +229,57 @@ class _FilterWidgetState extends State<FilterWidget> {
                             );
                           }).toList(),
                         ),
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Container(
+                      padding: EdgeInsets.all(10),
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านบนซ้าย
+                                  },
+                                  child: Text('Button 1'),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านบนขวา
+                                  },
+                                  child: Text('Button 2'),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 10),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านล่างซ้าย
+                                  },
+                                  child: Text('Button 3'),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                              Expanded(
+                                child: ElevatedButton(
+                                  onPressed: () {
+                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านล่างขวา
+                                  },
+                                  child: Text('Button 4'),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 20),
@@ -348,4 +397,95 @@ class _FilterWidgetState extends State<FilterWidget> {
       ),
     );
   }
+}
+
+class MyButton extends StatelessWidget {
+  final IconData? icon;
+  final String text;
+  final int index;
+
+  const MyButton({Key? key, this.icon, required this.text, required this.index})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    void _openMapScreen(double lat, double lng) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MapScreen(
+            currentLat: lat,
+            currentLng: lng,
+          ),
+        ),
+      ).then((value) {
+        if (value != null) {
+          //print('Selected Location: $value');
+          String province = value.split(',')[4].trim();
+          province = province.replaceAll('จังหวัด', '');
+        }
+      });
+    }
+
+    if (index == 0) {
+      return Container(
+        margin: EdgeInsets.all(6),
+        child: ElevatedButton.icon(
+          icon: Icon(icon),
+          label: Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+          onPressed: () async {
+            Position data = await _determinePosition();
+
+            String latString = data.toString().substring(
+                data.toString().indexOf('Latitude:') + 9,
+                data.toString().indexOf(','));
+            String longString = data
+                .toString()
+                .substring(data.toString().indexOf('Longitude:') + 10);
+
+            double latitude = double.parse(latString);
+            double longitude = double.parse(longString);
+
+            _openMapScreen(latitude, longitude);
+          },
+        ),
+      );
+    } else {
+      return Container(
+        margin: EdgeInsets.all(6),
+        child: ElevatedButton.icon(
+          icon: Icon(icon),
+          label: Text(
+            text,
+            textAlign: TextAlign.center,
+          ),
+          onPressed: () {},
+        ),
+      );
+    }
+  }
+}
+
+Future<Position> _determinePosition() async {
+  bool serviceEnabled;
+  LocationPermission permission;
+  serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  if (!serviceEnabled) {
+    await Geolocator.openLocationSettings();
+    return Future.error('Location services are disabled.');
+  }
+  permission = await Geolocator.checkPermission();
+  if (permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied) {
+      return Future.error('Location permissions are denied');
+    }
+  }
+  if (permission == LocationPermission.deniedForever) {
+    return Future.error('Location permission are permanently denide,');
+  }
+  return await Geolocator.getCurrentPosition();
 }
