@@ -7,7 +7,7 @@ import '../../../constants/global_variables.dart';
 import '../../../constants/utills.dart';
 import '../../../models/chat.dart';
 import '../../../models/store.dart';
-import '../../../models/user.dart';
+
 import '../../../models/userData.dart';
 
 class ChatService {

@@ -4,14 +4,11 @@ import 'package:kmutnb_project/features/home/widgets/carousel_image.dart';
 import 'package:kmutnb_project/features/home/widgets/deal_of_day.dart';
 import 'package:kmutnb_project/features/home/widgets/top_categories.dart';
 import 'package:kmutnb_project/features/search/screens/search_screen.dart';
-import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
-import '../../../models/ChatModel.dart';
-import '../../../providers/user_provider.dart';
+
 import '../../chat/screens/ChatPage.dart';
-import '../../chat/screens/chat_history_screen.dart';
-import '../../chat/screens/chat_screen.dart';
+
 import '../widgets/filter_widget.dart';
 
 class HomeScreen extends StatefulWidget {

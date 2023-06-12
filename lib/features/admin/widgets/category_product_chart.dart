@@ -1,8 +1,9 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:kmutnb_project/features/admin/model/sales.dart';
 import 'package:charts_flutter_new/flutter.dart' as charts;
-import 'package:charts_flutter/flutter.dart' as chart;
 
 class CategoryProductsChart extends StatefulWidget {
   final List<Sales> sectors;

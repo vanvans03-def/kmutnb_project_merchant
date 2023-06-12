@@ -10,7 +10,6 @@ import 'package:provider/provider.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../providers/store_provider.dart';
-import '../../address/services/address_services.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key}) : super(key: key);

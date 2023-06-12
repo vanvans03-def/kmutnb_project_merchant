@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
 import 'package:kmutnb_project/models/productprice.dart';
@@ -320,7 +322,7 @@ class SingleProduct extends StatelessWidget {
 
     double totalRating = 0.0;
     double avgRating = 0.0;
-    // ignore: unused_local_variable
+
     double rateAllProduct = 0.0;
     void ratings() {
       for (int j = 0; j < productList.rating!.length; j++) {

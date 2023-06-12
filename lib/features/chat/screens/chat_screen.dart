@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kmutnb_project/features/chat/services/chat_service.dart';
-import 'package:provider/provider.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-
-import '../../../models/ChatModel.dart';
 import '../../../models/chat.dart';
-import '../../../providers/user_provider.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverId;

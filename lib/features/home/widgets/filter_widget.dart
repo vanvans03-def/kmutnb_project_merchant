@@ -6,8 +6,6 @@ import 'package:kmutnb_project/features/store/services/add_store_service.dart';
 
 import '../../../models/product.dart';
 import '../../../models/province.dart';
-import '../../search/widgets/searched_product.dart';
-//import 'package:flutter_map/flutter_map.dart';
 
 class FilterWidget extends StatefulWidget {
   @override
@@ -62,7 +60,7 @@ class _FilterWidgetState extends State<FilterWidget> {
     minPrice = 0.0; // เพิ่มค่า default
     maxPrice = 0.0; // เพิ่มค่า default
   }
-/*
+
   void _openMapScreen() {
     Navigator.push(
       context,
@@ -77,7 +75,7 @@ class _FilterWidgetState extends State<FilterWidget> {
         // และใช้ข้อมูลเหล่านี้ต่อไป
       }
     });
-  }*/
+  }
 
   TextEditingController searchController = TextEditingController();
 
@@ -193,9 +191,9 @@ class _FilterWidgetState extends State<FilterWidget> {
                     ),
                     const SizedBox(height: 20),
                     IconButton(
-                      icon: Icon(Icons.map),
+                      icon: const Icon(Icons.map),
                       onPressed: () {
-                        //_openMapScreen();
+                        _openMapScreen();
                       },
                     ),
                     const Text(

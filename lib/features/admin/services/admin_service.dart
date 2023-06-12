@@ -9,8 +9,6 @@ import 'package:kmutnb_project/features/auth/services/auth_service.dart';
 import 'package:kmutnb_project/models/product.dart';
 import 'package:http/http.dart' as http;
 import 'package:kmutnb_project/models/productprice.dart';
-import 'package:kmutnb_project/models/store.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
 
 import 'package:provider/provider.dart';
 
@@ -65,11 +63,7 @@ class AdminService {
         storeId: storeProvider.store.storeId,
         //  id: id,
       );
-      //print("this is product object");
-      //print(product.productName);
 
-      final data = jsonEncode(product);
-      //print(data);
       http.Response res = await http.post(
         Uri.parse('$uri/api/product'),
         body: product.toJson(),
@@ -220,7 +214,6 @@ class AdminService {
 
   //get all
   Future<List<Product>> fetchAllProduct(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
     final AuthService authService = AuthService();
     await authService.getStoreData(context: context);
@@ -261,6 +254,7 @@ class AdminService {
         'Content-Type': 'application/json; charset=UTF=8',
       });
 
+      // ignore: use_build_context_synchronously
       httpErrorHandle(
         response: res,
         context: context,
@@ -274,7 +268,6 @@ class AdminService {
   }
 
   Future<List<Order>> fetchAllOrders(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Order> orderList = [];
     try {
       http.Response res =

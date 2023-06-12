@@ -3,16 +3,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:kmutnb_project/features/chat/screens/chat_screen.dart';
 import 'package:kmutnb_project/features/chat/services/chat_service.dart';
-import 'package:kmutnb_project/models/userData.dart';
-import 'package:provider/provider.dart';
 
-import '../models/ChatModel.dart';
+import 'package:provider/provider.dart';
 import '../models/chat.dart';
-import '../models/store.dart';
-import '../models/user.dart';
-import '../providers/store_provider.dart';
 import '../providers/user_provider.dart';
 
+// ignore: must_be_immutable
 class CustomCard extends StatelessWidget {
   CustomCard({Key? key, required this.chatModel, required this.sourchat})
       : super(key: key);

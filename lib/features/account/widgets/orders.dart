@@ -3,11 +3,9 @@ import 'package:intl/intl.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/account/services/account_service.dart';
 import 'package:kmutnb_project/features/account/widgets/single_order_product.dart';
-import 'package:kmutnb_project/features/account/widgets/single_product.dart';
 import 'package:kmutnb_project/features/order_detail/screens/order_details.dart';
 import 'package:kmutnb_project/models/order.dart';
 import 'package:kmutnb_project/common/widgets/loader.dart';
-import 'package:image_card/image_card.dart';
 
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);

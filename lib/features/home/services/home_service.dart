@@ -4,17 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:kmutnb_project/constants/utills.dart';
 import 'package:kmutnb_project/models/productprice.dart';
-import 'package:provider/provider.dart';
+
 import '../../../constants/error_handling.dart';
 import '../../../constants/global_variables.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/store.dart';
-import '../../../providers/user_provider.dart';
 
 class HomeService {
   Future<List<Product>> fetchAllProduct(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
     try {
       http.Response res =
@@ -86,7 +84,6 @@ class HomeService {
   }
 
   Future<List<Product>> fetchProductDeal(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
     try {
       http.Response res =

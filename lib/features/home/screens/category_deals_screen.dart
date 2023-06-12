@@ -5,7 +5,7 @@ import 'package:kmutnb_project/features/address/services/address_services.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
-import 'package:kmutnb_project/models/chat.dart';
+
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/stars.dart';
@@ -180,6 +180,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                     itemBuilder: (context, storeIndex) {
                       double totalRating = 0.0;
                       double avgRating = 0.0;
+                      // ignore: unused_local_variable
                       double rateAllProduct = 0.0;
                       for (int i = 0; i < productList!.length; i++) {
                         final productA = productList![i];

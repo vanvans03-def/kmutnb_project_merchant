@@ -67,8 +67,6 @@ class AddStoreService {
         idcardNo: idcardNo_,
       );
 
-      final data = jsonEncode(store);
-
       http.Response res = await http.post(
         Uri.parse('$uri/api/store'),
         body: store.toJson(),
@@ -92,7 +90,6 @@ class AddStoreService {
 
   //get all
   Future<List<Product>> fetchAllProduct(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Product> productList = [];
     final AuthService authService = AuthService();
     await authService.getStoreData(context: context);
@@ -146,7 +143,6 @@ class AddStoreService {
   }
 
   Future<List<Order>> fetchAllOrders(BuildContext context) async {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<Order> orderList = [];
     try {
       http.Response res =

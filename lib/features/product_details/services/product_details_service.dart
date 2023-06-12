@@ -1,7 +1,7 @@
 import 'dart:convert';
-import 'dart:io';
+
 import 'package:http/http.dart' as http;
-import 'package:cloudinary_public/cloudinary_public.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/error_handling.dart';
@@ -58,9 +58,6 @@ class ProductDetailsServices {
   }) async {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     try {
-      final data =
-          jsonEncode(product); //แก้ return productId ให้เหมือน ProductAll
-      //print(data);
       http.Response res = await http.post(
         Uri.parse('$uri/api/rate-product'),
         headers: <String, String>{

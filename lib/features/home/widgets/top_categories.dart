@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
-
 import '../../../models/category.dart';
-import '../../../models/product.dart';
 import '../services/home_service.dart';
 
 class TopCategories extends StatefulWidget {

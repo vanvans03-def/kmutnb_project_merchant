@@ -6,15 +6,13 @@ import 'package:kmutnb_project/constants/error_handling.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/constants/utills.dart';
 import 'package:kmutnb_project/features/admin/screens/admin_screen.dart';
-import 'package:kmutnb_project/features/home/screens/home_screen.dart';
+
 import 'package:kmutnb_project/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:kmutnb_project/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../common/widgets/bottom_bar.dart';
-import '../../../models/store.dart';
 import '../../../providers/store_provider.dart';
 
 class AuthService {
@@ -131,7 +129,6 @@ class AuthService {
     required BuildContext context,
   }) async {
     try {
-      SharedPreferences prefs = await SharedPreferences.getInstance();
       // ignore: use_build_context_synchronously
       final userProvider = Provider.of<UserProvider>(context, listen: false);
       final uid = userProvider.user.id;

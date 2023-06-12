@@ -1,8 +1,7 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
-import 'package:kmutnb_project/features/address/services/address_services.dart';
-
-import '../../../models/category.dart';
 
 class SingleProduct extends StatelessWidget {
   String image;

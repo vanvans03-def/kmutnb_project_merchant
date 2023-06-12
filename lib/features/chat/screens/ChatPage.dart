@@ -1,15 +1,12 @@
+// ignore_for_file: unnecessary_null_comparison
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kmutnb_project/features/chat/screens/SelectContact.dart';
 import 'package:kmutnb_project/features/chat/screens/chat_screen.dart';
 import 'package:kmutnb_project/features/chat/services/chat_service.dart';
 import 'package:kmutnb_project/models/store.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import '../../../common/CustomCard.dart';
-import '../../../models/ChatModel.dart';
 import '../../../models/chat.dart';
-import '../../../models/user.dart';
 import '../../../models/userData.dart';
 import '../../../providers/store_provider.dart';
 import '../../../providers/user_provider.dart';

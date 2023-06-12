@@ -1,4 +1,5 @@
-import 'dart:convert';
+// ignore_for_file: unused_field
+
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,12 +7,11 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/common/widgets/custom_textfield.dart';
 import 'package:kmutnb_project/common/widgets/customer_button.dart';
-import 'package:kmutnb_project/features/admin/services/admin_service.dart';
-import 'package:http/http.dart' as http;
+
 import 'package:kmutnb_project/models/province.dart';
 import '../../../constants/global_variables.dart';
 import '../../../constants/utills.dart';
-import '../../../models/category.dart';
+
 import 'package:image_picker/image_picker.dart';
 
 import '../services/add_store_service.dart';
