@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kmutnb_project/features/home/screens/filter_product.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
+import 'package:kmutnb_project/features/home/widgets/dropdown_widget.dart';
 import 'package:kmutnb_project/features/home/widgets/map_screen.dart';
 import 'package:kmutnb_project/features/store/services/add_store_service.dart';
 
@@ -21,7 +22,7 @@ class _FilterWidgetState extends State<FilterWidget> {
   double maxPrice = 0.0;
   bool sortByPriceLow = false;
   bool sortByPriceHigh = false;
-
+  bool isTaps = false;
   final ProvinceService provinceService = ProvinceService();
   List<Province> provinces = [];
   String selectedProvinceId = '';
@@ -54,31 +55,34 @@ class _FilterWidgetState extends State<FilterWidget> {
     });
   }
 
-  void _navigateToMyButtonScreen() async {
-    final result = await Navigator.push(
+  @override
+  void initState() {
+    super.initState();
+    selectedProvinceId = '';
+    minPrice = 0.0; // เพิ่มค่า default
+    maxPrice = 0.0; // เพิ่มค่า default
+  }
+
+  HomeService homeService = HomeService();
+  void _openMapScreen(double lat, double lng) async {
+    final value = await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => const MyButton(
-          index: 0,
-          text: '',
+        builder: (context) => MapScreen(
+          currentLat: lat,
+          currentLng: lng,
         ),
       ),
     );
 
-    // รับค่าที่ส่งกลับมาจาก MyButtonScreen และอัพเดตค่าใน selectedProvince
-    setState(() {
-      print(result);
-    });
-  }
+    if (value != null) {
+      provinces = value;
 
-  @override
-  void initState() {
-    super.initState();
-    _getProvinces();
-
-    selectedProvinceId = ''; // เพิ่มค่า default
-    minPrice = 0.0; // เพิ่มค่า default
-    maxPrice = 0.0; // เพิ่มค่า default
+      setState(() {
+        selectedProvinceId = provinces.first.id;
+        isTaps = true;
+      });
+    }
   }
 
   TextEditingController searchController = TextEditingController();
@@ -128,255 +132,308 @@ class _FilterWidgetState extends State<FilterWidget> {
 
   void _openFilterOptions() {
     showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (BuildContext context, StateSetter setState) {
-            return SingleChildScrollView(
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Keyword',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Material(
-                      borderRadius: BorderRadius.circular(7),
-                      elevation: 1,
-                      child: TextFormField(
-                        controller: searchController,
-                        onChanged: (value) {
-                          setState(() {
-                            keyword = value;
-                          });
-                        },
-                        decoration: const InputDecoration(
-                          prefixIcon: Padding(
-                            padding: EdgeInsets.only(
-                              left: 6,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                              size: 23,
-                            ),
-                          ),
-                          filled: true,
-                          fillColor: Colors.white,
-                          contentPadding: EdgeInsets.only(top: 10),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(7),
-                            ),
-                            borderSide: BorderSide.none,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(7),
-                            ),
-                            borderSide: BorderSide(
-                              color: Colors.black38,
-                              width: 1,
-                            ),
-                          ),
-                          hintText: 'Search ',
-                          hintStyle: TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 17,
-                          ),
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+            builder: (BuildContext context, StateSetter setState) {
+              return SingleChildScrollView(
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Keyword',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                      'Location Store',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          key: dropdownKey,
-                          isExpanded: true,
-                          value: selectedProvinceId,
-                          onChanged: (String? newVal) {
+                      const SizedBox(height: 10),
+                      Material(
+                        borderRadius: BorderRadius.circular(7),
+                        elevation: 1,
+                        child: TextFormField(
+                          controller: searchController,
+                          onChanged: (value) {
                             setState(() {
-                              selectedProvinceId = newVal!;
+                              keyword = value;
                             });
                           },
-                          items: provinces.map((province) {
-                            return DropdownMenuItem<String>(
-                              value: province.id,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(province.provinceThai),
+                          decoration: const InputDecoration(
+                            prefixIcon: Padding(
+                              padding: EdgeInsets.only(
+                                left: 6,
                               ),
-                            );
-                          }).toList(),
+                              child: Icon(
+                                Icons.search,
+                                color: Colors.black,
+                                size: 23,
+                              ),
+                            ),
+                            filled: true,
+                            fillColor: Colors.white,
+                            contentPadding: EdgeInsets.only(top: 10),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(7),
+                              ),
+                              borderSide: BorderSide.none,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(7),
+                              ),
+                              borderSide: BorderSide(
+                                color: Colors.black38,
+                                width: 1,
+                              ),
+                            ),
+                            hintText: 'Search ',
+                            hintStyle: TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 17,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Column(
+                      if (isTaps) ...[
+                        Column(
+                          children: [
+                            const SizedBox(height: 10),
+                            const Text(
+                              'Location Store',
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            DropdownWidget(
+                              provinces: provinces,
+                              selectedProvinceId: selectedProvinceId,
+                              onChanged: (String? newVal) async {
+                                setState(() {
+                                  selectedProvinceId = newVal!;
+                                });
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                      ],
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            // ส่วนอื่น ๆ ที่คุณต้องการ
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    icon: const Icon(Icons.location_pin),
+                                    label: const Text(
+                                      'แสดงร้านค้ารอบๆตัวฉัน',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      Position data =
+                                          await _determinePosition();
+
+                                      String latString = data
+                                          .toString()
+                                          .substring(
+                                              data
+                                                      .toString()
+                                                      .indexOf('Latitude:') +
+                                                  9,
+                                              data.toString().indexOf(','));
+                                      String longString = data
+                                          .toString()
+                                          .substring(data
+                                                  .toString()
+                                                  .indexOf('Longitude:') +
+                                              10);
+
+                                      double latitude = double.parse(latString);
+                                      double longitude =
+                                          double.parse(longString);
+
+                                      _openMapScreen(latitude, longitude);
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    icon: const Icon(Icons.map),
+                                    label: const Text(
+                                      'เฉพาะร้านค้าในกรุงเทพ',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    onPressed: () async {},
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    icon: const Icon(Icons.near_me),
+                                    label: const Text(
+                                      'กรุงเทพมหานครและปริมณฑล',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    onPressed: () async {},
+                                  ),
+                                ),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                  child: ElevatedButton.icon(
+                                    icon: const Icon(Icons.near_me_disabled),
+                                    label: const Text(
+                                      'ทุกร้านค้าในประเทศไทย',
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                    onPressed: () async {
+                                      Position data =
+                                          await _determinePosition();
+
+                                      String latString = data
+                                          .toString()
+                                          .substring(
+                                              data
+                                                      .toString()
+                                                      .indexOf('Latitude:') +
+                                                  9,
+                                              data.toString().indexOf(','));
+                                      String longString = data
+                                          .toString()
+                                          .substring(data
+                                                  .toString()
+                                                  .indexOf('Longitude:') +
+                                              10);
+
+                                      double latitude = double.parse(latString);
+                                      double longitude =
+                                          double.parse(longString);
+
+                                      _openMapScreen(latitude, longitude);
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Price Range',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านบนซ้าย
-                                  },
-                                  child: Text('Button 1'),
-                                ),
+                          Expanded(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                labelText: 'Min Price',
                               ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านบนขวา
-                                  },
-                                  child: Text('Button 2'),
-                                ),
-                              ),
-                            ],
+                              onChanged: (value) {
+                                setState(() {
+                                  minPrice = double.tryParse(value) ?? 0;
+                                });
+                              },
+                            ),
                           ),
-                          SizedBox(height: 10),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านล่างซ้าย
-                                  },
-                                  child: Text('Button 3'),
-                                ),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: TextField(
+                              keyboardType: TextInputType.number,
+                              decoration: const InputDecoration(
+                                labelText: 'Max Price',
                               ),
-                              SizedBox(width: 10),
-                              Expanded(
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    // โค้ดที่ต้องการให้ทำเมื่อกดปุ่มด้านล่างขวา
-                                  },
-                                  child: Text('Button 4'),
-                                ),
-                              ),
-                            ],
+                              onChanged: (value) {
+                                setState(() {
+                                  maxPrice = double.tryParse(value) ?? 0;
+                                });
+                              },
+                            ),
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Price Range',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                      const SizedBox(height: 20),
+                      const Text(
+                        'Sort By',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Min Price',
-                            ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: sortByPriceLow,
                             onChanged: (value) {
                               setState(() {
-                                minPrice = double.tryParse(value) ?? 0;
+                                sortByPriceLow = value ?? false;
                               });
                             },
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: TextField(
-                            keyboardType: TextInputType.number,
-                            decoration: const InputDecoration(
-                              labelText: 'Max Price',
-                            ),
+                          const Text('Sort by Price (Low to High)'),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        children: [
+                          Checkbox(
+                            value: sortByPriceHigh,
                             onChanged: (value) {
                               setState(() {
-                                maxPrice = double.tryParse(value) ?? 0;
+                                sortByPriceHigh = value ?? false;
                               });
                             },
                           ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Sort By',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                          const Text('Sort by Price (High to Low)'),
+                        ],
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: sortByPriceLow,
-                          onChanged: (value) {
-                            setState(() {
-                              sortByPriceLow = value ?? false;
-                            });
-                          },
-                        ),
-                        const Text('Sort by Price (Low to High)'),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value: sortByPriceHigh,
-                          onChanged: (value) {
-                            setState(() {
-                              sortByPriceHigh = value ?? false;
-                            });
-                          },
-                        ),
-                        const Text('Sort by Price (High to Low)'),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    ElevatedButton(
-                      onPressed: () {
-                        _applyFilters();
-                        Navigator.pop(context);
-                      },
-                      child: const Text('Apply Filters'),
-                    ),
-                  ],
+                      const SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          _applyFilters();
+                          Navigator.pop(context);
+                        },
+                        child: const Text('Apply Filters'),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          },
-        );
-      },
-    );
+              );
+            },
+          );
+        });
   }
 
-  HomeService homeService = HomeService();
   List<Product> productList = [];
   Future<void> _applyFilters() async {
     productList = await homeService.fetchFilterProduct(
@@ -396,76 +453,6 @@ class _FilterWidgetState extends State<FilterWidget> {
         builder: (context) => FilterProduct(products: productList),
       ),
     );
-  }
-}
-
-class MyButton extends StatelessWidget {
-  final IconData? icon;
-  final String text;
-  final int index;
-
-  const MyButton({Key? key, this.icon, required this.text, required this.index})
-      : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    void _openMapScreen(double lat, double lng) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => MapScreen(
-            currentLat: lat,
-            currentLng: lng,
-          ),
-        ),
-      ).then((value) {
-        if (value != null) {
-          //print('Selected Location: $value');
-          String province = value.split(',')[4].trim();
-          province = province.replaceAll('จังหวัด', '');
-        }
-      });
-    }
-
-    if (index == 0) {
-      return Container(
-        margin: EdgeInsets.all(6),
-        child: ElevatedButton.icon(
-          icon: Icon(icon),
-          label: Text(
-            text,
-            textAlign: TextAlign.center,
-          ),
-          onPressed: () async {
-            Position data = await _determinePosition();
-
-            String latString = data.toString().substring(
-                data.toString().indexOf('Latitude:') + 9,
-                data.toString().indexOf(','));
-            String longString = data
-                .toString()
-                .substring(data.toString().indexOf('Longitude:') + 10);
-
-            double latitude = double.parse(latString);
-            double longitude = double.parse(longString);
-
-            _openMapScreen(latitude, longitude);
-          },
-        ),
-      );
-    } else {
-      return Container(
-        margin: EdgeInsets.all(6),
-        child: ElevatedButton.icon(
-          icon: Icon(icon),
-          label: Text(
-            text,
-            textAlign: TextAlign.center,
-          ),
-          onPressed: () {},
-        ),
-      );
-    }
   }
 }
 

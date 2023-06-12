@@ -7,6 +7,9 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 
+import '../../../models/province.dart';
+import '../services/home_service.dart';
+
 class MapScreen extends StatefulWidget {
   static const routeName = '/map';
   double currentLat;
@@ -26,6 +29,7 @@ class _MapScreenState extends State<MapScreen> {
   var marker = <Marker>[];
   bool isTapped = false;
   String address = '';
+  List<Province> provinceList = [];
 
   @override
   void initState() {
@@ -185,7 +189,14 @@ class _MapScreenState extends State<MapScreen> {
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.check),
         onPressed: () async {
-          Navigator.pop(context, address);
+          HomeService homeService = HomeService();
+          String province = address.split(',')[4].trim();
+          province = province.replaceAll('จังหวัด', '');
+          provinceList = await homeService.fetchAllProvinceNearMe(
+            context: context,
+            provinceName: province,
+          );
+          Navigator.pop(context, provinceList);
         },
       ),
     );

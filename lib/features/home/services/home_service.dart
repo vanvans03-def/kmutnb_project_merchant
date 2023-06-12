@@ -9,6 +9,7 @@ import '../../../constants/error_handling.dart';
 import '../../../constants/global_variables.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
+import '../../../models/province.dart';
 import '../../../models/store.dart';
 
 class HomeService {
@@ -186,7 +187,68 @@ class HomeService {
       return ProductPrice.fromJson(data);
     } catch (e) {
       showSnackBar(context, e.toString());
-      throw e;
+      rethrow;
     }
+  }
+
+  Future<List<Province>> fetchAllProvinceNearMe({
+    required BuildContext context,
+    required String provinceName,
+  }) async {
+    List<Province> provinceList = [];
+    try {
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/provinceNearMe'),
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          "provinceThai": provinceName,
+        }),
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          var responseJson = json.decode(res.body);
+
+          for (int i = 0; i < responseJson.length; i++) {
+            Province province = Province.fromMap(responseJson[i]);
+            provinceList.add(province);
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return provinceList;
+  }
+
+  Future<List<Province>> fetchAllProvince(BuildContext context) async {
+    List<Province> provinceList = [];
+    try {
+      http.Response res =
+          await http.get(Uri.parse('$uri/api/province'), headers: {
+        'Content-Type': 'application/json; charset=UTF-8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {
+          var responseJson = json.decode(res.body);
+          var data = responseJson['data'];
+          for (int i = 0; i < data.length; i++) {
+            Province province = Province.fromMap(data[i]);
+            provinceList.add(province);
+          }
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return provinceList;
   }
 }

@@ -7,6 +7,7 @@ import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/admin/screens/admin_screen.dart';
 import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
 import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project/providers/province_provider.dart';
 import 'package:kmutnb_project/providers/store_provider.dart';
 import 'package:kmutnb_project/providers/user_provider.dart';
 import 'package:kmutnb_project/router.dart';
@@ -25,6 +26,9 @@ void main() {
     ),
     ChangeNotifierProvider(
       create: (context) => StoreProvider(),
+    ),
+    ChangeNotifierProvider(
+      create: (context) => ProvincesProvider(),
     ),
   ], child: const MyApp()));
 }
