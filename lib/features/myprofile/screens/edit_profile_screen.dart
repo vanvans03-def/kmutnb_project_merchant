@@ -1,0 +1,175 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
+import 'package:kmutnb_project/constants/utills.dart';
+import 'package:kmutnb_project/features/myprofile/screens/user_profile_screen.dart';
+import 'package:provider/provider.dart';
+
+import '../../../models/user.dart';
+import '../../../providers/user_provider.dart';
+import '../services/profile_service.dart';
+
+class EditProfilePage extends StatefulWidget {
+  static const routeName = '/edit_profile_user';
+  @override
+  _EditProfilePageState createState() => _EditProfilePageState();
+}
+
+class _EditProfilePageState extends State<EditProfilePage> {
+  final TextEditingController _fullNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
+  File? _selectedImage;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    User user = userProvider.user;
+
+    _fullNameController.text = user.fullName;
+    _phoneNumberController.text = user.phoneNumber;
+    _addressController.text = user.address;
+  }
+
+  Future<File?> pickOneImage() async {
+    File? image;
+    try {
+      var files = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
+      if (files != null && files.files.isNotEmpty) {
+        image = File(files.files.first.path!);
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+    return image;
+  }
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _phoneNumberController.dispose();
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  ProfileService profileService = ProfileService();
+  void _saveChanges() {
+    String fullName = _fullNameController.text;
+    String phoneNumber = _phoneNumberController.text;
+    String address = _addressController.text;
+
+    profileService.updateUser(
+      address: address,
+      context: context,
+      fullName: fullName,
+      phoneNumber: phoneNumber,
+      productImage_: _selectedImage,
+      select: false,
+    );
+
+    if (_selectedImage != null) {
+      profileService.updateUser(
+        address: address,
+        context: context,
+        fullName: fullName,
+        phoneNumber: phoneNumber,
+        productImage_: _selectedImage,
+        select: true,
+      );
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    final user = userProvider.user;
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Edit Profile'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          children: [
+            if (user.image == '' && _selectedImage == null) ...[
+              GestureDetector(
+                onTap: () async {
+                  File? image = await pickOneImage();
+                  setState(() {
+                    _selectedImage = image;
+                  });
+                },
+                child: const CircleAvatar(
+                  radius: 50,
+                  backgroundColor: Colors.blueGrey,
+                  child: Icon(
+                    Icons.add_a_photo,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ] else if (user.image != '' && _selectedImage == null) ...[
+              GestureDetector(
+                onTap: () async {
+                  File? image = await pickOneImage();
+                  setState(() {
+                    _selectedImage = image;
+                  });
+                },
+                child: ClipOval(
+                  child: Image.network(
+                    user.image,
+                    fit: BoxFit.cover,
+                    height: 100.0,
+                    width: 100.0,
+                  ),
+                ),
+              )
+            ] else if (_selectedImage != null) ...[
+              GestureDetector(
+                onTap: () async {
+                  File? image = await pickOneImage();
+                  setState(() {
+                    _selectedImage = image;
+                  });
+                },
+                child: ClipOval(
+                  child: Image.file(
+                    _selectedImage!,
+                    fit: BoxFit.cover,
+                    height: 100.0,
+                    width: 100.0,
+                  ),
+                ),
+              )
+            ],
+            TextField(
+              controller: _fullNameController,
+              decoration: InputDecoration(labelText: 'Full Name'),
+            ),
+            TextField(
+              controller: _phoneNumberController,
+              decoration: InputDecoration(labelText: 'Phone Number'),
+            ),
+            TextField(
+              controller: _addressController,
+              decoration: InputDecoration(labelText: 'Address'),
+            ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _saveChanges,
+              child: Text('Save Changes'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

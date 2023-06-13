@@ -20,6 +20,7 @@ import 'features/chat/screens/ChatPage.dart';
 import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
 import 'features/home/screens/home_screen.dart';
+import 'features/myprofile/screens/edit_profile_screen.dart';
 import 'features/myprofile/screens/user_profile_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
 import 'features/order_detail/screens/order_store_details.dart';
@@ -183,6 +184,12 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => const ChatHistoryScreen(),
       );
+    case EditProfilePage.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => EditProfilePage(),
+      );
+
     default:
       return MaterialPageRoute(
         settings: routeSettings,

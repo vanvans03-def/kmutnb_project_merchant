@@ -86,7 +86,7 @@ class User {
       password: password ?? this.password,
       address: address ?? this.address,
       type: type ?? this.type,
-      phoneNumber: type ?? this.type,
+      phoneNumber: phoneNumber ?? this.phoneNumber,
       token: token ?? this.token,
       cart: cart ?? this.cart,
       image: image ?? this.image,

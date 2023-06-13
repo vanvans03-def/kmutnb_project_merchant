@@ -73,6 +73,7 @@ class HomeService {
             var responseJson = json.decode(res.body);
 
             var data = responseJson['data'];
+
             for (int i = 0; i < data.length; i++) {
               productList.add(
                 Product.fromJson(data[i] as Map<String, dynamic>),

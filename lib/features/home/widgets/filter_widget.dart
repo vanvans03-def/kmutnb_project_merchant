@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:kmutnb_project/features/home/screens/filter_product.dart';
@@ -17,7 +19,6 @@ class FilterWidget extends StatefulWidget {
 }
 
 class _FilterWidgetState extends State<FilterWidget> {
-  String selectedProvince = '';
   double minPrice = 0.0;
   double maxPrice = 0.0;
   bool sortByPriceLow = false;
@@ -212,8 +213,7 @@ class _FilterWidgetState extends State<FilterWidget> {
                                   type: 'OnlyBKK',
                                 );
                                 setState(() {
-                                  selectedProvinceId =
-                                      provinces[0].id.toString();
+                                  selectedProvinceId = provinces.first.id;
                                   label = "กรุงเทพมหานคร";
                                   isTaps = true;
                                 });
@@ -270,6 +270,25 @@ class _FilterWidgetState extends State<FilterWidget> {
                                   type: 'All',
                                 );
                                 setState(() {
+                                  provinces.insert(
+                                    0,
+                                    Province(
+                                      id: "",
+                                      provinceThai:
+                                          "เลือกจากทุกจังหวัดในประเทศไทย",
+                                      area: '',
+                                      bangkokMetropolitan: '',
+                                      femalePopulation62: '',
+                                      fourRegion: '',
+                                      malePopulation62: '',
+                                      officialRegion: '',
+                                      population62: '',
+                                      provinceEng:
+                                          '-Select from all provinces in Thailand-',
+                                      provinceID: '',
+                                      tourismRegion: '',
+                                    ),
+                                  );
                                   selectedProvinceId =
                                       provinces[0].id.toString();
                                   label = "77 จังหวัด";
