@@ -192,10 +192,12 @@ class _MapScreenState extends State<MapScreen> {
           HomeService homeService = HomeService();
           String province = address.split(',')[4].trim();
           province = province.replaceAll('จังหวัด', '');
-          provinceList = await homeService.fetchAllProvinceNearMe(
+          provinceList = await homeService.fetchAllProvinceByOption(
             context: context,
             provinceName: province,
+            type: 'nearMe',
           );
+
           Navigator.pop(context, provinceList);
         },
       ),

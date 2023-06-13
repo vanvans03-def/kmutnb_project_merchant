@@ -71,6 +71,7 @@ class HomeService {
           context: context,
           onSuccess: () {
             var responseJson = json.decode(res.body);
+
             var data = responseJson['data'];
             for (int i = 0; i < data.length; i++) {
               productList.add(
@@ -79,7 +80,7 @@ class HomeService {
             }
           });
     } catch (e) {
-      showSnackBar(context, e.toString());
+      //showSnackBar(context, e.toString());
     }
     return productList;
   }
@@ -191,9 +192,10 @@ class HomeService {
     }
   }
 
-  Future<List<Province>> fetchAllProvinceNearMe({
+  Future<List<Province>> fetchAllProvinceByOption({
     required BuildContext context,
     required String provinceName,
+    required String type,
   }) async {
     List<Province> provinceList = [];
     try {
@@ -204,6 +206,7 @@ class HomeService {
         },
         body: jsonEncode({
           "provinceThai": provinceName,
+          "type": type,
         }),
       );
 
