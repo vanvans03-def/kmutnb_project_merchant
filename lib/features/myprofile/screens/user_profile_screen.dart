@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/features/account/widgets/orders.dart';
+import 'package:kmutnb_project/features/auth/screens/login_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:kmutnb_project/features/myprofile/screens/edit_profile_screen.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
 import '../../account/screens/account_screen.dart';
+import '../../account/services/account_service.dart';
+import '../../auth/screens/auth_screen.dart';
+import '../../auth/services/auth_service.dart';
 
 class UserProfileScreen extends StatefulWidget {
   static const String routeName = '/user-profile-screen';
@@ -20,11 +24,39 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreen extends State<UserProfileScreen> {
   User? user;
+  late UserProvider userProvider;
+  bool shouldUpdateProfile = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (shouldUpdateProfile) {
+      updateProfileData();
+    } else {
+      userProvider = Provider.of<UserProvider>(context, listen: false);
+      user = userProvider.user;
+    }
+  }
+
+  void updateProfileData() {
+    user = userProvider.user;
+    shouldUpdateProfile = false; // Reset the flag variable
+  }
+
+  AccountServices accountServices = AccountServices();
+  Future<void> logOutGoogle() async {
+    await GoogleSignInApi.logout();
+    accountServices.logOut(context);
+    // ignore: use_build_context_synchronously
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      LoginScreen.routeName,
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    final userProvider = Provider.of<UserProvider>(context, listen: false);
-    user = userProvider.user;
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -59,22 +91,23 @@ class _UserProfileScreen extends State<UserProfileScreen> {
             ),
             const SizedBox(height: 20),
             ListTile(
-              leading: const Icon(Icons.person),
-              title: const Text('แก้ไขโปรไฟล์ส่วนตัว'),
-              onTap: () async {
-                final value = await Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditProfilePage(),
-                  ),
-                );
-                if (value != null) {
-                  setState(() {
-                    user = value;
-                  });
-                }
-              },
-            ),
+                leading: const Icon(Icons.person),
+                title: const Text('แก้ไขโปรไฟล์ส่วนตัว'),
+                onTap: () async {
+                  final value = await Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => EditProfilePage()),
+                  );
+                  if (value != null) {
+                    userProvider.setUserFromModel(value);
+                    setState(() {
+                      user = value;
+                      shouldUpdateProfile =
+                          true; // Set the flag variable to true
+                      updateProfileData(); // Update the user data immediately
+                    });
+                  }
+                }),
             const Divider(
               height: 2,
               thickness: 2,
@@ -102,7 +135,7 @@ class _UserProfileScreen extends State<UserProfileScreen> {
               leading: const Icon(Icons.logout),
               title: const Text('ออกจากระบบ'),
               onTap: () {
-                // ทำงานเมื่อกดออกจากระบบ
+                logOutGoogle();
               },
             ),
             const Divider(

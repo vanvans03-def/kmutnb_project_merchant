@@ -88,7 +88,6 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
-    final user = userProvider.user;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Profile'),
@@ -97,7 +96,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            if (user.image == '' && _selectedImage == null) ...[
+            if (userProvider.user.image == '' && _selectedImage == null) ...[
               GestureDetector(
                 onTap: () async {
                   File? image = await pickOneImage();
@@ -115,7 +114,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                 ),
               ),
-            ] else if (user.image != '' && _selectedImage == null) ...[
+            ] else if (userProvider.user.image != '' &&
+                _selectedImage == null) ...[
               GestureDetector(
                 onTap: () async {
                   File? image = await pickOneImage();
@@ -125,7 +125,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 },
                 child: ClipOval(
                   child: Image.network(
-                    user.image,
+                    userProvider.user.image,
                     fit: BoxFit.cover,
                     height: 100.0,
                     width: 100.0,

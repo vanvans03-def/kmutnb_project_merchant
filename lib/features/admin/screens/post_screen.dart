@@ -86,163 +86,177 @@ class _PostScreenState extends State<PostScreen> {
       return products == null
           ? const Loader()
           : Scaffold(
-              body: Column(
-                children: [
-                  SizedBox(
-                    height: 70,
-                    child: ListView.builder(
-                      itemCount: categories.length,
-                      itemExtent: 70,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
-                          onTap: () => navigateToCategoryPage(
-                              context, categories[index].categoryId),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              const SizedBox(height: 10),
-                              Container(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Image.network(
-                                    categories[index].categoryImage,
-                                    fit: BoxFit.cover,
-                                    height: 40,
-                                    width: 40,
-                                  ),
-                                ),
-                              ),
-                              Text(
-                                categories[index].categoryName,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                    ),
+              body: Container(
+                margin: const EdgeInsets.all(10.0),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade100,
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(50),
+                    topRight: Radius.circular(50),
                   ),
-                  Expanded(
-                    child: Center(
-                      child: OrientationBuilder(
-                        builder: (context, orientation) {
-                          return GridView.builder(
-                            itemCount: products!.length,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount:
-                                  orientation == Orientation.portrait ? 2 : 4,
-                              crossAxisSpacing: 10,
-                              mainAxisSpacing: 10,
-                              childAspectRatio:
-                                  orientation == Orientation.portrait
-                                      ? 0.62
-                                      : 0.56,
+                ),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 70,
+                      child: ListView.builder(
+                        itemCount: categories.length,
+                        itemExtent: 70,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () => navigateToCategoryPage(
+                                context, categories[index].categoryId),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 10),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(50),
+                                    child: Image.network(
+                                      categories[index].categoryImage,
+                                      fit: BoxFit.cover,
+                                      height: 40,
+                                      width: 40,
+                                    ),
+                                  ),
+                                ),
+                                Text(
+                                  categories[index].categoryName,
+                                  style: const TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                )
+                              ],
                             ),
-                            padding: const EdgeInsets.all(10),
-                            itemBuilder: (context, index) {
-                              final productData = products![index];
-                              String nameCategoryOfProduct = '';
-                              for (int i = 0; i < categories.length; i++) {
-                                if (productData.category ==
-                                    categories[i].categoryId) {
-                                  nameCategoryOfProduct =
-                                      categories[i].categoryName;
-                                }
-                              }
-
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                EditProductScreen(
-                                              productData: productData,
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                      child: Container(
-                                        decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: ClipRRect(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: SingleProduct(
-                                            image: productData.productImage[0],
-                                            productName:
-                                                productData.productName,
-                                            productPrice: productData
-                                                .productPrice
-                                                .toString(),
-                                            categoryName: nameCategoryOfProduct,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  GestureDetector(
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            title:
-                                                const Text('Delete product?'),
-                                            content: const Text(
-                                                'Are you sure you want to delete this product?'),
-                                            actions: <Widget>[
-                                              TextButton(
-                                                child: const Text('Cancel'),
-                                                onPressed: () =>
-                                                    Navigator.of(context).pop(),
-                                              ),
-                                              TextButton(
-                                                child: const Text(
-                                                  'Delete',
-                                                  style: TextStyle(
-                                                    color: Colors.red,
-                                                  ),
-                                                ),
-                                                onPressed: () {
-                                                  deleteProduct(
-                                                      productData, index);
-                                                },
-                                              ),
-                                            ],
-                                          );
-                                        },
-                                      );
-                                    },
-                                    child: const Icon(
-                                      Icons.delete_outline,
-                                      color: Colors.red,
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
                           );
                         },
                       ),
                     ),
-                  ),
-                ],
+                    Expanded(
+                      child: Center(
+                        child: OrientationBuilder(
+                          builder: (context, orientation) {
+                            return GridView.builder(
+                              itemCount: products!.length,
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount:
+                                    orientation == Orientation.portrait ? 2 : 4,
+                                crossAxisSpacing: 10,
+                                mainAxisSpacing: 10,
+                                childAspectRatio:
+                                    orientation == Orientation.portrait
+                                        ? 0.62
+                                        : 0.56,
+                              ),
+                              padding: const EdgeInsets.all(10),
+                              itemBuilder: (context, index) {
+                                final productData = products![index];
+                                String nameCategoryOfProduct = '';
+                                for (int i = 0; i < categories.length; i++) {
+                                  if (productData.category ==
+                                      categories[i].categoryId) {
+                                    nameCategoryOfProduct =
+                                        categories[i].categoryName;
+                                  }
+                                }
+
+                                return Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  EditProductScreen(
+                                                productData: productData,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                          ),
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            child: SingleProduct(
+                                              image:
+                                                  productData.productImage[0],
+                                              productName:
+                                                  productData.productName,
+                                              productPrice: productData
+                                                  .productPrice
+                                                  .toString(),
+                                              categoryName:
+                                                  nameCategoryOfProduct,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 10),
+                                    GestureDetector(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              title:
+                                                  const Text('Delete product?'),
+                                              content: const Text(
+                                                  'Are you sure you want to delete this product?'),
+                                              actions: <Widget>[
+                                                TextButton(
+                                                  child: const Text('Cancel'),
+                                                  onPressed: () =>
+                                                      Navigator.of(context)
+                                                          .pop(),
+                                                ),
+                                                TextButton(
+                                                  child: const Text(
+                                                    'Delete',
+                                                    style: TextStyle(
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                  onPressed: () {
+                                                    deleteProduct(
+                                                        productData, index);
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
+                                      },
+                                      child: const Icon(
+                                        Icons.delete_outline,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               floatingActionButton: FloatingActionButton(
                 child: const Icon(Icons.add),

@@ -48,10 +48,15 @@ class _AdminScreenState extends State<AdminScreen> {
           flexibleSpace: Container(
             decoration: BoxDecoration(
               color: Colors.orange, // เปลี่ยนสีที่นี่
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(50),
+              ),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2), // เปลี่ยนสีเงาที่นี่
                   offset: Offset(0, 5.0),
+
                   blurRadius: 4.0,
                 )
               ],
@@ -129,7 +134,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 ),
               ),
               child: const Icon(
-                Icons.home_mini_outlined,
+                Icons.house,
               ),
             ),
             label: '',

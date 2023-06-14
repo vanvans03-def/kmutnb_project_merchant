@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:kmutnb_project/constants/error_handling.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/constants/utills.dart';
-import 'package:kmutnb_project/features/home/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
@@ -55,6 +54,7 @@ class ProfileService {
         onSuccess: () {
           var responseJson = jsonDecode(res.body);
           var data = responseJson['data'];
+
           User user = userProvider.user.copyWith(
             image: data['image'],
             address: data['address'],
@@ -62,7 +62,8 @@ class ProfileService {
             phoneNumber: data['phoneNumber'],
           );
           userProvider.setUserFromModel(user);
-          Navigator.pushReplacementNamed(context, '/actual-home');
+          showSnackBar(context, 'Updated Successfully!');
+          Navigator.popUntil(context, (route) => route.isFirst);
         },
       );
     } catch (e) {

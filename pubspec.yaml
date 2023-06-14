@@ -53,9 +53,14 @@ dependencies:
   latlong2: ^0.8.0
   geolocator: ^9.0.2
   fluttertoast: any
+  google_sign_in: ^6.1.4
+  flutter_login_facebook: ^1.8.0
+  simple_animations: ^5.0.2
+
   
 dependency_overrides:
   intl: any
+  http: any
 
 dev_dependencies:
   flutter_test:

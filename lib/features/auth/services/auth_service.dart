@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kmutnb_project/constants/error_handling.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/constants/utills.dart';
@@ -52,6 +53,53 @@ class AuthService {
           showSnackBar(
             context,
             'Account created! Login with the same credentials!',
+          );
+        },
+      );
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+  }
+
+  void registerUserOauth({
+    required BuildContext context,
+    required String id,
+    required String email,
+    required String password,
+    required String name,
+    required String token,
+    required String image,
+  }) async {
+    try {
+      User user = User(
+        id: id,
+        fullName: name,
+        email: email,
+        token: token,
+        password: id,
+        type: 'user',
+        phoneNumber: '',
+        address: '',
+        cart: [],
+        image: image,
+      );
+
+      http.Response res = await http.post(
+        Uri.parse('$uri/api/register'),
+        body: user.toJson(),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () async {
+          showSnackBar(
+            context,
+            'Register success pleas Login',
           );
         },
       );
@@ -111,11 +159,10 @@ class AuthService {
             // ignore: use_build_context_synchronously, await_only_futures
 
             // ignore: use_build_context_synchronously
-            Navigator.push(
+            Navigator.pushNamedAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                builder: (context) => const AdminScreen(),
-              ),
+              AdminScreen.routeName,
+              (route) => false, // ลบทุกหน้าออกจาก Stack
             );
           }
         },
@@ -162,4 +209,11 @@ class AuthService {
       rethrow;
     }
   }
+}
+
+class GoogleSignInApi {
+  static final _googleSignIn = GoogleSignIn();
+  static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
+
+  static Future logout() => _googleSignIn.disconnect();
 }

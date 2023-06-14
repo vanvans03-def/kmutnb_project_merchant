@@ -61,117 +61,132 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
         body: productList == null
             ? const Loader()
             : Scaffold(
-                body: Column(
-                  children: [
-                    Expanded(
-                      child: Center(
-                        child: OrientationBuilder(
-                          builder: (context, orientation) {
-                            return GridView.builder(
-                              itemCount: productList!.length,
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount:
-                                    orientation == Orientation.portrait ? 2 : 4,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                childAspectRatio:
-                                    orientation == Orientation.portrait
-                                        ? 0.62
-                                        : 0.56,
-                              ),
-                              padding: const EdgeInsets.all(10),
-                              itemBuilder: (context, index) {
-                                final productData = productList![index];
+                body: Container(
+                  margin: const EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade100,
+                    borderRadius: const BorderRadius.only(
+                      topLeft: Radius.circular(50),
+                      topRight: Radius.circular(50),
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Expanded(
+                        child: Center(
+                          child: OrientationBuilder(
+                            builder: (context, orientation) {
+                              return GridView.builder(
+                                itemCount: productList!.length,
+                                gridDelegate:
+                                    SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount:
+                                      orientation == Orientation.portrait
+                                          ? 2
+                                          : 4,
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10,
+                                  childAspectRatio:
+                                      orientation == Orientation.portrait
+                                          ? 0.62
+                                          : 0.56,
+                                ),
+                                padding: const EdgeInsets.all(10),
+                                itemBuilder: (context, index) {
+                                  final productData = productList![index];
 
-                                return Column(
-                                  crossAxisAlignment:
-                                      CrossAxisAlignment.stretch,
-                                  children: [
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  EditProductScreen(
-                                                productData: productData,
+                                  return Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.stretch,
+                                    children: [
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    EditProductScreen(
+                                                  productData: productData,
+                                                ),
                                               ),
+                                            );
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
                                             ),
-                                          );
-                                        },
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                          ),
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: SingleProduct(
-                                              image:
-                                                  productData.productImage[0],
-                                              productName:
-                                                  productData.productName,
-                                              productPrice: productData
-                                                  .productPrice
-                                                  .toString(),
-                                              categoryName: categoryName,
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              child: SingleProduct(
+                                                image:
+                                                    productData.productImage[0],
+                                                productName:
+                                                    productData.productName,
+                                                productPrice: productData
+                                                    .productPrice
+                                                    .toString(),
+                                                categoryName: categoryName,
+                                              ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 10),
-                                    GestureDetector(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title:
-                                                  const Text('Delete product?'),
-                                              content: const Text(
-                                                  'Are you sure you want to delete this product?'),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: const Text('Cancel'),
-                                                  onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pop(),
-                                                ),
-                                                TextButton(
-                                                  child: const Text(
-                                                    'Delete',
-                                                    style: TextStyle(
-                                                      color: Colors.red,
-                                                    ),
+                                      const SizedBox(height: 10),
+                                      GestureDetector(
+                                        onTap: () {
+                                          showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) {
+                                              return AlertDialog(
+                                                title: const Text(
+                                                    'Delete product?'),
+                                                content: const Text(
+                                                    'Are you sure you want to delete this product?'),
+                                                actions: <Widget>[
+                                                  TextButton(
+                                                    child: const Text('Cancel'),
+                                                    onPressed: () =>
+                                                        Navigator.of(context)
+                                                            .pop(),
                                                   ),
-                                                  onPressed: () {
-                                                    deleteProduct(
-                                                        productData, index);
-                                                  },
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: const Icon(
-                                        Icons.delete_outline,
-                                        color: Colors.red,
+                                                  TextButton(
+                                                    child: const Text(
+                                                      'Delete',
+                                                      style: TextStyle(
+                                                        color: Colors.red,
+                                                      ),
+                                                    ),
+                                                    onPressed: () {
+                                                      deleteProduct(
+                                                          productData, index);
+                                                    },
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: const Icon(
+                                          Icons.delete_outline,
+                                          color: Colors.red,
+                                        ),
                                       ),
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          },
+                                    ],
+                                  );
+                                },
+                              );
+                            },
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 floatingActionButton: FloatingActionButton(
                   child: const Icon(Icons.add),

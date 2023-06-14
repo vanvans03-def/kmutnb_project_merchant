@@ -5,7 +5,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:kmutnb_project/constants/global_variables.dart';
 import 'package:kmutnb_project/features/admin/screens/admin_screen.dart';
-import 'package:kmutnb_project/features/auth/screens/auth_screen.dart';
+
 import 'package:kmutnb_project/features/auth/services/auth_service.dart';
 
 import 'package:kmutnb_project/providers/store_provider.dart';
@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'common/widgets/bottom_bar.dart';
+import 'features/auth/screens/login_screen.dart';
 
 final _http = http.Client();
 
@@ -72,7 +73,7 @@ class _MyAppState extends State<MyApp> {
             ? Provider.of<UserProvider>(context).user.type == 'user'
                 ? const BottomBar()
                 : const AdminScreen()
-            : const AuthScreen());
+            : LoginScreen());
   }
 }
 

@@ -20,7 +20,7 @@ class OrderStoreDetailScreen extends StatefulWidget {
 class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
   int currentStep = 0;
   int indexProduct = 0;
-  bool showContainer = false;
+  bool showContainer = true;
   String storeId = '';
   String productId = '';
   String orderId = '';
@@ -69,67 +69,13 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
               gradient: GlobalVariables.appBarGradient,
             ),
           ),
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Container(
-                  height: 42,
-                  margin: const EdgeInsets.only(left: 15),
-                  child: Material(
-                    borderRadius: BorderRadius.circular(7),
-                    elevation: 1,
-                    child: TextFormField(
-                      onFieldSubmitted: navigateToSearchScreen,
-                      decoration: InputDecoration(
-                        prefixIcon: InkWell(
-                          onTap: () {},
-                          child: const Padding(
-                            padding: EdgeInsets.only(
-                              left: 6,
-                            ),
-                            child: Icon(
-                              Icons.search,
-                              color: Colors.black,
-                              size: 23,
-                            ),
-                          ),
-                        ),
-                        filled: true,
-                        fillColor: Colors.white,
-                        contentPadding: const EdgeInsets.only(top: 10),
-                        border: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(7),
-                          ),
-                          borderSide: BorderSide.none,
-                        ),
-                        enabledBorder: const OutlineInputBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(7),
-                          ),
-                          borderSide: BorderSide(
-                            color: Colors.black38,
-                            width: 1,
-                          ),
-                        ),
-                        hintText: 'Search Product',
-                        hintStyle: const TextStyle(
-                          fontWeight: FontWeight.w500,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              Container(
-                color: Colors.transparent,
-                height: 42,
-                margin: const EdgeInsets.symmetric(horizontal: 10),
-                child: const Icon(Icons.mic, color: Colors.black, size: 25),
-              ),
-            ],
+          title: const Text(
+            'order Details',
+            style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'OpenSans',
+                fontSize: 18,
+                fontWeight: FontWeight.w600),
           ),
         ),
       ),
@@ -187,22 +133,38 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
+                            /*  if (indexProduct == i && showContainer) {
+                              if (widget.order.products.length != 1) {
+                                showContainer = false;
+                              }
+
+                              currentStep =
+                                  widget.order.products[i].statusProductOrder;
+                            } else {
+                              showContainer = true;
+                              indexProduct = i;
+                              currentStep =
+                                  widget.order.products[i].statusProductOrder;
+                            }
+                          });*/
                             if (indexProduct == i && showContainer) {
-                              showContainer = false;
+                              if (widget.order.products.length != 1) {
+                                showContainer = false;
+                              }
+
                               storeId = widget.order.products[i].storeId;
                               productId = widget.order.products[i].id;
                               orderId = widget.order.id;
                               currentStep =
                                   widget.order.products[i].statusProductOrder;
                             } else {
+                              showContainer = true;
+                              indexProduct = i;
                               storeId = widget.order.products[i].storeId;
                               productId = widget.order.products[i].id;
                               orderId = widget.order.id;
                               currentStep =
                                   widget.order.products[i].statusProductOrder;
-
-                              showContainer = true;
-                              indexProduct = i;
                             }
                           });
                         },

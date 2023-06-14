@@ -29,6 +29,9 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController idcardController = TextEditingController();
+  TextEditingController _coverImageController = TextEditingController();
+  TextEditingController _storeImageController = TextEditingController();
+
   final AddStoreService addStoreService = AddStoreService();
   final ProvinceService provinceService = ProvinceService();
   List<File> images = [];

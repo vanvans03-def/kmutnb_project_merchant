@@ -42,11 +42,11 @@ class SingleOrderProduct extends StatelessWidget {
   Widget _content({required Color color, required String date}) {
     return Text(
       date,
-      maxLines: 2,
+      maxLines: 1,
       overflow: TextOverflow.ellipsis,
       style: const TextStyle(
         color: Colors.white,
-        fontSize: 14,
+        fontSize: 10,
       ),
     );
   }

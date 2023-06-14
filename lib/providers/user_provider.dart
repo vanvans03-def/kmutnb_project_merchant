@@ -30,7 +30,7 @@ class UserProvider extends ChangeNotifier {
   }
 
   void clearUserData() {
-    User _user = User(
+    _user = User(
       id: '',
       fullName: '',
       email: '',
@@ -42,5 +42,6 @@ class UserProvider extends ChangeNotifier {
       cart: [],
       image: '',
     );
+    notifyListeners();
   }
 }

@@ -16,6 +16,8 @@ import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
 import 'features/admin/screens/edit_products_screen.dart';
 import 'features/admin/screens/store_category_screen.dart';
+import 'features/auth/screens/login_screen.dart';
+import 'features/auth/screens/signup_screen.dart';
 import 'features/chat/screens/ChatPage.dart';
 import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
@@ -190,10 +192,20 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         builder: (_) => EditProfilePage(),
       );
 
+    case SignUpScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const SignUpScreen(),
+      );
+    case LoginScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const LoginScreen(),
+      );
     default:
       return MaterialPageRoute(
         settings: routeSettings,
-        builder: (_) => const AuthScreen(),
+        builder: (_) => const LoginScreen(),
       );
   }
 }

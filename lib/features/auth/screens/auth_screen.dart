@@ -46,6 +46,32 @@ class _AuthScreenState extends State<AuthScreen> {
     );
   }
 
+  Future<void> signInGoogle() async {
+    final user = await GoogleSignInApi.login();
+    // ignore: use_build_context_synchronously
+    authService.signInUser(
+      context: context,
+      email: user!.email,
+      password: user.id,
+    );
+  }
+
+  Future<void> registerGoogle() async {
+    final user = await GoogleSignInApi.login();
+
+    // ignore: use_build_context_synchronously
+
+    authService.registerUserOauth(
+      context: context,
+      email: user!.email,
+      password: '',
+      name: user.displayName.toString(),
+      id: user.id,
+      image: user.photoUrl.toString(),
+      token: user.serverAuthCode.toString(),
+    );
+  }
+
   void signInUser() async {
     authService.signInUser(
       context: context,
@@ -131,6 +157,24 @@ class _AuthScreenState extends State<AuthScreen> {
                             }
                           },
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomButton(
+                          text: 'Google SignUp',
+                          onTap: () {
+                            registerGoogle();
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomButton(
+                          text: 'Facebook SignUp',
+                          onTap: () {
+                            registerGoogle();
+                          },
+                        ),
                       ],
                     ),
                   ),
@@ -183,6 +227,15 @@ class _AuthScreenState extends State<AuthScreen> {
                             if (_signInFormKey.currentState!.validate()) {
                               signInUser();
                             }
+                          },
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomButton(
+                          text: 'Google LogIn',
+                          onTap: () {
+                            signInGoogle();
                           },
                         ),
                       ],
