@@ -42,16 +42,13 @@ class _AdminScreenState extends State<AdminScreen> {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
+        preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          elevation: 0.0,
+          elevation: 2.0,
           flexibleSpace: Container(
             decoration: BoxDecoration(
-              color: Colors.orange, // เปลี่ยนสีที่นี่
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(50),
-                topRight: Radius.circular(50),
-              ),
+              gradient: GlobalVariables.appBarGradientStore,
+              borderRadius: const BorderRadius.only(),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.2), // เปลี่ยนสีเงาที่นี่
@@ -65,15 +62,32 @@ class _AdminScreenState extends State<AdminScreen> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Container(
-                alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/images/online2.png',
-                  width: 100,
-                  height: 45,
-                  color: Colors.black,
+              if (storeProvider.store.storeImage == '') ...[
+                const CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.white,
+                  child: CircleAvatar(
+                    backgroundColor: Colors.blueGrey,
+                    radius: 22,
+                    child: Icon(
+                      Icons.store,
+                      size: 40,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-              ),
+              ] else ...[
+                CircleAvatar(
+                  backgroundColor: Colors.white,
+                  radius: 25,
+                  child: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      storeProvider.store.storeImage,
+                    ),
+                    radius: 22,
+                  ),
+                ),
+              ],
               Expanded(
                 child: Align(
                   alignment: Alignment.topRight,

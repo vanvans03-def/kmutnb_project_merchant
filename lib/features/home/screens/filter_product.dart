@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../common/widgets/stars.dart';
+import '../../../constants/global_variables.dart';
 import '../../../models/product.dart';
 import '../../product_details/screens/product_deatails_screen.dart';
 
@@ -12,8 +13,16 @@ class FilterProduct extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Filtered Products'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          title: const Text('Filter Product Screen'),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: GlobalVariables.appBarGradient,
+            ),
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: products.length,

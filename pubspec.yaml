@@ -89,6 +89,13 @@ flutter:
       - assets/images/
       - assets/applepay.json
       - assets/gpay.json
+
+
+       
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans.ttf
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

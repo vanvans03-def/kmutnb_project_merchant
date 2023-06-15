@@ -60,7 +60,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 const Upside(
                   imgUrl: "assets/images/login.png",
                 ),
-                const PageTitleBar(title: 'Login to your account'),
+                const PageTitleBar(title: 'เข้าสู่ระบบด้วยบัญชีของคุณ'),
                 Padding(
                   padding: const EdgeInsets.only(top: 320.0),
                   child: Container(
@@ -98,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           height: 20,
                         ),
                         const Text(
-                          "or use your email account",
+                          "หรือใช้บัญชีอีเมลของคุณ",
                           style: TextStyle(
                               color: Colors.grey,
                               fontFamily: 'OpenSans',
@@ -110,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             children: [
                               RoundedInputField(
                                 controller: _emailController,
-                                hintText: "Email",
+                                hintText: "อีเมล",
                                 icon: Icons.email,
                                 validator: (value) {},
                               ),
@@ -120,7 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               //switchListTile(),
                               RoundedButton(
-                                  text: 'LOGIN',
+                                  text: 'เข้าสู่ระบบ',
                                   press: () {
                                     signInUser();
                                   }),
@@ -128,8 +128,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 10,
                               ),
                               UnderPart(
-                                title: "Don't have an account?",
-                                navigatorText: "Register here",
+                                title: "หากยังไม่มีบัญชี ?",
+                                navigatorText: "คลิกที่นี้เพื่อสมัคร",
                                 onTap: () {
                                   Navigator.push(
                                       context,

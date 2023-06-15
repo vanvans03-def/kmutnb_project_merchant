@@ -243,6 +243,35 @@ class AdminService {
     return productList;
   }
 
+  Future<List<Product>> fetchAllProductUser({
+    required BuildContext context,
+    required String storeId,
+  }) async {
+    List<Product> productList = [];
+    try {
+      http.Response res = await http
+          .get(Uri.parse('$uri/api/product/store/$storeId'), headers: {
+        'Content-Type': 'application/json; charset=UTF=8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+            var data = responseJson['data'];
+            for (int i = 0; i < data.length; i++) {
+              productList.add(
+                Product.fromJson(data[i] as Map<String, dynamic>),
+              );
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return productList;
+  }
+
   void deleteProduct({
     required BuildContext context,
     required Product product,

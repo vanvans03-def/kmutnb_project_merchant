@@ -23,6 +23,7 @@ import 'features/chat/screens/chat_history_screen.dart';
 import 'features/chat/screens/chat_screen.dart';
 import 'features/home/screens/home_screen.dart';
 import 'features/myprofile/screens/edit_profile_screen.dart';
+import 'features/myprofile/screens/edite_store_screen.dart';
 import 'features/myprofile/screens/user_profile_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
 import 'features/order_detail/screens/order_store_details.dart';
@@ -47,11 +48,6 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const ProfileScreen(),
-      );
-    case UserProfileScreen.routeName:
-      return MaterialPageRoute(
-        settings: routeSettings,
-        builder: (_) => const UserProfileScreen(),
       );
     case BottomBar.routeName:
       return MaterialPageRoute(
@@ -156,6 +152,7 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
           chatName: args['chatName'],
           receiverId: args['receiverId'],
           senderId: args['senderId'],
+          image: args['image'],
         ),
       );
 
@@ -201,6 +198,11 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
       return MaterialPageRoute(
         settings: routeSettings,
         builder: (_) => const LoginScreen(),
+      );
+    case EditeStoreScreen.routeName:
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => const EditeStoreScreen(),
       );
     default:
       return MaterialPageRoute(

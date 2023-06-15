@@ -4,9 +4,9 @@ class Store {
   final String storeId;
   final String user;
   final String storeName;
-  final List<String> storeImage;
-  final List<String> banner;
-  final List<String> idcardImage;
+  final String storeImage;
+  final String banner;
+  final String idcardImage;
   final String idcardNo;
   final String phone;
   final String storeDescription;
@@ -53,14 +53,14 @@ class Store {
       storeId: map['storeId'] ?? '',
       user: map['user'] ?? '',
       storeName: map['storeName'] ?? '',
-      storeImage: List<String>.from(map['storeImage']),
-      banner: List<String>.from(map['banner']),
+      storeImage: map['storeImage'] ?? '',
+      banner: map['banner'] ?? '',
       phone: map['phone'] ?? '',
       storeDescription: map['storeDescription'] ?? '',
       storeShortDescription: map['storeShortDescription'] ?? '',
       storeStatus: map['storeStatus'] ?? '',
       province: map['province'] ?? '',
-      idcardImage: List<String>.from(map['idcardImage']),
+      idcardImage: map['idcardImage'] ?? '',
       idcardNo: map['idcardNo'] ?? '',
     );
   }
@@ -68,4 +68,35 @@ class Store {
   String toJson() => json.encode(toMap());
 
   factory Store.fromJson(String source) => Store.fromMap(json.decode(source));
+
+  Store copyWith({
+    String? storeId,
+    String? user,
+    String? storeName,
+    String? storeImage,
+    String? banner,
+    String? idcardImage,
+    String? idcardNo,
+    String? phone,
+    String? storeDescription,
+    String? storeShortDescription,
+    String? storeStatus,
+    String? province,
+  }) {
+    return Store(
+      storeId: storeId ?? this.storeId,
+      user: user ?? this.user,
+      storeName: storeName ?? this.storeName,
+      storeImage: storeImage ?? this.storeImage,
+      banner: banner ?? this.banner,
+      idcardImage: idcardImage ?? this.idcardImage,
+      idcardNo: idcardNo ?? this.idcardNo,
+      phone: phone ?? this.phone,
+      storeDescription: storeDescription ?? this.storeDescription,
+      storeShortDescription:
+          storeShortDescription ?? this.storeShortDescription,
+      storeStatus: storeStatus ?? this.storeStatus,
+      province: province ?? this.province,
+    );
+  }
 }

@@ -72,6 +72,46 @@ class _ChatPageState extends State<ChatPage> {
     return chatName;
   }
 
+  Future<String> getChatImage(Chat lastchat) async {
+    String image = '';
+    Store storeData;
+    UserData userdata;
+
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    final userProvider = Provider.of<UserProvider>(context, listen: false);
+    //print(lastchat.receiverId);
+
+    if (storeProvider == null) {
+      userdata = await chatService.getUserByUID(
+          context: context, userUID: lastchat.receiverId);
+      image = userdata.image;
+    } else if (lastchat.receiverId != storeProvider.store.user &&
+        storeProvider.store.user == userProvider.user.id) {
+      userdata = await chatService.getUserByUID(
+          context: context, userUID: lastchat.receiverId);
+      image = userdata.image;
+    } else if (lastchat.receiverId == storeProvider.store.user &&
+        storeProvider.store.user == userProvider.user.id) {
+      userdata = await chatService.getUserByUID(
+          context: context, userUID: lastchat.senderId);
+      image = userdata.image;
+    } else if (lastchat.receiverId != userProvider.user.id &&
+        storeProvider.store.user != userProvider.user.id) {
+      storeData = await chatService.getStoreByUID(
+          context: context, storeUID: lastchat.receiverId);
+      image = storeData.storeImage;
+    } else if (lastchat.receiverId == userProvider.user.id &&
+        storeProvider.store.user != userProvider.user.id) {
+      storeData = await chatService.getStoreByUID(
+          context: context, storeUID: lastchat.senderId);
+      image = storeData.storeImage;
+    } else {
+      image = '';
+    }
+
+    return image;
+  }
+
   String getTime(DateTime time) {
     final outputFormat = DateFormat("dd/MM HH:mm 'น.'");
     final formattedDate = outputFormat.format(time);
@@ -152,7 +192,7 @@ class _ChatPageState extends State<ChatPage> {
             onTap: () async {
               String chatName = '';
               Store storeData;
-
+              String image = '';
               UserData userdata;
               final storeProvider =
                   Provider.of<StoreProvider>(context, listen: false);
@@ -162,6 +202,7 @@ class _ChatPageState extends State<ChatPage> {
                     context: context,
                     userUID: lastChatHistory[index].receiverId);
                 chatName = userdata.fullName;
+                image = userdata.image;
               } else if (lastChatHistory[index].receiverId !=
                       storeProvider.store.user &&
                   storeProvider.store.user == userProvider.user.id) {
@@ -169,12 +210,14 @@ class _ChatPageState extends State<ChatPage> {
                     context: context,
                     userUID: lastChatHistory[index].receiverId);
                 chatName = userdata.fullName;
+                image = userdata.image;
               } else if (lastChatHistory[index].receiverId ==
                       storeProvider.store.user &&
                   storeProvider.store.user == userProvider.user.id) {
                 userdata = await chatService.getUserByUID(
                     context: context, userUID: lastChatHistory[index].senderId);
                 chatName = userdata.fullName;
+                image = userdata.image;
               } else if (lastChatHistory[index].receiverId !=
                       userProvider.user.id &&
                   storeProvider.store.user != userProvider.user.id) {
@@ -182,6 +225,7 @@ class _ChatPageState extends State<ChatPage> {
                     context: context,
                     storeUID: lastChatHistory[index].receiverId);
                 chatName = storeData.storeName;
+                image = storeData.storeImage;
               } else if (lastChatHistory[index].receiverId ==
                       userProvider.user.id &&
                   storeProvider.store.user != userProvider.user.id) {
@@ -189,8 +233,10 @@ class _ChatPageState extends State<ChatPage> {
                     context: context,
                     storeUID: lastChatHistory[index].senderId);
                 chatName = storeData.storeName;
+                image = storeData.storeImage;
               } else {
                 chatName = 'Name not found';
+                image = '';
               }
 
               // ignore: use_build_context_synchronously
@@ -204,6 +250,7 @@ class _ChatPageState extends State<ChatPage> {
                       : lastChatHistory[index].receiverId,
                   'chatName': chatName,
                   'senderId': userProvider.user.id,
+                  'image': image,
                 },
               );
               if (result == true) {
@@ -213,15 +260,39 @@ class _ChatPageState extends State<ChatPage> {
             child: Column(
               children: [
                 ListTile(
-                  leading: CircleAvatar(
-                    radius: 30,
-                    backgroundColor: Colors.blueGrey,
-                    child: Image.asset(
-                      "assets/images/user.png",
-                      color: Colors.white,
-                      height: 36,
-                      width: 36,
-                    ),
+                  leading: FutureBuilder<String>(
+                    future: getChatImage(lastChatHistory[index]),
+                    builder:
+                        (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        // กรณีกำลังโหลดข้อมูล
+                        return const CircularProgressIndicator();
+                      } else if (snapshot.hasError) {
+                        // กรณีเกิดข้อผิดพลาดในการโหลดข้อมูล
+                        return Text('Error: ${snapshot.error}');
+                      } else {
+                        final imageUrl = snapshot.data;
+                        return imageUrl == ""
+                            ? CircleAvatar(
+                                radius: 30,
+                                backgroundColor: Colors.blueGrey,
+                                child: Image.asset(
+                                  "assets/images/user.png",
+                                  color: Colors.white,
+                                  height: 36,
+                                  width: 36,
+                                ),
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Colors.teal,
+                                radius: 25,
+                                child: CircleAvatar(
+                                  backgroundImage: NetworkImage(imageUrl!),
+                                  radius: 22,
+                                ),
+                              );
+                      }
+                    },
                   ),
                   title: FutureBuilder<String>(
                     future: getChatName(lastChatHistory[index]),

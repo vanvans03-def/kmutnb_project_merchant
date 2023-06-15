@@ -32,7 +32,7 @@ class _RoundedPasswordFieldState extends State<RoundedPasswordField> {
             Icons.lock,
             color: kPrimaryColor,
           ),
-          hintText: "Password",
+          hintText: "รหัสผ่าน",
           hintStyle: const TextStyle(fontFamily: 'OpenSans'),
           suffixIcon: GestureDetector(
             onTap: () {

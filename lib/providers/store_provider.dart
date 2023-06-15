@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 
 class StoreProvider extends ChangeNotifier {
   Store _store = Store(
-      user: '',
-      banner: [],
-      phone: '',
-      storeDescription: '',
-      storeId: '',
-      storeImage: [],
-      storeName: '',
-      storeStatus: '',
-      storeShortDescription: '',
-      province: '',
-      idcardImage: [],
-      idcardNo: '');
+    user: '',
+    banner: '',
+    phone: '',
+    storeDescription: '',
+    storeId: '',
+    storeImage: '',
+    storeName: '',
+    storeStatus: '',
+    storeShortDescription: '',
+    province: '',
+    idcardImage: '',
+    idcardNo: '',
+  );
 
   Store get store => _store;
 

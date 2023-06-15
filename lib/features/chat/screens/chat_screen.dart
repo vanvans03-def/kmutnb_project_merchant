@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kmutnb_project/features/auth/widgets/constants.dart';
 import 'package:kmutnb_project/features/chat/services/chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
+import '../../../constants/global_variables.dart';
 import '../../../models/chat.dart';
 
 class ChatScreen extends StatefulWidget {
   final String receiverId;
   final String chatName;
   final String senderId;
+  final String image;
   static const String routeName = '/chat';
 
   const ChatScreen({
@@ -15,6 +18,7 @@ class ChatScreen extends StatefulWidget {
     required this.receiverId,
     required this.senderId,
     required this.chatName,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -23,8 +27,7 @@ class ChatScreen extends StatefulWidget {
 
 class _ChatScreenState extends State<ChatScreen> {
   late IO.Socket socket;
-  double? latitude;
-  double? longtitude;
+
   bool showDate = false; // Variable to track the display of the date
 
   TextEditingController messageController = TextEditingController();
@@ -99,7 +102,49 @@ class _ChatScreenState extends State<ChatScreen> {
             Navigator.pop(context, true);
           },
         ),
-        title: Text('Chat Screen - ${widget.chatName}'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: GlobalVariables.appBarGradient,
+          ),
+        ),
+        title: Row(
+          children: [
+            if (widget.image == '') ...[
+              const CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.white,
+                child: CircleAvatar(
+                  backgroundColor: Colors.blueGrey,
+                  radius: 22,
+                  child: Icon(
+                    Icons.person,
+                    size: 40,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ] else ...[
+              CircleAvatar(
+                backgroundColor: Colors.teal,
+                radius: 25,
+                child: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    widget.image,
+                  ),
+                  radius: 22,
+                ),
+              ),
+            ],
+            const SizedBox(
+              width: 15,
+            ),
+            Text(
+              ' ${widget.chatName}',
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ],
+        ),
       ),
       body: Column(
         children: [
@@ -150,7 +195,7 @@ class _ChatScreenState extends State<ChatScreen> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               color: (isSentMessage
-                                  ? Colors.orange[200]
+                                  ? GlobalVariables.kPrimaryColorsecond
                                   : Colors.grey.shade200),
                             ),
                             padding: const EdgeInsets.all(12),

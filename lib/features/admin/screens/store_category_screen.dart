@@ -56,7 +56,7 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Keep Shopping for $categoryName'),
+          title: Text('View Product for $categoryName'),
         ),
         body: productList == null
             ? const Loader()

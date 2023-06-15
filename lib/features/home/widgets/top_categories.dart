@@ -37,7 +37,7 @@ class _TopCategoriesState extends State<TopCategories> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 55,
       child: ListView.builder(
         itemCount: categories.length,
         itemExtent: 75,
@@ -55,7 +55,7 @@ class _TopCategoriesState extends State<TopCategories> {
                     child: Image.network(
                       categories[index].categoryImage,
                       fit: BoxFit.cover,
-                      height: 40,
+                      height: 38,
                       width: 40,
                     ),
                   ),

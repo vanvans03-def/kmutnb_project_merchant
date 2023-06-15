@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
+import 'package:kmutnb_project/features/auth/widgets/constants.dart';
 import 'package:kmutnb_project/models/productprice.dart';
 
 import '../../../common/widgets/loader.dart';
@@ -68,9 +69,11 @@ class _DealOfDayState extends State<DealOfDay> {
           alignment: Alignment.topLeft,
           padding: const EdgeInsets.only(left: 10, top: 15),
           child: const Text(
-            'Deal of the day',
+            'สินค้าลดสูงสุดประจำวันนี้',
             style: TextStyle(
               fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: kPrimaryColor,
             ),
           ),
         ),
@@ -133,7 +136,7 @@ class _DealOfDayState extends State<DealOfDay> {
                             ratings: 0,
                             productList: productList![i],
                           )
-                        : Loader(),
+                        : const Loader(),
                   ),
                 ),
             ],
@@ -144,12 +147,6 @@ class _DealOfDayState extends State<DealOfDay> {
             vertical: 15,
           ).copyWith(left: 15),
           alignment: Alignment.topLeft,
-          child: Text(
-            'See all deals',
-            style: TextStyle(
-              color: Colors.cyan[800],
-            ),
-          ),
         ),
       ],
     );

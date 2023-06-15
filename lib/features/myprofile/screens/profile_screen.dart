@@ -6,6 +6,7 @@ import 'package:kmutnb_project/features/myprofile/screens/edit_profile_screen.da
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
 import '../../account/screens/account_screen.dart';
+import 'edite_store_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const String routeName = '/user-profile-screen';
@@ -102,7 +103,7 @@ class _ProfileScreen extends State<ProfileScreen> {
                   final value = await Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => EditProfilePage(),
+                      builder: (context) => const EditeStoreScreen(),
                     ),
                   );
                   if (value != null) {

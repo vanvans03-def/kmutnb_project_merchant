@@ -4,7 +4,7 @@ class UserData {
   final String userId;
   final String fullName;
   final String email;
-
+  final String image;
   final String type;
   final String phoneNumber;
   final String address;
@@ -16,6 +16,7 @@ class UserData {
     required this.type,
     required this.phoneNumber,
     required this.address,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -26,11 +27,13 @@ class UserData {
       'type': type,
       'address': address,
       'phoneNumber': phoneNumber,
+      'image': image,
     };
   }
 
   factory UserData.fromMap(Map<String, dynamic> map) {
     return UserData(
+      image: map['image'] ?? '',
       userId: map['userId'] ?? '',
       fullName: map['fullName'] ?? '',
       email: map['email'] ?? '',

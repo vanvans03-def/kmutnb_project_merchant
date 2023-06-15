@@ -3,6 +3,7 @@ import 'package:image_card/image_card.dart';
 import 'package:kmutnb_project/common/widgets/loader.dart';
 import 'package:kmutnb_project/features/address/services/address_services.dart';
 import 'package:kmutnb_project/features/admin/services/admin_service.dart';
+import 'package:kmutnb_project/features/home/screens/store_product_screen.dart';
 import 'package:kmutnb_project/features/home/services/home_service.dart';
 import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
 
@@ -64,7 +65,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
     categoryName = category.categoryName;
     List<Product> products = await homeService.fetchAllProduct(context);
     storeList = await homeService.fetchAllStore(context);
-    print(categoryId);
+
     // Filter the products that match the desired category ID
     productList =
         products.where((product) => product.category == categoryId).toList();
@@ -168,7 +169,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                   ),
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Keep Shopping for $categoryName',
+                    'สินค้าในหมวดหมู่ $categoryName',
                     style: const TextStyle(
                       fontSize: 20,
                     ),
@@ -202,22 +203,64 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                         return const SizedBox.shrink();
                       }
 
-                      // Sort products in store by avgRatingAllProduct in descending order
-
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              Container(
-                                padding: const EdgeInsets.only(
-                                    left: 15, top: 10, bottom: 10),
-                                child: Text(
-                                  'Store: ${store.storeName}',
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => StoreProductScreen(
+                                        store: store,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: Row(
+                                  children: [
+                                    if (store.storeImage == "") ...[
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, top: 10, bottom: 10),
+                                        child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundColor: Colors.blueGrey,
+                                          child: Image.asset(
+                                            "assets/images/online2.png",
+                                            color: Color.fromRGBO(
+                                                255, 255, 255, 1),
+                                            height: 25,
+                                            width: 25,
+                                          ),
+                                        ),
+                                      ),
+                                    ] else ...[
+                                      Container(
+                                        padding: const EdgeInsets.only(
+                                            left: 15, top: 10, bottom: 10),
+                                        child: CircleAvatar(
+                                          radius: 20,
+                                          backgroundImage: NetworkImage(
+                                            store.storeImage,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                    Container(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, top: 10, bottom: 10),
+                                      child: Text(
+                                        'ร้าน: ${store.storeName}',
+                                        style: const TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                               Container(

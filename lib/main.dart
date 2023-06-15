@@ -58,9 +58,10 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         title: 'KMUTNB Project',
         theme: ThemeData(
+          fontFamily: 'OpenSans',
           scaffoldBackgroundColor: GlobalVariables.backgroundColor,
           colorScheme: const ColorScheme.light(
-            primary: GlobalVariables.secondaryColor,
+            primary: GlobalVariables.kPrimaryColor,
           ),
           appBarTheme: const AppBarTheme(
               elevation: 0,

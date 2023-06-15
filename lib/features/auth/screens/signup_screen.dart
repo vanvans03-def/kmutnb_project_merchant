@@ -67,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const Upside(
                   imgUrl: "assets/images/register.png",
                 ),
-                const PageTitleBar(title: 'Create New Account'),
+                const PageTitleBar(title: 'สร้างบัญชีใหม่'),
                 Padding(
                   padding: const EdgeInsets.only(top: 320.0),
                   child: Container(
@@ -105,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           height: 20,
                         ),
                         const Text(
-                          "or use your email account",
+                          "หรือสร้างบัญชีใหม่ด้วยอีเมล",
                           style: TextStyle(
                               color: Colors.grey,
                               fontFamily: 'OpenSans',
@@ -117,13 +117,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             children: [
                               RoundedInputField(
                                 controller: _emailController,
-                                hintText: "Email",
+                                hintText: "อีเมล",
                                 icon: Icons.email,
                                 validator: (value) {},
                               ),
                               RoundedInputField(
                                 controller: _nameController,
-                                hintText: "Full Name",
+                                hintText: "ชื่อ นามสกุล",
                                 icon: Icons.person,
                                 validator: (value) {},
                               ),
@@ -132,7 +132,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 validator: (value) {},
                               ),
                               RoundedButton(
-                                  text: 'REGISTER',
+                                  text: 'สร้างบัญชี',
                                   press: () {
                                     signUpUser();
                                   }),
@@ -140,8 +140,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 height: 10,
                               ),
                               UnderPart(
-                                title: "Already have an account?",
-                                navigatorText: "Login here",
+                                title: "พร้อมใช้งานแล้วหรือยัง?",
+                                navigatorText: "เข้าใช้งานที่นี้",
                                 onTap: () {
                                   Navigator.push(
                                       context,

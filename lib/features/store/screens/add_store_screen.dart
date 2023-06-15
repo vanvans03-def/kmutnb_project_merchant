@@ -34,7 +34,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
 
   final AddStoreService addStoreService = AddStoreService();
   final ProvinceService provinceService = ProvinceService();
-  List<File> images = [];
+  File? images;
   final _addProductFormKey = GlobalKey<FormState>();
   File? _profileImage;
   File? _coverImage;
@@ -80,13 +80,14 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   }
 
   void sellProduct() {
-    if (_addProductFormKey.currentState!.validate() && images.isNotEmpty) {
+    if (_addProductFormKey.currentState!.validate()) {
+      //image is not emopty
       addStoreService.createStore(
         context: context,
         storetName_: storeNameController.text,
         storetDescription_: descriptionController.text,
-        storeImage_: images,
-        banner_: images,
+        storeImage_: images!,
+        banner_: images!,
         phone_: phoneController.text,
         storeShortDescription_: '',
         storeStatus_: '',
@@ -108,22 +109,10 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   }
 
   void selectImages() async {
-    var res = await pickImage();
+    var res = await pickOneImage();
     setState(() {
       images = res;
     });
-  }
-
-  Future<void> pickImages() async {
-    final picker = ImagePicker();
-    // ignore: deprecated_member_use
-    final pickedFile = await picker.getImage(source: ImageSource.camera);
-
-    if (pickedFile != null) {
-      setState(() {
-        images.add(File(pickedFile.path));
-      });
-    }
   }
 
   Future<void> _pickProfileImage() async {
@@ -267,6 +256,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                     ),
                   ),
                   const SizedBox(height: 5),
+                  /*
                   images.isNotEmpty
                       ? CarouselSlider(
                           items: images.map(
@@ -317,7 +307,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                               ),
                             ),
                           ),
-                        ),
+                        ),*/
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(

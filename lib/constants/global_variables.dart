@@ -6,17 +6,28 @@ String uri = 'http://192.168.1.159:4000';
 
 class GlobalVariables {
   // COLORS
+  static const kPrimaryColor = Color(0xfff1bb274);
+  static const kPrimaryColorsecond = Color.fromARGB(255, 69, 238, 168);
+  static const kPrimaryLightColor = Color(0xfffeeeee4);
+  static const storePrimaryColor = Color.fromRGBO(252, 187, 89, 1);
   static const appBarGradient = LinearGradient(
     colors: [
-      Color.fromRGBO(236, 143, 43, 1),
-      Color.fromRGBO(236, 175, 63, 1),
+      kPrimaryColor,
+      kPrimaryColorsecond,
+    ],
+    stops: [0.5, 1.0],
+  );
+  static const appBarGradientStore = LinearGradient(
+    colors: [
+      secondaryColor,
+      secondaryColor,
     ],
     stops: [0.5, 1.0],
   );
   static const secondaryColor = Color.fromRGBO(255, 153, 0, 1);
   static const backgroundColor = Colors.white;
   static const Color greyBackgroundCOlor = Color(0xffebecee);
-  static var selectedNavBarColor = Color.fromRGBO(248, 180, 78, 1);
+  static var selectedNavBarColor = Color.fromARGB(255, 69, 238, 168);
   static const unselectedNavBarColor = Colors.black87;
 
   // STATIC IMAGES

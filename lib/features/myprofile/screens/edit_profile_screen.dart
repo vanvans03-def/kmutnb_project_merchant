@@ -6,6 +6,7 @@ import 'package:kmutnb_project/constants/utills.dart';
 import 'package:kmutnb_project/features/myprofile/screens/user_profile_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../../constants/global_variables.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
 import '../services/profile_service.dart';
@@ -89,8 +90,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     final userProvider = Provider.of<UserProvider>(context, listen: false);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Edit Profile'),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(60),
+        child: AppBar(
+          title: const Text('Edite Profile Screen'),
+          flexibleSpace: Container(
+            decoration: const BoxDecoration(
+              gradient: GlobalVariables.appBarGradient,
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
