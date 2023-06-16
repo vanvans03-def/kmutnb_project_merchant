@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:kmutnb_project/features/auth/widgets/constants.dart';
-import 'package:kmutnb_project/features/home/screens/filter_product.dart';
-import 'package:kmutnb_project/features/home/services/home_service.dart';
-import 'package:kmutnb_project/features/home/widgets/dropdown_widget.dart';
-import 'package:kmutnb_project/features/home/widgets/map_screen.dart';
-import 'package:kmutnb_project/features/store/services/add_store_service.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/features/home/screens/filter_product.dart';
+import 'package:kmutnb_project_merchant/features/home/services/home_service.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/dropdown_widget.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/map_screen.dart';
+import 'package:kmutnb_project_merchant/features/store/services/add_store_service.dart';
 
 import '../../../models/product.dart';
 import '../../../models/province.dart';

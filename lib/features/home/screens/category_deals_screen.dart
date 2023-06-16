@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
-import 'package:kmutnb_project/common/widgets/loader.dart';
-import 'package:kmutnb_project/features/address/services/address_services.dart';
-import 'package:kmutnb_project/features/admin/services/admin_service.dart';
-import 'package:kmutnb_project/features/home/screens/store_product_screen.dart';
-import 'package:kmutnb_project/features/home/services/home_service.dart';
-import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
+import 'package:kmutnb_project_merchant/common/widgets/loader.dart';
+import 'package:kmutnb_project_merchant/features/address/services/address_services.dart';
+import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
+import 'package:kmutnb_project_merchant/features/home/screens/store_product_screen.dart';
+import 'package:kmutnb_project_merchant/features/home/services/home_service.dart';
+import 'package:kmutnb_project_merchant/features/product_details/screens/product_deatails_screen.dart';
 
 import 'package:provider/provider.dart';
 
@@ -282,6 +282,7 @@ class _CategoryDealsScreenState extends State<CategoryDealsScreen> {
                                         'receiverId': store.user,
                                         'chatName': store.storeName,
                                         'senderId': userProvider.user.id,
+                                        'image': store.storeImage,
                                       },
                                     );
                                   },

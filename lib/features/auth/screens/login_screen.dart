@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/auth/components/under_part.dart';
-import 'package:kmutnb_project/features/auth/screens/signup_screen.dart';
-import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project_merchant/features/auth/components/under_part.dart';
+import 'package:kmutnb_project_merchant/features/auth/screens/signup_screen.dart';
+import 'package:kmutnb_project_merchant/features/auth/services/auth_service.dart';
 import '../components/components.dart';
 import '../widgets/constants.dart';
 import '../widgets/widgets.dart';
@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Stack(
               children: [
                 const Upside(
-                  imgUrl: "assets/images/login.png",
+                  imgUrl: "assets/images/storeImage.png",
                 ),
                 const PageTitleBar(title: 'เข้าสู่ระบบด้วยบัญชีของคุณ'),
                 Padding(

@@ -1,4 +1,4 @@
-import 'package:kmutnb_project/models/store.dart';
+import 'package:kmutnb_project_merchant/models/store.dart';
 import 'package:flutter/material.dart';
 
 class StoreProvider extends ChangeNotifier {

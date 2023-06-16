@@ -4,9 +4,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import 'package:kmutnb_project/features/chat/screens/chat_screen.dart';
-import 'package:kmutnb_project/features/chat/services/chat_service.dart';
-import 'package:kmutnb_project/models/store.dart';
+import 'package:kmutnb_project_merchant/features/chat/screens/chat_screen.dart';
+import 'package:kmutnb_project_merchant/features/chat/services/chat_service.dart';
+import 'package:kmutnb_project_merchant/models/store.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/chat.dart';

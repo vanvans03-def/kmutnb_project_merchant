@@ -3,14 +3,14 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/features/admin/screens/admin_screen.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/admin_screen.dart';
 
-import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project_merchant/features/auth/services/auth_service.dart';
 
-import 'package:kmutnb_project/providers/store_provider.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
-import 'package:kmutnb_project/router.dart';
+import 'package:kmutnb_project_merchant/providers/store_provider.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/router.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 

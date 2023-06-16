@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/myprofile/services/profile_service.dart';
+import 'package:kmutnb_project_merchant/features/myprofile/services/profile_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/custom_textfield.dart';

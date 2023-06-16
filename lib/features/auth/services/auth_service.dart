@@ -3,14 +3,14 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:kmutnb_project/constants/error_handling.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/constants/utills.dart';
-import 'package:kmutnb_project/features/admin/screens/admin_screen.dart';
+import 'package:kmutnb_project_merchant/constants/error_handling.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/constants/utills.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/admin_screen.dart';
 
-import 'package:kmutnb_project/models/user.dart';
+import 'package:kmutnb_project_merchant/models/user.dart';
 import 'package:http/http.dart' as http;
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

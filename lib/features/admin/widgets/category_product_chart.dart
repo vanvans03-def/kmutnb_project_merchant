@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
-import 'package:kmutnb_project/features/admin/model/sales.dart';
+import 'package:kmutnb_project_merchant/features/admin/model/sales.dart';
 import 'package:charts_flutter_new/flutter.dart' as charts;
 
 class CategoryProductsChart extends StatefulWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/product_details/screens/product_deatails_screen.dart';
-import 'package:kmutnb_project/features/search/widgets/searched_product.dart';
+import 'package:kmutnb_project_merchant/features/product_details/screens/product_deatails_screen.dart';
+import 'package:kmutnb_project_merchant/features/search/widgets/searched_product.dart';
 
 import '../../../common/widgets/loader.dart';
 import '../../../constants/global_variables.dart';

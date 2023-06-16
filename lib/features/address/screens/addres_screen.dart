@@ -3,8 +3,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/utills.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/constants/utills.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:pay/pay.dart';
 import 'package:provider/provider.dart';
 
@@ -60,18 +61,62 @@ class _AddressScreenState extends State<AddressScreen> {
       showDialog(
         context: context,
         builder: (BuildContext context) => AlertDialog(
-          title: const Text('QR Code'),
+          title: Text(
+            'QR Code ทั้งหมด ${widget.totalAmount} ฿',
+            style: const TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              color: kPrimaryColor,
+            ),
+          ),
           content: Image.memory(
             base64Decode(base64Image),
             width: 200,
             height: 200,
           ),
           actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
+            Column(
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () {
+                    // เมื่อคลิกปุ่ม
+                    pickOneImage();
+                  },
+                  icon: Icon(Icons.add), // ไอคอนที่แสดงในปุ่ม
+                  label: Text('เพิ่มรูปภาพ'), // ข้อความที่แสดงในปุ่ม
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('ยืนยัน'),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text(
+                            'ออก',
+                            style: TextStyle(
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
@@ -129,6 +174,9 @@ class _AddressScreenState extends State<AddressScreen> {
               gradient: GlobalVariables.appBarGradient,
             ),
           ),
+          title: Text(
+            'เพิ่มที่อยู่และชำระสินค้า',
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -156,8 +204,8 @@ class _AddressScreenState extends State<AddressScreen> {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      'OR',
-                      style: TextStyle(fontSize: 16),
+                      'หรืออัปเดตที่อยู่ใหม่',
+                      style: TextStyle(fontSize: 14),
                     ),
                     const SizedBox(height: 20),
                   ],
@@ -226,7 +274,7 @@ class _AddressScreenState extends State<AddressScreen> {
               ),
               const SizedBox(height: 5),
               const Text(
-                'OR',
+                'หรือ',
                 style: TextStyle(fontSize: 16),
               ),
               const SizedBox(height: 5),

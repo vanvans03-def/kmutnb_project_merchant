@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/home/widgets/address_box.dart';
-import 'package:kmutnb_project/features/home/widgets/carousel_image.dart';
-import 'package:kmutnb_project/features/home/widgets/deal_of_day.dart';
-import 'package:kmutnb_project/features/home/widgets/top_categories.dart';
-import 'package:kmutnb_project/features/search/screens/search_screen.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/address_box.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/carousel_image.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/deal_of_day.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/top_categories.dart';
+import 'package:kmutnb_project_merchant/features/search/screens/search_screen.dart';
 
 import '../../../constants/global_variables.dart';
 

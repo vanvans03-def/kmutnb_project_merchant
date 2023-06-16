@@ -2,11 +2,11 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/error_handling.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/constants/utills.dart';
+import 'package:kmutnb_project_merchant/constants/error_handling.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/constants/utills.dart';
 import 'package:http/http.dart' as http;
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 
 import 'package:provider/provider.dart';
 

@@ -6,8 +6,8 @@ String uri = 'http://192.168.1.159:4000';
 
 class GlobalVariables {
   // COLORS
-  static const kPrimaryColor = Color(0xfff1bb274);
-  static const kPrimaryColorsecond = Color.fromARGB(255, 69, 238, 168);
+  static const kPrimaryColor = Color.fromRGBO(249, 167, 45, 1);
+  static const kPrimaryColorsecond = Color.fromRGBO(251, 179, 71, 1);
   static const kPrimaryLightColor = Color(0xfffeeeee4);
   static const storePrimaryColor = Color.fromRGBO(252, 187, 89, 1);
   static const appBarGradient = LinearGradient(
@@ -19,8 +19,8 @@ class GlobalVariables {
   );
   static const appBarGradientStore = LinearGradient(
     colors: [
-      secondaryColor,
-      secondaryColor,
+      kPrimaryColor,
+      kPrimaryColorsecond,
     ],
     stops: [0.5, 1.0],
   );

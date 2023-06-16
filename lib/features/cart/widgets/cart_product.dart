@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/product.dart';

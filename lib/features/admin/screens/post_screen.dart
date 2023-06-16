@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/common/widgets/loader.dart';
-import 'package:kmutnb_project/features/account/widgets/single_product.dart';
-import 'package:kmutnb_project/features/admin/screens/add_products_screen.dart';
-import 'package:kmutnb_project/features/admin/screens/edit_products_screen.dart';
-import 'package:kmutnb_project/features/admin/screens/store_category_screen.dart';
-import 'package:kmutnb_project/features/admin/services/admin_service.dart';
+import 'package:kmutnb_project_merchant/common/widgets/loader.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/single_product.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/add_products_screen.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/edit_products_screen.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/store_category_screen.dart';
+import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
 import 'package:provider/provider.dart';
 
 import '../../../models/category.dart';

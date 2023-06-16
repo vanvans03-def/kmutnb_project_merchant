@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/common/widgets/customer_button.dart';
-import 'package:kmutnb_project/features/address/screens/addres_screen.dart';
-import 'package:kmutnb_project/features/cart/widgets/cart_subtotal.dart';
-import 'package:kmutnb_project/features/home/widgets/address_box.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
+import 'package:kmutnb_project_merchant/features/address/screens/addres_screen.dart';
+import 'package:kmutnb_project_merchant/features/cart/widgets/cart_subtotal.dart';
+import 'package:kmutnb_project_merchant/features/home/widgets/address_box.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
@@ -142,13 +142,15 @@ class _CartScreenState extends State<CartScreen> {
               padding: const EdgeInsets.all(8.0),
               child: user.cart.length == 0
                   ? CustomButton(
-                      text: 'Proceed to Buy (${user.cart.length})',
+                      text:
+                          'ดำเนินการต่อโดยสินค้า (${user.cart.length}) รายการ',
                       onTap: () => showEmptyCartDialog(
                           context), // ไม่มีการกำหนด onTap เพื่อให้ปุ่มไม่สามารถกดได้
                       color: Colors.grey, // สีปุ่มที่ไม่สามารถกดได้
                     )
                   : CustomButton(
-                      text: 'Proceed to Buy (${user.cart.length})',
+                      text:
+                          'ดำเนินการต่อโดยสินค้า (${user.cart.length}) รายการ',
                       onTap: () => navigateToAddress(sum),
                       color: Colors.yellow[600],
                     ),

@@ -1,6 +1,6 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, unused_local_variable
 
-import 'package:kmutnb_project/models/user.dart';
+import 'package:kmutnb_project_merchant/models/user.dart';
 import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {

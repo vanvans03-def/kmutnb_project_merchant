@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart' hide Badge;
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/features/account/screens/account_screen.dart';
-import 'package:kmutnb_project/features/cart/screens/cart_screen.dart';
-import 'package:kmutnb_project/features/home/screens/home_screen.dart';
-import 'package:kmutnb_project/features/myprofile/screens/user_profile_screen.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/features/account/screens/account_screen.dart';
+import 'package:kmutnb_project_merchant/features/cart/screens/cart_screen.dart';
+import 'package:kmutnb_project_merchant/features/home/screens/home_screen.dart';
+import 'package:kmutnb_project_merchant/features/myprofile/screens/user_profile_screen.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:badges/badges.dart' as badge;
 

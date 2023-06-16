@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
 
 class RoundedButton extends StatelessWidget {
   const RoundedButton(

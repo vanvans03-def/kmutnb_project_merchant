@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/common/widgets/loader.dart';
-import 'package:kmutnb_project/features/account/widgets/single_product.dart';
-import 'package:kmutnb_project/features/admin/screens/add_products_screen.dart';
-import 'package:kmutnb_project/features/admin/screens/edit_products_screen.dart';
-import 'package:kmutnb_project/models/category.dart';
-import 'package:kmutnb_project/models/product.dart';
+import 'package:kmutnb_project_merchant/common/widgets/loader.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/single_product.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/add_products_screen.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/edit_products_screen.dart';
+import 'package:kmutnb_project_merchant/models/category.dart';
+import 'package:kmutnb_project_merchant/models/product.dart';
 import '../../address/services/address_services.dart';
 import '../../home/services/home_service.dart';
 

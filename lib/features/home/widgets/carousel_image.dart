@@ -1,6 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
 
 class CarouseImage extends StatelessWidget {
   const CarouseImage({super.key});

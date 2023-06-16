@@ -91,7 +91,7 @@ class FilterProduct extends StatelessWidget {
                             width: 200,
                             padding: const EdgeInsets.only(left: 10),
                             child: const Text(
-                              'Eligible for FREE Shipping',
+                              'มีสินค้าพร้อมส่ง',
                             ),
                           ),
                           Container(

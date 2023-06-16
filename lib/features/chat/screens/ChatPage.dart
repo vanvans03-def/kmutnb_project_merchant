@@ -2,10 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kmutnb_project/features/chat/screens/chat_screen.dart';
-import 'package:kmutnb_project/features/chat/services/chat_service.dart';
-import 'package:kmutnb_project/models/store.dart';
+import 'package:kmutnb_project_merchant/features/chat/screens/chat_screen.dart';
+import 'package:kmutnb_project_merchant/features/chat/services/chat_service.dart';
+import 'package:kmutnb_project_merchant/models/store.dart';
 import 'package:provider/provider.dart';
+import '../../../constants/global_variables.dart';
 import '../../../models/chat.dart';
 import '../../../models/userData.dart';
 import '../../../providers/store_provider.dart';
@@ -183,7 +184,12 @@ class _ChatPageState extends State<ChatPage> {
             Navigator.pop(context);
           },
         ),
-        title: const Text('Chat History Screens'),
+        title: const Text('ประวัติการแชท'),
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: GlobalVariables.appBarGradient,
+          ),
+        ),
       ),
       body: ListView.builder(
         itemCount: lastChatHistory.length,
@@ -274,13 +280,13 @@ class _ChatPageState extends State<ChatPage> {
                         final imageUrl = snapshot.data;
                         return imageUrl == ""
                             ? CircleAvatar(
-                                radius: 30,
+                                radius: 25,
                                 backgroundColor: Colors.blueGrey,
                                 child: Image.asset(
                                   "assets/images/user.png",
                                   color: Colors.white,
-                                  height: 36,
-                                  width: 36,
+                                  height: 30,
+                                  width: 30,
                                 ),
                               )
                             : CircleAvatar(
@@ -333,7 +339,7 @@ class _ChatPageState extends State<ChatPage> {
                       Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          getTime(lastChatHistory[index].timestamp),
+                          getTime(lastChatHistory[index].localTimestamp),
                           style: const TextStyle(
                             fontSize: 10,
                           ),

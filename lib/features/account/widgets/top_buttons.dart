@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/account/services/account_service.dart';
-import 'package:kmutnb_project/features/account/widgets/account_button.dart';
+import 'package:kmutnb_project_merchant/features/account/services/account_service.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/account_button.dart';
 
 class TopButtons extends StatefulWidget {
   const TopButtons({super.key});
@@ -17,28 +17,16 @@ class _TopButtonsState extends State<TopButtons> {
         Row(
           children: [
             AccountButtons(
-              text: 'Your Orders',
+              text: 'ออเดอร์ของคุณ',
               onTap: () {},
             ),
             AccountButtons(
-              text: 'Turn Seller',
+              text: 'คืนสินค้า',
               onTap: () {},
             ),
           ],
         ),
         const SizedBox(height: 10),
-        Row(
-          children: [
-            AccountButtons(
-              text: 'Log Out',
-              onTap: () => AccountServices().logOut(context),
-            ),
-            AccountButtons(
-              text: 'Your Wish List',
-              onTap: () {},
-            ),
-          ],
-        )
       ],
     );
   }

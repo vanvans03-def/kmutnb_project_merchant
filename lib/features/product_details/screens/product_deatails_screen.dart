@@ -1,9 +1,10 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kmutnb_project/common/widgets/customer_button.dart';
-import 'package:kmutnb_project/features/product_details/services/product_details_service.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/features/product_details/services/product_details_service.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../common/widgets/stars.dart';
@@ -148,29 +149,34 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  widget.product.id!,
-                ),
-                Stars(
-                  rating: avgRating,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white70,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
                 ),
               ],
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 20,
-              horizontal: 10,
-            ),
-            child: Text(
-              widget.product.productName,
-              style: const TextStyle(
-                fontSize: 15,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    widget.product.productName,
+                    style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: kPrimaryColor),
+                  ),
+                  Stars(
+                    rating: avgRating,
+                  ),
+                ],
               ),
             ),
           ),
@@ -237,7 +243,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: CustomButton(
-              text: 'Buy Now',
+              text: 'ซื้อสินค้า',
               onTap: addToCartAndGo,
             ),
           ),
@@ -245,7 +251,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           Padding(
             padding: const EdgeInsets.all(10),
             child: CustomButton(
-              text: 'Add to Cart',
+              text: 'กดใส่ตระกร้า',
               onTap: addToCart,
               color: const Color.fromRGBO(254, 216, 19, 1),
             ),
@@ -258,9 +264,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(
-              'Rate The Product',
+              'คะแนนสินค้า',
               style: TextStyle(
-                fontSize: 22,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
               ),
             ),

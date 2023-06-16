@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/models/product.dart';
+import 'package:kmutnb_project_merchant/models/product.dart';
 
 import '../../product_details/services/product_details_service.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class CartSubtotal extends StatelessWidget {
@@ -20,7 +20,7 @@ class CartSubtotal extends StatelessWidget {
       child: Row(
         children: [
           const Text(
-            'Subtotal ',
+            'ราคารวมทั้งหมด ',
             style: TextStyle(
               fontSize: 20,
             ),

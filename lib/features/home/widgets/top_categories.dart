@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/home/screens/category_deals_screen.dart';
+import 'package:kmutnb_project_merchant/features/home/screens/category_deals_screen.dart';
 import '../../../models/category.dart';
 import '../services/home_service.dart';
 

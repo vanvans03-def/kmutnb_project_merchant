@@ -2,14 +2,14 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:cloudinary_public/cloudinary_public.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/error_handling.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/constants/utills.dart';
-import 'package:kmutnb_project/features/auth/services/auth_service.dart';
-import 'package:kmutnb_project/models/product.dart';
+import 'package:kmutnb_project_merchant/constants/error_handling.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/constants/utills.dart';
+import 'package:kmutnb_project_merchant/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project_merchant/models/product.dart';
 import 'package:http/http.dart' as http;
-import 'package:kmutnb_project/models/store.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/models/store.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 
 import 'package:provider/provider.dart';
 

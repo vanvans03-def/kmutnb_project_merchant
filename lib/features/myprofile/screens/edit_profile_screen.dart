@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/utills.dart';
-import 'package:kmutnb_project/features/myprofile/screens/user_profile_screen.dart';
+import 'package:kmutnb_project_merchant/constants/utills.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/features/myprofile/screens/user_profile_screen.dart';
 import 'package:provider/provider.dart';
 
 import '../../../constants/global_variables.dart';
@@ -93,7 +94,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: const Text('Edite Profile Screen'),
+          title: const Text('แก้ไขโปรไฟล์'),
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: GlobalVariables.appBarGradient,
@@ -101,82 +102,88 @@ class _EditProfilePageState extends State<EditProfilePage> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            if (userProvider.user.image == '' && _selectedImage == null) ...[
-              GestureDetector(
-                onTap: () async {
-                  File? image = await pickOneImage();
-                  setState(() {
-                    _selectedImage = image;
-                  });
-                },
-                child: const CircleAvatar(
-                  radius: 50,
-                  backgroundColor: Colors.blueGrey,
-                  child: Icon(
-                    Icons.add_a_photo,
-                    size: 40,
-                    color: Colors.white,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              if (userProvider.user.image == '' && _selectedImage == null) ...[
+                GestureDetector(
+                  onTap: () async {
+                    File? image = await pickOneImage();
+                    setState(() {
+                      _selectedImage = image;
+                    });
+                  },
+                  child: const CircleAvatar(
+                    radius: 50,
+                    backgroundColor: Colors.blueGrey,
+                    child: Icon(
+                      Icons.add_a_photo,
+                      size: 40,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
+              ] else if (userProvider.user.image != '' &&
+                  _selectedImage == null) ...[
+                GestureDetector(
+                  onTap: () async {
+                    File? image = await pickOneImage();
+                    setState(() {
+                      _selectedImage = image;
+                    });
+                  },
+                  child: CircleAvatar(
+                    radius: 60,
+                    backgroundColor: kPrimaryColor,
+                    child: ClipOval(
+                      child: Image.network(
+                        userProvider.user.image,
+                        fit: BoxFit.cover,
+                        height: 100.0,
+                        width: 100.0,
+                      ),
+                    ),
+                  ),
+                )
+              ] else if (_selectedImage != null) ...[
+                GestureDetector(
+                  onTap: () async {
+                    File? image = await pickOneImage();
+                    setState(() {
+                      _selectedImage = image;
+                    });
+                  },
+                  child: ClipOval(
+                    child: Image.file(
+                      _selectedImage!,
+                      fit: BoxFit.cover,
+                      height: 100.0,
+                      width: 100.0,
+                    ),
+                  ),
+                )
+              ],
+              TextField(
+                controller: _fullNameController,
+                decoration: const InputDecoration(labelText: 'ชื่อ นามสกุล'),
               ),
-            ] else if (userProvider.user.image != '' &&
-                _selectedImage == null) ...[
-              GestureDetector(
-                onTap: () async {
-                  File? image = await pickOneImage();
-                  setState(() {
-                    _selectedImage = image;
-                  });
-                },
-                child: ClipOval(
-                  child: Image.network(
-                    userProvider.user.image,
-                    fit: BoxFit.cover,
-                    height: 100.0,
-                    width: 100.0,
-                  ),
-                ),
-              )
-            ] else if (_selectedImage != null) ...[
-              GestureDetector(
-                onTap: () async {
-                  File? image = await pickOneImage();
-                  setState(() {
-                    _selectedImage = image;
-                  });
-                },
-                child: ClipOval(
-                  child: Image.file(
-                    _selectedImage!,
-                    fit: BoxFit.cover,
-                    height: 100.0,
-                    width: 100.0,
-                  ),
-                ),
-              )
+              TextField(
+                controller: _phoneNumberController,
+                decoration: const InputDecoration(labelText: 'เบอร์โทรศัพท์'),
+              ),
+              TextField(
+                controller: _addressController,
+                decoration: const InputDecoration(labelText: 'ที่อยู่'),
+              ),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                onPressed: _saveChanges,
+                child: const Text('ยืนยันการแก้ไข'),
+              ),
             ],
-            TextField(
-              controller: _fullNameController,
-              decoration: InputDecoration(labelText: 'Full Name'),
-            ),
-            TextField(
-              controller: _phoneNumberController,
-              decoration: InputDecoration(labelText: 'Phone Number'),
-            ),
-            TextField(
-              controller: _addressController,
-              decoration: InputDecoration(labelText: 'Address'),
-            ),
-            SizedBox(height: 16.0),
-            ElevatedButton(
-              onPressed: _saveChanges,
-              child: Text('Save Changes'),
-            ),
-          ],
+          ),
         ),
       ),
     );

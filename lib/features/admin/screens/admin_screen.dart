@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/admin/screens/orders_screen.dart';
-import 'package:kmutnb_project/features/admin/screens/post_screen.dart';
-import 'package:kmutnb_project/providers/store_provider.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/orders_screen.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/post_screen.dart';
+import 'package:kmutnb_project_merchant/providers/store_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
@@ -93,9 +93,9 @@ class _AdminScreenState extends State<AdminScreen> {
                   alignment: Alignment.topRight,
                   child: Text(
                     storeName,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: Colors.black,
+                      color: Colors.grey.shade200,
                     ),
                   ),
                 ),
@@ -105,9 +105,9 @@ class _AdminScreenState extends State<AdminScreen> {
                 height: 42,
                 margin: const EdgeInsets.symmetric(horizontal: 0),
                 child: IconButton(
-                  icon: const Icon(
+                  icon: Icon(
                     Icons.chat,
-                    color: Colors.black,
+                    color: Colors.grey.shade200,
                     size: 25,
                   ),
                   onPressed: () {
@@ -127,7 +127,7 @@ class _AdminScreenState extends State<AdminScreen> {
       body: pages[_page],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _page,
-        selectedItemColor: GlobalVariables.selectedNavBarColor,
+        selectedItemColor: GlobalVariables.kPrimaryColor,
         unselectedItemColor: GlobalVariables.unselectedNavBarColor,
         backgroundColor: GlobalVariables.backgroundColor,
         iconSize: 28,
@@ -141,7 +141,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 border: Border(
                   top: BorderSide(
                     color: _page == 0
-                        ? GlobalVariables.selectedNavBarColor
+                        ? GlobalVariables.kPrimaryColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,
                   ),
@@ -161,7 +161,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 border: Border(
                   top: BorderSide(
                     color: _page == 1
-                        ? GlobalVariables.selectedNavBarColor
+                        ? GlobalVariables.kPrimaryColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,
                   ),
@@ -181,7 +181,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 border: Border(
                   top: BorderSide(
                     color: _page == 2
-                        ? GlobalVariables.selectedNavBarColor
+                        ? GlobalVariables.kPrimaryColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,
                   ),
@@ -200,7 +200,7 @@ class _AdminScreenState extends State<AdminScreen> {
                 border: Border(
                   top: BorderSide(
                     color: _page == 3
-                        ? GlobalVariables.selectedNavBarColor
+                        ? GlobalVariables.kPrimaryColor
                         : GlobalVariables.backgroundColor,
                     width: bottomBarBorderWidth,
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
 
 import '../../../constants/global_variables.dart';
 import '../../../models/order.dart';
@@ -116,11 +117,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'View order details',
+                'รายละเอียดออเดอร์',
                 style: TextStyle(
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                    color: kPrimaryColor),
               ),
               Container(
                 width: double.infinity,
@@ -133,21 +134,22 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text('Order Date:      ${DateFormat().format(
+                    Text('วันที่ของออเดอร์:      ${DateFormat().format(
                       DateTime.fromMillisecondsSinceEpoch(
                           widget.order.orderedAt),
                     )}'),
-                    Text('Order ID:          ${widget.order.id}'),
-                    Text('Order Total:      \฿${widget.order.totalPrice}'),
+                    Text('รหัสออเดอร์:            ${widget.order.id}'),
+                    Text('ยอดรวมออเดอร์:      \฿${widget.order.totalPrice}'),
                   ],
                 ),
               ),
               const SizedBox(height: 10),
               const Text(
-                'Purchase Details',
+                'รายละเอียดการซื้อ',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
+                  color: kPrimaryColor,
                 ),
               ),
               Container(
@@ -201,7 +203,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   Text(
-                                    'Qty: ${widget.order.products[i].productSKU}',
+                                    'จำนวน: ${widget.order.products[i].productSKU} ชิ้น',
+                                  ),
+                                  Text(
+                                    'ราคาต่อชิ้น: ${widget.order.products[i].product.productPrice} บาท',
                                   ),
                                   Radio(
                                     value:
@@ -225,10 +230,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Tracking',
+                'ติดตามสินค้า',
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
+                  color: kPrimaryColor,
                 ),
               ),
               if (showContainer)
@@ -245,9 +251,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     },
                     steps: [
                       Step(
-                        title: const Text('Pending'),
+                        title: const Text('รอดำเนินการ'),
                         content: const Text(
-                          'Your order is yet to be delivered',
+                          'คำสั่งซื้อของคุณยังไม่ได้รับการจัดส่ง',
                         ),
                         isActive: currentStep > 0,
                         state: currentStep > 0
@@ -255,9 +261,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             : StepState.indexed,
                       ),
                       Step(
-                        title: const Text('Completed'),
+                        title: const Text('ร้านค้าได้รับออเดอร์แล้ว'),
                         content: const Text(
-                          'Your order has been delivered, you are yet to sign.',
+                          'ส่งคำสั่งซื้อของคุณแล้ว คุณยังไม่ได้ลงนาม',
                         ),
                         isActive: currentStep > 1,
                         state: currentStep > 1
@@ -265,9 +271,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             : StepState.indexed,
                       ),
                       Step(
-                        title: const Text('Received'),
+                        title: const Text('กำลังจัดส่งสินค้า'),
                         content: const Text(
-                          'Your order has been delivered and signed by you.',
+                          'ผู้ขายได้จัดส่งสินค้าของคุณให้ขนส่งแล้ว',
                         ),
                         isActive: currentStep > 2,
                         state: currentStep > 2
@@ -275,9 +281,9 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                             : StepState.indexed,
                       ),
                       Step(
-                        title: const Text('Delivered'),
+                        title: const Text('สินค้าส่งถึงแล้ว'),
                         content: const Text(
-                          'Your order has been delivered and signed by you!',
+                          'คำสั่งซื้อของคุณได้ถูกจัดส่งและลงนามโดยคุณแล้ว',
                         ),
                         isActive: currentStep >= 3,
                         state: currentStep >= 3

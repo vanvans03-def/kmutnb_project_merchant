@@ -1,7 +1,7 @@
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/admin/services/admin_service.dart';
-import 'package:kmutnb_project/features/admin/widgets/category_product_chart.dart';
+import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
+import 'package:kmutnb_project_merchant/features/admin/widgets/category_product_chart.dart';
 
 import '../../../common/widgets/loader.dart';
 import '../model/sales.dart';

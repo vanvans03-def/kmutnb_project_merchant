@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/providers/user_provider.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class BelowAppBar extends StatelessWidget {
@@ -24,16 +24,16 @@ class BelowAppBar extends StatelessWidget {
         children: [
           RichText(
             text: TextSpan(
-              text: 'Hello, ',
+              text: 'ยินดีต้อนรับ, ',
               style: const TextStyle(
-                fontSize: 22,
+                fontSize: 20,
                 color: Colors.black,
               ),
               children: [
                 TextSpan(
                   text: user.fullName,
                   style: const TextStyle(
-                    fontSize: 22,
+                    fontSize: 20,
                     color: Colors.black,
                     fontWeight: FontWeight.w600,
                   ),

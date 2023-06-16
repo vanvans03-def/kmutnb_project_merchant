@@ -69,7 +69,7 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(60),
         child: AppBar(
-          title: Text('Store ${widget.store.storeName} Screen'),
+          title: Text('ร้าน ${widget.store.storeName} '),
           flexibleSpace: Container(
             decoration: const BoxDecoration(
               gradient: GlobalVariables.appBarGradient,

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/account/widgets/orders.dart';
-import 'package:kmutnb_project/features/auth/screens/login_screen.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/orders.dart';
+import 'package:kmutnb_project_merchant/features/auth/screens/login_screen.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
 import 'package:provider/provider.dart';
 
-import 'package:kmutnb_project/features/myprofile/screens/edit_profile_screen.dart';
+import 'package:kmutnb_project_merchant/features/myprofile/screens/edit_profile_screen.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
 import '../../account/screens/account_screen.dart';
@@ -76,8 +77,12 @@ class _UserProfileScreen extends State<UserProfileScreen> {
             ] else ...[
               CircleAvatar(
                 radius: 50,
-                backgroundImage: NetworkImage(
-                  user!.image,
+                backgroundColor: kPrimaryColor,
+                child: CircleAvatar(
+                  radius: 45,
+                  backgroundImage: NetworkImage(
+                    user!.image,
+                  ),
                 ),
               ),
             ],
@@ -91,7 +96,10 @@ class _UserProfileScreen extends State<UserProfileScreen> {
             ),
             const SizedBox(height: 20),
             ListTile(
-                leading: const Icon(Icons.person),
+                leading: const Icon(
+                  Icons.person,
+                  color: kPrimaryColor,
+                ),
                 title: const Text('แก้ไขโปรไฟล์ส่วนตัว'),
                 onTap: () async {
                   final value = await Navigator.push(
@@ -115,7 +123,10 @@ class _UserProfileScreen extends State<UserProfileScreen> {
               endIndent: 0,
             ),
             ListTile(
-              leading: const Icon(Icons.history),
+              leading: const Icon(
+                Icons.history,
+                color: kPrimaryColor,
+              ),
               title: const Text('กดดูประวัติออร์เดอร์'),
               onTap: () {
                 Navigator.push(
@@ -132,7 +143,10 @@ class _UserProfileScreen extends State<UserProfileScreen> {
               endIndent: 0,
             ),
             ListTile(
-              leading: const Icon(Icons.logout),
+              leading: const Icon(
+                Icons.logout,
+                color: kPrimaryColor,
+              ),
               title: const Text('ออกจากระบบ'),
               onTap: () {
                 logOutGoogle();

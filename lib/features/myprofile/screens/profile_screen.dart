@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/account/widgets/orders.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/orders.dart';
 import 'package:provider/provider.dart';
 
-import 'package:kmutnb_project/features/myprofile/screens/edit_profile_screen.dart';
+import 'package:kmutnb_project_merchant/features/myprofile/screens/edit_profile_screen.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
 import '../../account/screens/account_screen.dart';

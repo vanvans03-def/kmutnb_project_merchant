@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kmutnb_project/features/auth/widgets/constants.dart';
-import 'package:kmutnb_project/features/chat/services/chat_service.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/features/chat/services/chat_service.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../../../constants/global_variables.dart';
 import '../../../models/chat.dart';
@@ -155,7 +155,7 @@ class _ChatScreenState extends State<ChatScreen> {
               itemBuilder: (context, index) {
                 final chat = chatHistory[index];
                 final isSentMessage = chat.senderId == widget.senderId;
-                final timeDate = chat.timestamp.toString();
+                final timeDate = chat.localTimestamp.toString();
 
                 final inputFormat = DateFormat("yyyy-MM-dd HH:mm:ss.SSS'Z'");
                 final outputFormat = DateFormat("HH:mm 'น.'");

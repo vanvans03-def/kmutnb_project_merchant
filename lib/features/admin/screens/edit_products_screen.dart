@@ -2,10 +2,10 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/common/widgets/custom_textfield.dart';
-import 'package:kmutnb_project/common/widgets/customer_button.dart';
-import 'package:kmutnb_project/features/admin/services/admin_service.dart';
-import 'package:kmutnb_project/models/productprice.dart';
+import 'package:kmutnb_project_merchant/common/widgets/custom_textfield.dart';
+import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
+import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
+import 'package:kmutnb_project_merchant/models/productprice.dart';
 import '../../../constants/global_variables.dart';
 import '../../../constants/utills.dart';
 import '../../../models/category.dart';

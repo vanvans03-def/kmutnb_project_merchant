@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'package:kmutnb_project/features/chat/screens/chat_screen.dart';
-import 'package:kmutnb_project/features/chat/services/chat_service.dart';
+import 'package:kmutnb_project_merchant/features/chat/screens/chat_screen.dart';
+import 'package:kmutnb_project_merchant/features/chat/services/chat_service.dart';
 
 import 'package:provider/provider.dart';
 import '../models/chat.dart';

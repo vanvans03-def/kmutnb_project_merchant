@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:kmutnb_project/models/product.dart';
+import 'package:kmutnb_project_merchant/models/product.dart';
 
 class Order {
   final String id;

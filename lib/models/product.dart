@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:kmutnb_project/models/rating.dart';
+import 'package:kmutnb_project_merchant/models/rating.dart';
 
 class Product {
   final String productName;

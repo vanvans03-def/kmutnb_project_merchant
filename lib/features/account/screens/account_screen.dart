@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/features/account/widgets/below_app_bar.dart';
-import 'package:kmutnb_project/features/account/widgets/orders.dart';
-import 'package:kmutnb_project/features/account/widgets/top_buttons.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/below_app_bar.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/orders.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/top_buttons.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -11,7 +11,7 @@ class AccountScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(50),
+        preferredSize: const Size.fromHeight(30),
         child: AppBar(
           flexibleSpace: Container(
             decoration: const BoxDecoration(
@@ -23,22 +23,10 @@ class AccountScreen extends StatelessWidget {
             children: [
               Container(
                 alignment: Alignment.topLeft,
-                child: Image.asset(
-                  'assets/images/online2.png',
-                  width: 120,
-                  height: 45,
-                  color: Colors.black,
-                ),
               ),
               Container(
                 padding: const EdgeInsets.only(left: 15, right: 15),
-                child: const Row(children: [
-                  Padding(
-                    padding: EdgeInsets.only(right: 15),
-                    child: Icon(Icons.notification_add_outlined),
-                  ),
-                  Icon(Icons.search_outlined),
-                ]),
+                child: const Row(children: []),
               )
             ],
           ),

@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "kmutnb_project" "\0"
+            VALUE "FileDescription", "kmutnb_project_merchant" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "kmutnb_project" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2022 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "kmutnb_project.exe" "\0"
-            VALUE "ProductName", "kmutnb_project" "\0"
+            VALUE "InternalName", "kmutnb_project_merchant" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
+            VALUE "OriginalFilename", "kmutnb_project_merchant.exe" "\0"
+            VALUE "ProductName", "kmutnb_project_merchant" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

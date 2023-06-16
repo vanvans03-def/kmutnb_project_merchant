@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/auth/screens/login_screen.dart';
-import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project_merchant/features/auth/screens/login_screen.dart';
+import 'package:kmutnb_project_merchant/features/auth/services/auth_service.dart';
 
 import '../components/components.dart';
 import '../components/under_part.dart';
@@ -65,7 +65,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Stack(
               children: [
                 const Upside(
-                  imgUrl: "assets/images/register.png",
+                  imgUrl: "assets/images/storeImage.png",
                 ),
                 const PageTitleBar(title: 'สร้างบัญชีใหม่'),
                 Padding(

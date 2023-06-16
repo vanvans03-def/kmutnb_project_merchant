@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
 
 class Stars extends StatelessWidget {
   final double rating;

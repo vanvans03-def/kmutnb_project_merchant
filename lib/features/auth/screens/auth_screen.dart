@@ -1,10 +1,10 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/common/widgets/custom_textfield.dart';
-import 'package:kmutnb_project/common/widgets/customer_button.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/features/auth/services/auth_service.dart';
+import 'package:kmutnb_project_merchant/common/widgets/custom_textfield.dart';
+import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/features/auth/services/auth_service.dart';
 
 enum Auth {
   signin,

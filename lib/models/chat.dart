@@ -43,4 +43,11 @@ class Chat {
       timestamp: DateTime(2000),
     );
   }
+
+  DateTime get localTimestamp {
+    // แปลงเวลาไปยังเขตเวลาท้องถิ่น (Asia/Bangkok) โดยใช้ Timezone Offset
+    final localOffset = DateTime.now().timeZoneOffset;
+    final localDateTime = timestamp.add(localOffset);
+    return localDateTime;
+  }
 }

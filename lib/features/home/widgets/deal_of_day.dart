@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:image_card/image_card.dart';
-import 'package:kmutnb_project/features/auth/widgets/constants.dart';
-import 'package:kmutnb_project/models/productprice.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
+import 'package:kmutnb_project_merchant/models/productprice.dart';
 
 import '../../../common/widgets/loader.dart';
 import '../../../common/widgets/stars.dart';

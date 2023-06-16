@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project/features/chat/screens/ContactCard.dart';
+import 'package:kmutnb_project_merchant/features/chat/screens/ContactCard.dart';
 
 import '../../../models/ChatModel.dart';
 import 'ButtonCard.dart';

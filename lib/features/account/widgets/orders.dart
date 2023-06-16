@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:kmutnb_project/constants/global_variables.dart';
-import 'package:kmutnb_project/features/account/services/account_service.dart';
-import 'package:kmutnb_project/features/account/widgets/single_order_product.dart';
-import 'package:kmutnb_project/features/order_detail/screens/order_details.dart';
-import 'package:kmutnb_project/models/order.dart';
-import 'package:kmutnb_project/common/widgets/loader.dart';
+import 'package:kmutnb_project_merchant/constants/global_variables.dart';
+import 'package:kmutnb_project_merchant/features/account/services/account_service.dart';
+import 'package:kmutnb_project_merchant/features/account/widgets/single_order_product.dart';
+import 'package:kmutnb_project_merchant/features/order_detail/screens/order_details.dart';
+import 'package:kmutnb_project_merchant/models/order.dart';
+import 'package:kmutnb_project_merchant/common/widgets/loader.dart';
 
 class Orders extends StatefulWidget {
   const Orders({Key? key}) : super(key: key);
@@ -43,7 +43,7 @@ class _OrdersState extends State<Orders> {
                       left: 15,
                     ),
                     child: const Text(
-                      'Your Orders',
+                      'ออเดอร์ของคุณ',
                       style: TextStyle(
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -53,12 +53,6 @@ class _OrdersState extends State<Orders> {
                   Container(
                     padding: const EdgeInsets.only(
                       left: 15,
-                    ),
-                    child: Text(
-                      'See All',
-                      style: TextStyle(
-                        color: GlobalVariables.selectedNavBarColor,
-                      ),
                     ),
                   ),
                 ],

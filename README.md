@@ -1,4 +1,4 @@
-# kmutnb_project
+# kmutnb_project_merchant
 
 A new Flutter project.
 

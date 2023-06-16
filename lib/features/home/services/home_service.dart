@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:kmutnb_project/constants/utills.dart';
-import 'package:kmutnb_project/models/productprice.dart';
+import 'package:kmutnb_project_merchant/constants/utills.dart';
+import 'package:kmutnb_project_merchant/models/productprice.dart';
 
 import '../../../constants/error_handling.dart';
 import '../../../constants/global_variables.dart';
