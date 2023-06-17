@@ -153,7 +153,7 @@ class _EditeStoreScreenState extends State<EditeStoreScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Edite Store Profile'),
+        title: const Text('แก้ไขโปรไฟล์ร้านค้า'),
       ),
       body: Stack(
         alignment: Alignment.center,

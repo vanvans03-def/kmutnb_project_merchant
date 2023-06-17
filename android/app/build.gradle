@@ -54,6 +54,14 @@ android {
         versionName flutterVersionName
         multiDexEnabled true
     }
+    signingConfigs{
+        debug{
+            keyAlias 'androiddebugkey'
+            keyPassword '290459'
+            storeFile file('mykey.jks')
+            storePassword '290459'
+        }
+    }
 
     buildTypes {
         release {

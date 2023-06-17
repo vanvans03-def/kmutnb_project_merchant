@@ -30,12 +30,14 @@ class AddStoreService {
     required String user_,
     required String province_,
     required String idcardNo_,
+    required File? idcardImage_,
 
     // required String id,
   }) async {
     try {
       String profileImageUrls = '';
       String bannerImageUrls = '';
+      String idImageUrls = '';
       final storeProvider = Provider.of<StoreProvider>(context, listen: false);
       final userProvider = Provider.of<UserProvider>(context, listen: false);
 
@@ -50,7 +52,7 @@ class AddStoreService {
         storeStatus: '0',
         user: userProvider.user.id,
         province: province_,
-        idcardImage: profileImageUrls,
+        idcardImage: idImageUrls,
         idcardNo: idcardNo_,
       );
 

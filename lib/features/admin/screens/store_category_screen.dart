@@ -56,7 +56,12 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('View Product for $categoryName'),
+          title: Text(
+            'สินค้าในหมวดหมู่ $categoryName',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
         body: productList == null
             ? const Loader()

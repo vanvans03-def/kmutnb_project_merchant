@@ -99,7 +99,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'From Date: ${startDate.toString().substring(0, 10)}',
+                                    'วันที่เริ่มต้น: ${startDate.toString().substring(0, 10)}',
                                     style: const TextStyle(
                                       fontSize: 12.0,
                                     ), // ขนาดตัวอักษร 18.0, ตัวหนา
@@ -110,7 +110,7 @@ class _AnalyticsScreenState extends State<AnalyticsScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   Text(
-                                    ' To Date: ${endDate.toString().substring(0, 10)}',
+                                    ' ถึงวันที่: ${endDate.toString().substring(0, 10)}',
                                     style: const TextStyle(
                                         fontSize:
                                             12.0), // ขนาดตัวอักษร 18.0, ตัวหนา

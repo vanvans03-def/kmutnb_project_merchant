@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:kmutnb_project_merchant/models/product.dart';
 
+
+
 class Order {
   final String id;
   final List<OrderItem> products;
@@ -10,6 +12,7 @@ class Order {
   final String userId;
   final int orderedAt;
   final int status;
+  final String image;
 
   Order({
     required this.id,
@@ -19,6 +22,7 @@ class Order {
     required this.userId,
     required this.orderedAt,
     required this.status,
+    required this.image,
   });
 
   Map<String, dynamic> toMap() {
@@ -30,6 +34,7 @@ class Order {
       'userId': userId,
       'orderedAt': orderedAt,
       'status': status,
+      'image': image,
     };
   }
 
@@ -39,6 +44,7 @@ class Order {
       products: List<OrderItem>.from(
         map['products']?.map((x) => OrderItem.fromMap(x)),
       ),
+      image: map['image'] ?? '',
       totalPrice: map['totalPrice']?.toDouble() ?? 0.0,
       address: map['address'] ?? '',
       userId: map['userId'] ?? '',

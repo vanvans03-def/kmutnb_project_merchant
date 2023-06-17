@@ -55,7 +55,7 @@ class _CategoryProductsChartState extends State<CategoryProductsChart> {
           child: _isPieChart ? _buildBarChart(context) : _buildPieChart(),
         ),
         Text(
-          'Total Sale : ${widget.totalsale} ฿ ',
+          'ยอดขายทั้งหมด : ${widget.totalsale} ฿ ',
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
@@ -69,8 +69,8 @@ class _CategoryProductsChartState extends State<CategoryProductsChart> {
               if (_isPieChart)
                 Column(
                   children: [
-                    Text('Selected Category: $selectedCategory'),
-                    Text('Selected Value: $selectedValue'),
+                    Text('หมวดหมู่ที่เลือก: $selectedCategory'),
+                    Text('ขายได้: $selectedValue฿'),
                   ],
                 )
               else

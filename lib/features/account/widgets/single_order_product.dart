@@ -15,7 +15,7 @@ class SingleOrderProduct extends StatelessWidget {
         width: 200,
         height: 200,
         imageProvider: NetworkImage(image),
-        tags: [_tag('Order', () {})],
+        tags: [_tag('ออเดอร์', () {})],
         // title: _title(color: Colors.white),
         description: _content(color: Colors.white, date: date),
       ),

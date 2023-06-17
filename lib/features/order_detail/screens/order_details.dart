@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
 
 import '../../../constants/global_variables.dart';
+import '../../../constants/utills.dart';
 import '../../../models/order.dart';
 
 import '../../search/screens/search_screen.dart';
@@ -31,6 +32,58 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     if (widget.order.products.length == 1) {
       showContainer = true;
     }
+  }
+
+  Future<void> showSlip(String image) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          'สลิปการโอนเงินของคุณ',
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryColor,
+          ),
+        ),
+        content: Container(
+          height: 500.0,
+          decoration: const BoxDecoration(
+            color: Colors.orange,
+          ),
+          child: Image.network(
+            image,
+            fit: BoxFit.cover,
+          ),
+        ),
+        actions: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'ออก',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -140,6 +193,29 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                     )}'),
                     Text('รหัสออเดอร์:            ${widget.order.id}'),
                     Text('ยอดรวมออเดอร์:      \฿${widget.order.totalPrice}'),
+                    ElevatedButton.icon(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orange,
+                      ),
+                      onPressed: () async {
+                        if (widget.order.image != "GooglePay" ||
+                            widget.order.image != "") {
+                          showSlip(widget.order.image);
+                        } else {
+                          showSnackBar(
+                              context, 'คำสั่งซื้อนี้ชำระด้วย GooglePay');
+                        }
+
+                        setState(() {});
+                      },
+                      icon: Icon(Icons.open_in_new), // ไอคอนที่แสดงในปุ่ม
+                      label: Text(
+                        'แสดงรูปภาพ',
+                        style: TextStyle(
+                          fontSize: 12,
+                        ),
+                      ), // ข้อความที่แสดงในปุ่ม
+                    ),
                   ],
                 ),
               ),
