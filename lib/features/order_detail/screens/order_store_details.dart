@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
 import 'package:kmutnb_project_merchant/providers/user_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../common/widgets/customer_button.dart';
 import '../../../constants/global_variables.dart';
+import '../../../constants/utills.dart';
 import '../../../models/orderStore.dart';
 import '../../search/screens/search_screen.dart';
 
@@ -24,6 +26,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
   String storeId = '';
   String productId = '';
   String orderId = '';
+  int checkOrder = 0;
   AdminService adminService = AdminService();
   void navigateToSearchScreen(String query) {
     Navigator.pushNamed(context, SearchScreen.routeName, arguments: query);
@@ -32,14 +35,71 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
   @override
   void initState() {
     super.initState();
+    if (widget.order.products[indexProduct].statusProductOrder > 3) {
+      checkOrder = widget.order.products[indexProduct].statusProductOrder;
+      showContainer = false;
+    } else {
+      currentStep = widget.order.products[indexProduct].statusProductOrder;
+    }
 
-    currentStep = widget.order.products[indexProduct].statusProductOrder;
     if (widget.order.products.length == 1) {
       showContainer = true;
       storeId = widget.order.products[indexProduct].storeId;
       productId = widget.order.products[indexProduct].id;
       orderId = widget.order.id;
     }
+  }
+
+  Future<void> showSlip(String image) async {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(
+          'สลิปการโอนเงิน',
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryColor,
+          ),
+        ),
+        content: Container(
+          height: 500.0,
+          decoration: const BoxDecoration(
+            color: Colors.orange,
+          ),
+          child: Image.network(
+            image,
+            fit: BoxFit.cover,
+          ),
+        ),
+        actions: [
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: const Text(
+                          'ออก',
+                          style: TextStyle(
+                            color: Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   void changeOrderstatus(
@@ -134,20 +194,6 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            /*  if (indexProduct == i && showContainer) {
-                              if (widget.order.products.length != 1) {
-                                showContainer = false;
-                              }
-
-                              currentStep =
-                                  widget.order.products[i].statusProductOrder;
-                            } else {
-                              showContainer = true;
-                              indexProduct = i;
-                              currentStep =
-                                  widget.order.products[i].statusProductOrder;
-                            }
-                          });*/
                             if (indexProduct == i && showContainer) {
                               if (widget.order.products.length != 1) {
                                 showContainer = false;
@@ -156,16 +202,31 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                               storeId = widget.order.products[i].storeId;
                               productId = widget.order.products[i].id;
                               orderId = widget.order.id;
-                              currentStep =
+                              checkOrder =
                                   widget.order.products[i].statusProductOrder;
+                              if (widget.order.products[i].statusProductOrder >
+                                  3) {
+                                currentStep = 3;
+                              } else {
+                                currentStep =
+                                    widget.order.products[i].statusProductOrder;
+                              }
                             } else {
                               showContainer = true;
                               indexProduct = i;
                               storeId = widget.order.products[i].storeId;
                               productId = widget.order.products[i].id;
                               orderId = widget.order.id;
-                              currentStep =
+                              checkOrder =
                                   widget.order.products[i].statusProductOrder;
+
+                              if (widget.order.products[i].statusProductOrder >
+                                  3) {
+                                currentStep = 3;
+                              } else {
+                                currentStep =
+                                    widget.order.products[i].statusProductOrder;
+                              }
                             }
                           });
                         },
@@ -196,6 +257,17 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                                   Text(
                                     'ราคาต่อชิ้น: ${widget.order.products[i].productPrice}',
                                   ),
+                                  Radio(
+                                    value:
+                                        i, // ค่าที่แตกต่างกันสำหรับแต่ละรายการสินค้า
+                                    groupValue:
+                                        indexProduct, // ค่าปัจจุบันของรายการสินค้าที่ถูกเลือก
+                                    onChanged: (value) {
+                                      setState(() {
+                                        indexProduct = value as int;
+                                      });
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
@@ -214,7 +286,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              if (showContainer)
+              if (showContainer && checkOrder < 4) ...[
                 Container(
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -224,7 +296,9 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                   child: Stepper(
                     currentStep: currentStep,
                     controlsBuilder: (context, details) {
-                      if (user.type == 'merchant' && currentStep != 3) {
+                      if (user.type == 'merchant' &&
+                          currentStep != 3 &&
+                          currentStep != 0) {
                         return SizedBox(
                           height: 30,
                           width: 110,
@@ -233,6 +307,55 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                             onTap: () => changeOrderstatus(details.currentStep,
                                 orderId, productId, storeId),
                           ),
+                        );
+                      } else if (currentStep == 0) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 30,
+                              width: 124,
+                              child: ElevatedButton.icon(
+                                style: ElevatedButton.styleFrom(
+                                  primary: Color.fromARGB(255, 37, 195, 129),
+                                ),
+                                onPressed: () async {
+                                  if (widget.order.image == "GooglePay" ||
+                                      widget.order.image == "") {
+                                    showSnackBar(context,
+                                        'คำสั่งซื้อนี้ชำระด้วย GooglePay');
+                                  } else {
+                                    showSlip(widget.order.image);
+                                  }
+
+                                  setState(() {});
+                                },
+                                icon: const Icon(
+                                    Icons.open_in_new), // ไอคอนที่แสดงในปุ่ม
+                                label: const Text(
+                                  'แสดงรูปภาพ',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ), // ข้อความที่แสดงในปุ่ม
+                              ),
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            SizedBox(
+                              height: 30,
+                              width: 124,
+                              child: CustomButton(
+                                text: 'ยืนยัน',
+                                onTap: () => changeOrderstatus(
+                                    details.currentStep,
+                                    orderId,
+                                    productId,
+                                    storeId),
+                              ),
+                            ),
+                          ],
                         );
                       }
                       return const SizedBox();
@@ -281,8 +404,151 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                     ],
                   ),
                 )
-              else
-                const SizedBox(),
+              ] else if (showContainer && checkOrder == 4) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: GlobalVariables.kPrimaryColor,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text('สินค้าของคุณถูกคำขอส่งคืน'),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            width: 140,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 37, 195, 129),
+                              ),
+                              onPressed: () async {
+                                if (widget.order.image == "GooglePay" ||
+                                    widget.order.image == "") {
+                                  showSnackBar(context,
+                                      'คำสั่งซื้อนี้ชำระด้วย GooglePay');
+                                } else {
+                                  showSlip(widget.order.image);
+                                }
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.open_in_new),
+                              label: const Text(
+                                'สลิปการโอนเงิน',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          SizedBox(
+                            height: 30,
+                            width: 140,
+                            child: CustomButton(
+                              text: 'ยืนยันคืนเงิน',
+                              onTap: () => showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('คืนเงินสินค้า ?'),
+                                    content: const Text(
+                                        'คุณต้องการคืนเงินสินค้าให้ลูกค้าใช้หรือไม่ ?'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: const Text('ยกเลิก'),
+                                        onPressed: () =>
+                                            Navigator.of(context).pop(),
+                                      ),
+                                      TextButton(
+                                        child: const Text(
+                                          'ตกลง',
+                                          style: TextStyle(
+                                            color: Colors.red,
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          changeOrderstatus(checkOrder, orderId,
+                                              productId, storeId);
+                                        },
+                                      ),
+                                    ],
+                                  );
+                                },
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ] else if (showContainer && checkOrder == 5) ...[
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: GlobalVariables.kPrimaryColor,
+                    ),
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text('คำขอถูกส่งคืนเรียบร้อยแล้ว'),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            width: 140,
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                primary: Color.fromARGB(255, 37, 195, 129),
+                              ),
+                              onPressed: () async {
+                                if (widget.order.image == "GooglePay" ||
+                                    widget.order.image == "") {
+                                  showSnackBar(context,
+                                      'คำสั่งซื้อนี้ชำระด้วย GooglePay');
+                                } else {
+                                  showSlip(widget.order.image);
+                                }
+                                setState(() {});
+                              },
+                              icon: const Icon(Icons.open_in_new),
+                              label: const Text(
+                                'สลิปการโอนเงิน',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ] else
+                const SizedBox()
             ],
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kmutnb_project_merchant/features/auth/widgets/constants.dart';
 
 class AccountButtons extends StatelessWidget {
   final String text;
@@ -12,7 +13,7 @@ class AccountButtons extends StatelessWidget {
         margin: const EdgeInsets.symmetric(horizontal: 10),
         height: 40,
         decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 0.0),
+            border: Border.all(color: kPrimaryColor, width: 2.0),
             borderRadius: BorderRadius.circular(50),
             color: Colors.white),
         child: OutlinedButton(
@@ -25,7 +26,7 @@ class AccountButtons extends StatelessWidget {
             child: Text(
               text,
               style: const TextStyle(
-                color: Colors.black,
+                color: kPrimaryColor,
                 fontWeight: FontWeight.normal,
               ),
             )),

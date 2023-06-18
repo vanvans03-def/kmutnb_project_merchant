@@ -145,4 +145,40 @@ class ProfileService {
       //showSnackBar(context, e.toString());
     }
   }
+
+  void changeStatusStore({
+    required BuildContext context,
+    required String status,
+    required Store store,
+  }) async {
+    try {
+      http.Response res = await http.put(
+        Uri.parse('$uri/api/store'),
+        body: jsonEncode(
+          {
+            'storeId': store.storeId,
+            'storeName': store.storeName,
+            'storeImage': store.storeImage,
+            'banner': store.banner,
+            'storeDescription': store.storeDescription,
+            'storeShortDescription': store.storeShortDescription,
+            'phone': store.phone,
+            'storeStatus': status,
+            'province': store.province
+          },
+        ),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+        response: res,
+        context: context,
+        onSuccess: () {},
+      );
+    } catch (e) {
+      //showSnackBar(context, e.toString());
+    }
+  }
 }

@@ -9,6 +9,7 @@ import 'package:kmutnb_project_merchant/features/auth/services/auth_service.dart
 import 'package:kmutnb_project_merchant/models/product.dart';
 import 'package:http/http.dart' as http;
 import 'package:kmutnb_project_merchant/models/productprice.dart';
+import 'package:kmutnb_project_merchant/models/store.dart';
 
 import 'package:provider/provider.dart';
 
@@ -558,6 +559,45 @@ class AdminService {
       showSnackBar(context, e.toString());
     }
     return categoriesList;
+  }
+
+  Future<List<Store>> fetchAllStore(BuildContext context) async {
+    List<Store> storeList = [];
+    try {
+      http.Response res = await http.get(Uri.parse('$uri/api/store'), headers: {
+        'Content-Type': 'application/json; charset=UTF=8',
+      });
+      // ignore: use_build_context_synchronously
+      httpErrorHandle(
+          response: res,
+          context: context,
+          onSuccess: () {
+            var responseJson = json.decode(res.body);
+            var data = responseJson['data'];
+
+            for (int i = 0; i < data.length; i++) {
+              var storeData = data[i];
+              Store store = Store(
+                storeId: storeData['storeId'] ?? '',
+                user: storeData['user'] ?? '',
+                storeName: storeData['storeName'] ?? '',
+                storeImage: storeData['storeImage'] ?? '',
+                banner: storeData['banner'] ?? '',
+                idcardImage: storeData['idcardImage'] ?? '',
+                idcardNo: storeData['idcardNo'] ?? '',
+                phone: storeData['phone'] ?? '',
+                storeStatus: storeData['storeStatus'] ?? '',
+                province: storeData['province'] ?? '',
+                storeDescription: storeData['storeDescription'] ?? '',
+                storeShortDescription: storeData['storeDescription'] ?? '',
+              );
+              storeList.add(store);
+            }
+          });
+    } catch (e) {
+      showSnackBar(context, e.toString());
+    }
+    return storeList;
   }
 }
 

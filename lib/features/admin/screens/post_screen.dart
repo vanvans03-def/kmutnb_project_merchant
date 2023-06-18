@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 
 import '../../../models/category.dart';
 import '../../../models/product.dart';
+import '../../../models/productprice.dart';
 import '../../../providers/store_provider.dart';
 
 class PostScreen extends StatefulWidget {
@@ -22,7 +23,7 @@ class _PostScreenState extends State<PostScreen> {
   List<Product>? products = [];
   String categoryId = '';
   List<Category> categories = [];
-
+  String mocPrice = '';
   get store => Provider.of<StoreProvider>(context).store;
 
   @override
@@ -30,6 +31,23 @@ class _PostScreenState extends State<PostScreen> {
     super.initState();
     _getCategories();
     fetchAllProducts();
+    _getProductprices();
+  }
+
+  final AdminService adminServices = AdminService();
+  List<ProductPrice> productpricesList = [];
+  void _getProductprices() async {
+    productpricesList = await adminServices.fetchAllProductprice(context);
+
+    setState(() {
+      for (int i = 0; i < productpricesList.length; i++) {
+        for (int j = 0; j < products!.length; j++) {
+          if (productpricesList[i].productId == products![j].productSalePrice) {
+            mocPrice = productpricesList[i].priceMax.toString();
+          }
+        }
+      }
+    });
   }
 
   void navigateToCategoryPage(BuildContext context, String categoryId) {
@@ -207,7 +225,7 @@ class _PostScreenState extends State<PostScreen> {
                                         ),
                                       ),
                                     ),
-                                    const SizedBox(height: 10),
+                                    const SizedBox(height: 5),
                                     GestureDetector(
                                       onTap: () {
                                         showDialog(
@@ -269,3 +287,25 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 }
+ /*if (mocPrice != '') ...[
+                                      Align(
+                                        alignment: FractionalOffset.topLeft,
+                                        child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 8, vertical: 4),
+                                          margin: const EdgeInsets.fromLTRB(
+                                              8, 0, 0, 0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(4),
+                                          ),
+                                          child: Text(
+                                            'ราคาตลาดวันนี้ $mocPrice฿/กก.',
+                                            style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 10),
+                                          ),
+                                        ),
+                                      ),
+                                    ],*/

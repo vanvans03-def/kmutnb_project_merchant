@@ -16,6 +16,7 @@ import 'features/admin/screens/add_products_screen.dart';
 import 'features/admin/screens/admin_screen.dart';
 import 'features/admin/screens/edit_products_screen.dart';
 import 'features/admin/screens/store_category_screen.dart';
+import 'features/admin/screens/store_details.dart';
 import 'features/auth/screens/login_screen.dart';
 import 'features/auth/screens/signup_screen.dart';
 import 'features/chat/screens/ChatPage.dart';
@@ -27,8 +28,10 @@ import 'features/myprofile/screens/edite_store_screen.dart';
 import 'features/myprofile/screens/user_profile_screen.dart';
 import 'features/order_detail/screens/order_details.dart';
 import 'features/order_detail/screens/order_store_details.dart';
+import 'features/order_detail/screens/order_succees.dart';
 import 'features/store/screens/add_store_screen.dart';
 import 'models/order.dart';
+import 'models/store.dart';
 
 Route<dynamic> generateRoute(RouteSettings routeSettings) {
   switch (routeSettings.name) {
@@ -142,6 +145,15 @@ Route<dynamic> generateRoute(RouteSettings routeSettings) {
         settings: routeSettings,
         builder: (_) => OrderStoreDetailScreen(
           order: order,
+        ),
+      );
+
+    case StoreDetailsScreen.routeName:
+      var store = routeSettings.arguments as Store;
+      return MaterialPageRoute(
+        settings: routeSettings,
+        builder: (_) => StoreDetailsScreen(
+          store: store,
         ),
       );
     case ChatScreen.routeName:
