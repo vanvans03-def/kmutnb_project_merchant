@@ -6,6 +6,7 @@ import 'package:kmutnb_project_merchant/common/widgets/custom_textfield.dart';
 import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
 import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
 import 'package:kmutnb_project_merchant/models/productprice.dart';
+import '../../../common/widgets/stars.dart';
 import '../../../constants/global_variables.dart';
 import '../../../constants/utills.dart';
 import '../../../models/category.dart';
@@ -144,7 +145,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
           ),
           title: const Text(
             'Edit Product',
-            style: TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.white),
           ),
         ),
       ),
@@ -203,6 +204,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                   ),
                 ),
+                const SizedBox(height: 30),
                 const SizedBox(height: 5),
                 CustomTextField(
                   controller: productNameController,

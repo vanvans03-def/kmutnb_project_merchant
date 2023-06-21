@@ -38,6 +38,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
     if (widget.order.products[indexProduct].statusProductOrder > 3) {
       checkOrder = widget.order.products[indexProduct].statusProductOrder;
       showContainer = false;
+      currentStep = 0;
     } else {
       currentStep = widget.order.products[indexProduct].statusProductOrder;
     }

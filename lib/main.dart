@@ -17,6 +17,7 @@ import 'package:http/http.dart' as http;
 import 'common/widgets/bottom_bar.dart';
 import 'features/admin/screens/admin_controll_screen.dart';
 import 'features/auth/screens/login_screen.dart';
+import 'features/auth/screens/signup_screen.dart';
 
 final _http = http.Client();
 
@@ -74,7 +75,9 @@ class _MyAppState extends State<MyApp> {
         home: Provider.of<UserProvider>(context).user.token.isNotEmpty
             ? Provider.of<UserProvider>(context).user.type == 'admin'
                 ? const AdminControlScreen()
-                : const AdminScreen()
+                : Provider.of<UserProvider>(context).user.type == 'merchant'
+                    ? const AdminScreen()
+                    : const LoginScreen()
             : LoginScreen());
   }
 }

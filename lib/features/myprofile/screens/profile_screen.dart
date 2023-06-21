@@ -120,23 +120,6 @@ class _ProfileScreen extends State<ProfileScreen> {
                 endIndent: 0,
               ),
               ListTile(
-                leading: const Icon(Icons.history),
-                title: const Text('กดดูประวัติออเดอร์'),
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const AccountScreen()),
-                  );
-                },
-              ),
-              const Divider(
-                height: 2,
-                thickness: 2,
-                indent: 20,
-                endIndent: 0,
-              ),
-              ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text('ออกจากระบบ'),
                 onTap: () {

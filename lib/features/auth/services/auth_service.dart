@@ -77,7 +77,7 @@ class AuthService {
         email: email,
         token: token,
         password: id,
-        type: 'user',
+        type: 'merchant',
         phoneNumber: '',
         address: '',
         cart: [],
@@ -148,22 +148,11 @@ class AuthService {
               .setUser(responseJson);
           await prefs.setString('x-auth-token', token);
 
-          if (data['type'] != 'admin' || data['type'] != 'merchant') {
-            // ignore: use_build_context_synchronously
-            /*   Navigator.pushNamedAndRemoveUntil(
-              context,
-              BottomBar.routeName,
-              (route) => false,
-            );*/
+          if (data['type'] != 'admin' && data['type'] != 'merchant') {
+            //Navigator.pop(context);
+            showSnackBar(context, 'กรุณาใช้งานแอปพลิเคชันสำหรับผู้ซื้อ');
           } else if (data['type'] == 'merchant') {
-            // ignore: use_build_context_synchronously, await_only_futures
-
-            // ignore: use_build_context_synchronously
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              AdminScreen.routeName,
-              (route) => false, // ลบทุกหน้าออกจาก Stack
-            );
+            showSnackBar(context, 'ยินดีต้อนรับสู่แอปพลิเคชันสำหรับขายสินค้า');
           }
         },
       );
@@ -214,6 +203,5 @@ class AuthService {
 class GoogleSignInApi {
   static final _googleSignIn = GoogleSignIn();
   static Future<GoogleSignInAccount?> login() => _googleSignIn.signIn();
-
   static Future logout() => _googleSignIn.disconnect();
 }

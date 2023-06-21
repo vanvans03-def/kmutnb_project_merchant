@@ -7,6 +7,7 @@ import 'package:kmutnb_project_merchant/features/admin/screens/store_category_sc
 import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
 import 'package:provider/provider.dart';
 
+import '../../../common/widgets/stars.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/productprice.dart';
@@ -39,15 +40,7 @@ class _PostScreenState extends State<PostScreen> {
   void _getProductprices() async {
     productpricesList = await adminServices.fetchAllProductprice(context);
 
-    setState(() {
-      for (int i = 0; i < productpricesList.length; i++) {
-        for (int j = 0; j < products!.length; j++) {
-          if (productpricesList[i].productId == products![j].productSalePrice) {
-            mocPrice = productpricesList[i].priceMax.toString();
-          }
-        }
-      }
-    });
+    setState(() {});
   }
 
   void navigateToCategoryPage(BuildContext context, String categoryId) {
@@ -184,6 +177,34 @@ class _PostScreenState extends State<PostScreen> {
                                         categories[i].categoryName;
                                   }
                                 }
+                                mocPrice = '';
+                                for (int i = 0;
+                                    i < productpricesList.length;
+                                    i++) {
+                                  if (productpricesList[i].productId ==
+                                      productData.productSalePrice) {
+                                    mocPrice = productpricesList[i]
+                                        .priceMax
+                                        .toString();
+                                  }
+                                }
+                                double totalRating = 0.0;
+                                double avgRating = 0.0;
+                                // ignore: unused_local_variable
+                                double rateAllProduct = 0.0;
+
+                                final productA = productData;
+
+                                for (int j = 0;
+                                    j < productA.rating!.length;
+                                    j++) {
+                                  totalRating += productA.rating![j].rating;
+                                }
+                                if (productA.rating!.isNotEmpty) {
+                                  avgRating =
+                                      totalRating / productA.rating!.length;
+                                  rateAllProduct += avgRating;
+                                }
 
                                 return Column(
                                   crossAxisAlignment:
@@ -220,6 +241,8 @@ class _PostScreenState extends State<PostScreen> {
                                                   .toString(),
                                               categoryName:
                                                   nameCategoryOfProduct,
+                                              mocPrice: mocPrice,
+                                              avgRating: avgRating,
                                             ),
                                           ),
                                         ),
@@ -287,25 +310,3 @@ class _PostScreenState extends State<PostScreen> {
     }
   }
 }
- /*if (mocPrice != '') ...[
-                                      Align(
-                                        alignment: FractionalOffset.topLeft,
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 8, vertical: 4),
-                                          margin: const EdgeInsets.fromLTRB(
-                                              8, 0, 0, 0),
-                                          decoration: BoxDecoration(
-                                            color: Colors.red,
-                                            borderRadius:
-                                                BorderRadius.circular(4),
-                                          ),
-                                          child: Text(
-                                            'ราคาตลาดวันนี้ $mocPrice฿/กก.',
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
-                                          ),
-                                        ),
-                                      ),
-                                    ],*/

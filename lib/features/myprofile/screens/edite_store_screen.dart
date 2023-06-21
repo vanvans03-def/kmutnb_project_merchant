@@ -29,6 +29,7 @@ class _EditeStoreScreenState extends State<EditeStoreScreen> {
   String selectedProvinceId = '';
   final _addStoreFormKey = GlobalKey<FormState>();
   final ProvinceService provinceService = ProvinceService();
+
   @override
   void initState() {
     super.initState();
@@ -41,8 +42,10 @@ class _EditeStoreScreenState extends State<EditeStoreScreen> {
   }
 
   void _getProvinces() async {
+    final storeProvider = Provider.of<StoreProvider>(context, listen: false);
+    final store = storeProvider.store;
     provinces = await provinceService.fetchAllProvince(context);
-    selectedProvinceId = provinces.first.id;
+    selectedProvinceId = store.province;
 
     setState(() {});
   }

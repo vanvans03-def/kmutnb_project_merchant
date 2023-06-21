@@ -225,6 +225,8 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
                                                         .toString(),
                                                     categoryName:
                                                         nameCategoryOfProduct,
+                                                    mocPrice: '',
+                                                    avgRating: 0,
                                                   ),
                                                 ),
                                               ),

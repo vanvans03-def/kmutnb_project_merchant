@@ -5,8 +5,10 @@ import 'package:kmutnb_project_merchant/features/admin/screens/add_products_scre
 import 'package:kmutnb_project_merchant/features/admin/screens/edit_products_screen.dart';
 import 'package:kmutnb_project_merchant/models/category.dart';
 import 'package:kmutnb_project_merchant/models/product.dart';
+import '../../../models/productprice.dart';
 import '../../address/services/address_services.dart';
 import '../../home/services/home_service.dart';
+import '../services/admin_service.dart';
 
 class StoreCategoryScreen extends StatefulWidget {
   static const String routeName = '/store-category';
@@ -30,6 +32,15 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
   void initState() {
     super.initState();
     fetchCategory();
+    _getProductprices();
+  }
+
+  final AdminService adminServices = AdminService();
+  List<ProductPrice> productpricesList = [];
+  void _getProductprices() async {
+    productpricesList = await adminServices.fetchAllProductprice(context);
+
+    setState(() {});
   }
 
   void navigateToAddproduct() {
@@ -102,7 +113,34 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
                                 padding: const EdgeInsets.all(10),
                                 itemBuilder: (context, index) {
                                   final productData = productList![index];
+                                  String mocPrice = '';
+                                  for (int i = 0;
+                                      i < productpricesList.length;
+                                      i++) {
+                                    if (productpricesList[i].productId ==
+                                        productData.productSalePrice) {
+                                      mocPrice = productpricesList[i]
+                                          .priceMax
+                                          .toString();
+                                    }
+                                  }
+                                  double totalRating = 0.0;
+                                  double avgRating = 0.0;
+                                  // ignore: unused_local_variable
+                                  double rateAllProduct = 0.0;
 
+                                  final productA = productData;
+
+                                  for (int j = 0;
+                                      j < productA.rating!.length;
+                                      j++) {
+                                    totalRating += productA.rating![j].rating;
+                                  }
+                                  if (productA.rating!.isNotEmpty) {
+                                    avgRating =
+                                        totalRating / productA.rating!.length;
+                                    rateAllProduct += avgRating;
+                                  }
                                   return Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.stretch,
@@ -137,12 +175,14 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
                                                     .productPrice
                                                     .toString(),
                                                 categoryName: categoryName,
+                                                mocPrice: mocPrice,
+                                                avgRating: avgRating,
                                               ),
                                             ),
                                           ),
                                         ),
                                       ),
-                                      const SizedBox(height: 10),
+                                      const SizedBox(height: 5),
                                       GestureDetector(
                                         onTap: () {
                                           showDialog(
