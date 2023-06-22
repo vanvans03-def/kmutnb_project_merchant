@@ -9,10 +9,6 @@ import 'package:kmutnb_project_merchant/common/widgets/custom_textfield.dart';
 import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
 
 import 'package:kmutnb_project_merchant/models/province.dart';
-import '../../../constants/global_variables.dart';
-import '../../../constants/utills.dart';
-
-import 'package:image_picker/image_picker.dart';
 
 import '../services/add_store_service.dart';
 import 'package:file_picker/file_picker.dart';
@@ -93,7 +89,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         banner_: _selectedImageProfile!,
         phone_: _phoneNumberController.text,
         storeShortDescription_: '',
-        storeStatus_: '',
+        storeStatus_: '0',
         user_: '',
         idcardImage_: _selectedImageid,
         province_: selectedProvinceId,

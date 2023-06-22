@@ -12,6 +12,7 @@ import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/productprice.dart';
 import '../../../providers/store_provider.dart';
+import '../../auth/services/auth_service.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
     super.initState();
+
     _getCategories();
     fetchAllProducts();
     _getProductprices();
