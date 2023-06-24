@@ -79,7 +79,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   }
 
   void createStore() {
-    if (_addStoreFormKey.currentState!.validate()) {
+    if (_addStoreFormKey.currentState!.validate() && _selectedImageid != null) {
       //image is not emopty
       addStoreService.createStore(
         context: context,
@@ -91,7 +91,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         storeShortDescription_: '',
         storeStatus_: '0',
         user_: '',
-        idcardImage_: _selectedImageid,
+        idcardImage_: _selectedImageid!,
         province_: selectedProvinceId,
         idcardNo_: idcardController.text,
       );
@@ -354,11 +354,12 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                         },
                                         child: Container(
                                           height: 150.0,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.orange,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
                                           ),
+                                          alignment: Alignment.center,
                                           child: Image.file(
-                                            _selectedImageCover!,
+                                            _selectedImageid!,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -425,7 +426,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     ),
                                     const SizedBox(height: 10),
                                     CustomButton(
-                                      text: 'ยืนยันการแก้ไขร้านค้า',
+                                      text: 'ยืนยันการสร้างร้านค้า',
                                       onTap: createStore,
                                     ),
                                   ],

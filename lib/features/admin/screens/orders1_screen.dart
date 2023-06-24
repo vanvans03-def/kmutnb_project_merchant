@@ -10,14 +10,14 @@ import 'package:kmutnb_project_merchant/features/account/widgets/account_button.
 
 import '../../order_detail/screens/order_succees.dart';
 
-class OrderScreen extends StatefulWidget {
-  const OrderScreen({Key? key}) : super(key: key);
+class Order1Screen extends StatefulWidget {
+  const Order1Screen({Key? key}) : super(key: key);
 
   @override
   _OrderScreenState createState() => _OrderScreenState();
 }
 
-class _OrderScreenState extends State<OrderScreen> {
+class _OrderScreenState extends State<Order1Screen> {
   final AdminService adminService = AdminService();
 
   @override
@@ -47,7 +47,7 @@ class _OrderScreenState extends State<OrderScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant OrderScreen oldWidget) {
+  void didUpdateWidget(covariant Order1Screen oldWidget) {
     super.didUpdateWidget(oldWidget);
     fetchOrders();
   }

@@ -81,7 +81,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         productShortDescription_: 'test',
         productType_: 'test',
         relatedProduct_: 'test',
-        stockStatus_: 'test',
+        stockStatus_: 'online',
       );
 
       setState(() {});
