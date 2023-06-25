@@ -17,86 +17,188 @@ class OrderScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 2,
+        toolbarHeight: 0,
         elevation: 2,
         backgroundColor: Colors.transparent,
       ),
       body: DefaultTabController(
-        length: 7, // จำนวนแท็บทั้งหมด
+        length: 3, // จำนวนแท็บทั้งหมด
         child: Column(
           children: [
             SizedBox(
-              height: 48,
+              height: 35,
               child: TabBar(
                 isScrollable: true,
                 tabs: [
                   Tab(
                     child: Text(
-                      'All Order',
+                      'ออเดอร์ทั้งหมด',
                       style: TextStyle(
                         color: kPrimaryColor,
+                        fontSize: 13,
                       ),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'On Hold',
+                      'สถานะออเดอร์',
                       style: TextStyle(
                         color: kPrimaryColor,
+                        fontSize: 13,
                       ),
                     ),
                   ),
                   Tab(
                     child: Text(
-                      'Processing',
+                      'คืนสินค้าและคืนเงิน',
                       style: TextStyle(
                         color: kPrimaryColor,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Delivered',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Succeed',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Return',
-                      style: TextStyle(
-                        color: kPrimaryColor,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      'Refund',
-                      style: TextStyle(
-                        color: kPrimaryColor,
+                        fontSize: 13,
                       ),
                     ),
                   ),
                 ],
+                indicatorColor: kPrimaryColor,
               ),
             ),
             Expanded(
               child: TabBarView(
                 children: [
                   AllOrderWidget(),
+                  OrderderStatus(),
+                  ReturnAndRefund(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class OrderderStatus extends StatefulWidget {
+  const OrderderStatus({super.key});
+
+  @override
+  State<OrderderStatus> createState() => _OrderderStatusState();
+}
+
+class _OrderderStatusState extends State<OrderderStatus> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTabController(
+        length: 4, // จำนวนแท็บทั้งหมด
+        child: Column(
+          children: [
+            SizedBox(
+              height: 35,
+              child: TabBar(
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    child: Text(
+                      'ออเดอร์ใหม่',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'แพ็คสินค้า',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'จัดส่งสินค้า',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'ส่งสำเร็จ',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+                indicatorColor: kPrimaryColor,
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
                   OnHoldWidget(),
                   ProcessingWidget(),
                   DeliveredWidget(),
                   SucceedWidget(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ReturnAndRefund extends StatefulWidget {
+  const ReturnAndRefund({super.key});
+
+  @override
+  State<ReturnAndRefund> createState() => _ReturnAndRefundState();
+}
+
+class _ReturnAndRefundState extends State<ReturnAndRefund> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: DefaultTabController(
+        length: 2, // จำนวนแท็บทั้งหมด
+        child: Column(
+          children: [
+            SizedBox(
+              height: 35,
+              child: TabBar(
+                isScrollable: true,
+                tabs: [
+                  Tab(
+                    child: Text(
+                      'คำขอคืนเงินสินค้า',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  Tab(
+                    child: Text(
+                      'คืนเงินสินค้าเรียบร้อยแล้ว',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+                indicatorColor: kPrimaryColor,
+              ),
+            ),
+            Expanded(
+              child: TabBarView(
+                children: [
                   ReturnWidget(),
                   RefundWidget(),
                 ],
