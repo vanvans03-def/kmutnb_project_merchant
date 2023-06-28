@@ -148,12 +148,11 @@ class AuthService {
           Provider.of<UserProvider>(context, listen: false)
               .setUser(responseJson);
           await prefs.setString('x-auth-token', token);
-
-          if (data['type'] != 'admin' && data['type'] != 'merchant') {
+          if (data['type'] == 'merchant') {
+            // ignore: use_build_context_synchronously
+          } else if (data['type'] != 'admin' && data['type'] != 'merchant') {
             //Navigator.pop(context);
             showSnackBar(context, 'กรุณาใช้งานแอปพลิเคชันสำหรับผู้ซื้อ');
-          } else if (data['type'] == 'merchant') {
-            showSnackBar(context, 'ยินดีต้อนรับสู่แอปพลิเคชันสำหรับขายสินค้า');
           }
         },
       );
