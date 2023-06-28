@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 
 import 'package:kmutnb_project_merchant/features/myprofile/screens/edit_profile_screen.dart';
 import '../../../models/user.dart';
+import '../../../providers/store_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../account/screens/account_screen.dart';
+import '../../auth/screens/login_screen.dart';
 import 'edite_store_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -123,7 +125,13 @@ class _ProfileScreen extends State<ProfileScreen> {
                 leading: const Icon(Icons.logout),
                 title: const Text('ออกจากระบบ'),
                 onTap: () {
-                  // ทำงานเมื่อกดออกจากระบบ
+                  Provider.of<UserProvider>(context, listen: false).logout();
+                  Provider.of<StoreProvider>(context, listen: false).logout();
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()),
+                    (route) => false,
+                  );
                 },
               ),
               const Divider(

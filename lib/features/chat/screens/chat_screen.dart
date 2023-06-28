@@ -55,7 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void connectSocket() {
-    socket = IO.io('http://192.168.1.159:3700', <String, dynamic>{
+    socket = IO.io('https://chat-server-kmutnb-880d9148b897.herokuapp.com', <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': true,
     });
