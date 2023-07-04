@@ -34,6 +34,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   List<File> images = [];
   final _editProductFormKey = GlobalKey<FormState>();
   String? productType;
+  bool isTaps = false;
   @override
   void dispose() {
     super.dispose();
@@ -44,6 +45,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     productTypeController.dispose();
   }
 
+  String? selectedProductPriceId;
   @override
   void initState() {
     super.initState();
@@ -61,7 +63,6 @@ class _EditProductScreenState extends State<EditProductScreen> {
   List<Category> categories = [];
   String selectedCategoryId = '';
 
-  String? selectedProductPriceId;
   List<ProductPrice> productPrices = [];
   List<ProductPrice> productPricesList = [];
 
@@ -283,19 +284,24 @@ class _EditProductScreenState extends State<EditProductScreen> {
                 const SizedBox(height: 5),
                 ElevatedButton(
                   onPressed: () async {
-                    String productName = productNameController.text;
-                    List<ProductPrice> searchedProductPrices =
-                        await adminServices.searchProductprice(
-                      context: context,
-                      productName: productName,
-                      productSaleType: productType!,
-                    );
-
-                    setState(() {
-                      productPrices = searchedProductPrices;
-                      selectedProductPriceId = productPrices
-                          .first.productId; // Set a default value here
-                    });
+                    try {
+                      String productName = productNameController.text;
+                      List<ProductPrice> searchedProductPrices =
+                          await adminServices.searchProductprice(
+                        context: context,
+                        productName: productName,
+                        productSaleType: productType!,
+                      );
+                      isTaps = true;
+                      setState(() {
+                        productPrices = searchedProductPrices;
+                        selectedProductPriceId = productPrices
+                            .first.productId; // Set a default value here
+                      });
+                    } catch (e) {
+                      showSnackBar(context,
+                          'ไม่พบสินค้าที่ค้นหา \nกรุณากรอกชื่อสินค้าและน้ำหนักอีกครั้ง');
+                    }
                   },
                   child: RichText(
                     text: TextSpan(
@@ -307,7 +313,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     ),
                   ),
                 ),
-                if (productPrices.isNotEmpty) const SizedBox(height: 10),
+                if (productPrices.isNotEmpty && isTaps)
+                  const SizedBox(height: 10),
                 RichText(
                   text: TextSpan(
                     text: "ราคาสินค้าตลาดวันนี้",

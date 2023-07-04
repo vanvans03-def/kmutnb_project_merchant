@@ -80,7 +80,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
         productSKU_: quantityController.text,
         productSalePrice_: selectedProductPriceId.toString(),
         productShortDescription_: 'test',
-        productType_: 'test',
+        productType_: productType!,
         relatedProduct_: 'test',
         stockStatus_: 'online',
       );
@@ -268,19 +268,24 @@ class _AddProductScreenState extends State<AddProductScreen> {
                   const SizedBox(height: 5),
                   ElevatedButton(
                     onPressed: () async {
-                      String productName = productNameController.text;
-                      List<ProductPrice> searchedProductPrices =
-                          await adminServices.searchProductprice(
-                        context: context,
-                        productName: productName,
-                        productSaleType: productType!,
-                      );
+                      try {
+                        String productName = productNameController.text;
+                        List<ProductPrice> searchedProductPrices =
+                            await adminServices.searchProductprice(
+                          context: context,
+                          productName: productName,
+                          productSaleType: productType!,
+                        );
 
-                      setState(() {
-                        productPrices = searchedProductPrices;
-                        selectedProductPriceId = productPrices.first
-                            .productId; // ตั้งค่าเริ่มต้นเป็น null เพื่อให้ Dropdown ไม่แสดงค่าที่ถูกเลือก
-                      });
+                        setState(() {
+                          productPrices = searchedProductPrices;
+                          selectedProductPriceId = productPrices.first
+                              .productId; // ตั้งค่าเริ่มต้นเป็น null เพื่อให้ Dropdown ไม่แสดงค่าที่ถูกเลือก
+                        });
+                      } catch (e) {
+                        showSnackBar(context,
+                            'ไม่พบสินค้าที่ค้นหา \nกรุณากรอกชื่อสินค้าและน้ำหนักอีกครั้ง');
+                      }
                     },
                     child: RichText(
                       text: TextSpan(

@@ -7,12 +7,10 @@ import 'package:kmutnb_project_merchant/features/admin/screens/store_category_sc
 import 'package:kmutnb_project_merchant/features/admin/services/admin_service.dart';
 import 'package:provider/provider.dart';
 
-import '../../../common/widgets/stars.dart';
 import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/productprice.dart';
 import '../../../providers/store_provider.dart';
-import '../../auth/services/auth_service.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key}) : super(key: key);
@@ -252,6 +250,8 @@ class _PostScreenState extends State<PostScreen> {
                                                   nameCategoryOfProduct,
                                               mocPrice: mocPrice,
                                               avgRating: avgRating,
+                                              productType:
+                                                  productData.productType,
                                             ),
                                           ),
                                         ),

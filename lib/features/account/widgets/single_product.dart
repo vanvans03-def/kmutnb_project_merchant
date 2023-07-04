@@ -12,6 +12,7 @@ class SingleProduct extends StatelessWidget {
   String categoryName;
   String mocPrice;
   double avgRating;
+  String productType;
 
   SingleProduct({
     Key? key,
@@ -21,6 +22,7 @@ class SingleProduct extends StatelessWidget {
     required this.categoryName,
     required this.mocPrice,
     required this.avgRating,
+    required this.productType,
   }) : super(key: key);
 
   @override
@@ -55,7 +57,7 @@ class SingleProduct extends StatelessWidget {
                         color: Colors.red,
                       ),
                       child: Text(
-                        'ราคาตลาดวันนี้ $mocPrice฿/กก.',
+                        'ราคาตลาดวันนี้ $mocPrice $productType',
                         style:
                             const TextStyle(color: Colors.white, fontSize: 10),
                       ),
@@ -138,7 +140,7 @@ class SingleProduct extends StatelessWidget {
     return Column(
       children: [
         Text(
-          '$productPrice ฿',
+          '$productPrice $productType',
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: const TextStyle(

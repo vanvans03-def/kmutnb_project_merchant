@@ -227,6 +227,8 @@ class _StoreProductScreenState extends State<StoreProductScreen> {
                                                         nameCategoryOfProduct,
                                                     mocPrice: '',
                                                     avgRating: 0,
+                                                    productType:
+                                                        productData.productType,
                                                   ),
                                                 ),
                                               ),

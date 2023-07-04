@@ -170,6 +170,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                     )}'),
                     Text('รหัสออเดอร์:             ${widget.order.id}'),
                     Text('ยอดรวมออเดอร์:      \฿${widget.order.totalPrice}'),
+                    Text('รูปแบบการจัดส่ง:     ${widget.order.deliveryType}')
                   ],
                 ),
               ),
@@ -256,7 +257,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                                     'จำนวน: ${widget.order.products[i].productQuantity}',
                                   ),
                                   Text(
-                                    'ราคาต่อชิ้น: ${widget.order.products[i].productPrice}',
+                                    'ราคา: ${widget.order.products[i].productPrice} ${widget.order.products[i].productType}',
                                   ),
                                   Radio(
                                     value:

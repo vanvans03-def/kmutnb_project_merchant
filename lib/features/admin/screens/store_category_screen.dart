@@ -177,6 +177,8 @@ class _StoreCategoryScreenState extends State<StoreCategoryScreen> {
                                                 categoryName: categoryName,
                                                 mocPrice: mocPrice,
                                                 avgRating: avgRating,
+                                                productType:
+                                                    productData.productType,
                                               ),
                                             ),
                                           ),
