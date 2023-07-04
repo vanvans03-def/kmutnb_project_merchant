@@ -21,8 +21,8 @@ class AddStoreService {
   void createStore({
     required BuildContext context,
     required String storetName_,
-    required File storeImage_,
-    required File banner_,
+    required File? storeImage_,
+    required File? banner_,
     required String phone_,
     required String storeShortDescription_,
     required String storetDescription_,
@@ -40,6 +40,27 @@ class AddStoreService {
       String idImageUrls = '';
       final storeProvider = Provider.of<StoreProvider>(context, listen: false);
       final userProvider = Provider.of<UserProvider>(context, listen: false);
+      if (storeImage_ != null) {
+        final cloudinary = CloudinaryPublic('dp6dsdn8y', 'x2sxr5vn');
+        CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(storeImage_.path, folder: storetName_),
+        );
+        profileImageUrls = (response.secureUrl);
+      }
+      if (banner_ != null) {
+        final cloudinary = CloudinaryPublic('dp6dsdn8y', 'x2sxr5vn');
+        CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(banner_.path, folder: storetName_),
+        );
+        bannerImageUrls = (response.secureUrl);
+      }
+      if (idcardImage_ != null) {
+        final cloudinary = CloudinaryPublic('dp6dsdn8y', 'x2sxr5vn');
+        CloudinaryResponse response = await cloudinary.uploadFile(
+          CloudinaryFile.fromFile(idcardImage_.path, folder: storetName_),
+        );
+        idImageUrls = (response.secureUrl);
+      }
 
       Store store = Store(
         storeId: storeProvider.store.storeId,

@@ -162,7 +162,7 @@ class AdminService {
         response: res,
         context: context,
         onSuccess: () {
-          showSnackBar(context, 'Product Added Successfully!');
+          showSnackBar(context, 'Update Product Successfully!');
           Navigator.popUntil(context, (route) => route.isFirst);
         },
       );

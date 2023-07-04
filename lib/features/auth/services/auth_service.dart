@@ -7,6 +7,7 @@ import 'package:kmutnb_project_merchant/constants/error_handling.dart';
 import 'package:kmutnb_project_merchant/constants/global_variables.dart';
 import 'package:kmutnb_project_merchant/constants/utills.dart';
 import 'package:kmutnb_project_merchant/features/admin/screens/admin_screen.dart';
+import 'package:kmutnb_project_merchant/features/store/screens/waiting_screen.dart';
 
 import 'package:kmutnb_project_merchant/models/user.dart';
 import 'package:http/http.dart' as http;
@@ -183,6 +184,18 @@ class AuthService {
         onSuccess: () {
           var responseJson = json.decode(res.body);
           data = responseJson['data'];
+          if (data != null) {
+            Provider.of<StoreProvider>(context, listen: false).setStore(data);
+            final storeProvider =
+                Provider.of<StoreProvider>(context, listen: false);
+            if (storeProvider.store.storeStatus == '0') {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => WaitingScreen()),
+              );
+            }
+          }
+
           if (data == null) {
             Navigator.pushReplacementNamed(
               context,

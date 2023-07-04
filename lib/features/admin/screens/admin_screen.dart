@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:kmutnb_project_merchant/features/admin/screens/orders_screen.dart';
+import 'package:kmutnb_project_merchant/features/admin/screens/order_screen.dart';
+
 import 'package:kmutnb_project_merchant/features/admin/screens/post_screen.dart';
 import 'package:kmutnb_project_merchant/providers/store_provider.dart';
 import 'package:provider/provider.dart';
 import '../../../constants/global_variables.dart';
 import '../../../providers/user_provider.dart';
+import '../../auth/services/auth_service.dart';
 import '../../chat/screens/ChatPage.dart';
 import '../../myprofile/screens/profile_screen.dart';
 import 'analtyics_screen.dart';
@@ -25,7 +27,7 @@ class _AdminScreenState extends State<AdminScreen> {
   List<Widget> pages = [
     const PostScreen(),
     const AnalyticsScreen(),
-    const OrderScreen(),
+    OrderScreen(),
     const ProfileScreen(),
   ];
 

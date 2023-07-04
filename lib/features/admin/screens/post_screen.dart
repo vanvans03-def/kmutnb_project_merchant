@@ -12,6 +12,7 @@ import '../../../models/category.dart';
 import '../../../models/product.dart';
 import '../../../models/productprice.dart';
 import '../../../providers/store_provider.dart';
+import '../../auth/services/auth_service.dart';
 
 class PostScreen extends StatefulWidget {
   const PostScreen({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _PostScreenState extends State<PostScreen> {
   @override
   void initState() {
     super.initState();
+
     _getCategories();
     fetchAllProducts();
     _getProductprices();
@@ -71,14 +73,21 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   void deleteProduct(Product product, int index) {
-    adminService.deleteProduct(
+    adminServices.updateProduct(
       context: context,
-      product: product,
-      onSuccess: () {
-        products!.removeAt(index);
-        Navigator.pop(context);
-        setState(() {});
-      },
+      productName_: product.productName,
+      productDescription_: product.productDescription,
+      category_: product.category,
+      productPrice_: product.productPrice,
+      productSKU_: product.productSKU,
+      productSalePrice_: product.productSalePrice,
+      productShortDescription_: product.productShortDescription,
+      productType_: product.productType,
+      relatedProduct_: product.relatedProduct,
+      stockStatus_: 'offline',
+      productID: product.id.toString(),
+      productImage_: [],
+      imageWidget: product.productImage,
     );
   }
 

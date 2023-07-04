@@ -9,10 +9,6 @@ import 'package:kmutnb_project_merchant/common/widgets/custom_textfield.dart';
 import 'package:kmutnb_project_merchant/common/widgets/customer_button.dart';
 
 import 'package:kmutnb_project_merchant/models/province.dart';
-import '../../../constants/global_variables.dart';
-import '../../../constants/utills.dart';
-
-import 'package:image_picker/image_picker.dart';
 
 import '../services/add_store_service.dart';
 import 'package:file_picker/file_picker.dart';
@@ -83,7 +79,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
   }
 
   void createStore() {
-    if (_addStoreFormKey.currentState!.validate()) {
+    if (_addStoreFormKey.currentState!.validate() && _selectedImageid != null) {
       //image is not emopty
       addStoreService.createStore(
         context: context,
@@ -93,9 +89,9 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
         banner_: _selectedImageProfile!,
         phone_: _phoneNumberController.text,
         storeShortDescription_: '',
-        storeStatus_: '',
+        storeStatus_: '0',
         user_: '',
-        idcardImage_: _selectedImageid,
+        idcardImage_: _selectedImageid!,
         province_: selectedProvinceId,
         idcardNo_: idcardController.text,
       );
@@ -358,11 +354,12 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                         },
                                         child: Container(
                                           height: 150.0,
-                                          decoration: const BoxDecoration(
-                                            color: Colors.orange,
+                                          decoration: BoxDecoration(
+                                            color: Colors.grey.shade300,
                                           ),
+                                          alignment: Alignment.center,
                                           child: Image.file(
-                                            _selectedImageCover!,
+                                            _selectedImageid!,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -429,7 +426,7 @@ class _AddStoreScreenState extends State<AddStoreScreen> {
                                     ),
                                     const SizedBox(height: 10),
                                     CustomButton(
-                                      text: 'ยืนยันการแก้ไขร้านค้า',
+                                      text: 'ยืนยันการสร้างร้านค้า',
                                       onTap: createStore,
                                     ),
                                   ],
