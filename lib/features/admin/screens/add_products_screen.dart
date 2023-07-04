@@ -30,7 +30,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
   final CategoryService categoryServices = CategoryService();
   List<File> images = [];
   final _addProductFormKey = GlobalKey<FormState>();
-
+  String? productType;
   @override
   void dispose() {
     super.dispose();
@@ -46,6 +46,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
     super.initState();
     _getCategories();
     _getProductprices();
+    productType = 'บาท/กก.';
   }
 
   List<Category> categories = [];
@@ -201,6 +202,70 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       return null;
                     },
                   ),
+                  const SizedBox(height: 10),
+                  RichText(
+                    text: TextSpan(
+                      text: "ราคาสินค้า",
+                      style: TextStyle(
+                        color: Colors.black.withOpacity(1.0),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Colors.black38,
+                      ),
+                      borderRadius: const BorderRadius.all(Radius.circular(
+                              3.0) //                 <--- border radius here
+                          ),
+                    ),
+                    child: Row(
+                      children: [
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        Expanded(
+                          child: TextFormField(
+                            controller: priceController,
+                            decoration: const InputDecoration(
+                              hintText: 'Price',
+                            ),
+                            validator: (val) {
+                              if (val == null || val.isEmpty) {
+                                return 'Enter your Price';
+                              }
+                              return null;
+                            },
+                            maxLines: 1,
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        DropdownButton<String>(
+                          value: productType,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              productType = newValue!;
+                            });
+                          },
+                          items: <String>[
+                            'บาท/กก.',
+                            'บาท/กำ',
+                            'บาท/ผล',
+                            'บาท/หวี',
+                          ].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 5),
                   ElevatedButton(
                     onPressed: () async {
                       String productName = productNameController.text;
@@ -208,6 +273,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                           await adminServices.searchProductprice(
                         context: context,
                         productName: productName,
+                        productSaleType: productType!,
                       );
 
                       setState(() {
@@ -218,7 +284,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     },
                     child: RichText(
                       text: TextSpan(
-                        text: "ราคาสินค้าวันนี้",
+                        text: "ตรวจสอบราคา",
                         style: TextStyle(
                           color: Colors.white.withOpacity(1.0),
                           fontWeight: FontWeight.bold,
@@ -226,54 +292,55 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       ),
                     ),
                   ),
-                  if (productPrices.isNotEmpty)
-                    Container(
-                      height: 50,
-                      width: double.infinity,
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          isExpanded: true,
-                          value: selectedProductPriceId,
-                          onChanged: (String? newValue) {
-                            setState(() {
-                              selectedProductPriceId = newValue!;
-                            });
-                          },
-                          items: [
-                            const DropdownMenuItem<String>(
-                              value: '0',
-                              child: Text(
-                                  'ไม่มีสินค้าที่ใกล้เคียง/ไม่แสดงราคาสินค้าแนะนำ'),
-                            ),
-                            ...productPrices.map((productPrice) {
-                              return DropdownMenuItem<String>(
-                                value: productPrice.productId,
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Flexible(
-                                        child: Text(
-                                          productPrice.productName,
-                                          overflow: TextOverflow.ellipsis,
-                                        ),
+                  if (productPrices.isNotEmpty) const SizedBox(height: 10),
+                  Container(
+                    height: 50,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.grey),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: selectedProductPriceId,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            selectedProductPriceId = newValue!;
+                          });
+                        },
+                        items: [
+                          const DropdownMenuItem<String>(
+                            value: '0',
+                            child: Text(
+                                'ไม่มีสินค้าที่ใกล้เคียง/ไม่แสดงราคาสินค้าแนะนำ'),
+                          ),
+                          ...productPrices.map((productPrice) {
+                            return DropdownMenuItem<String>(
+                              value: productPrice.productId,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Flexible(
+                                      child: Text(
+                                        productPrice.productName,
+                                        overflow: TextOverflow.ellipsis,
                                       ),
-                                      Text('Price: ${productPrice.priceMax}'),
-                                    ],
-                                  ),
+                                    ),
+                                    Text(
+                                        '${productPrice.priceMax} ${productPrice.unit}'),
+                                  ],
                                 ),
-                              );
-                            }).toList(),
-                          ],
-                        ),
+                              ),
+                            );
+                          }).toList(),
+                        ],
                       ),
                     ),
+                  ),
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(
@@ -289,24 +356,6 @@ class _AddProductScreenState extends State<AddProductScreen> {
                     controller: descriptionController,
                     hintText: 'Description',
                     maxLines: 7,
-                    validator: (value) {
-                      return null;
-                    },
-                  ),
-                  const SizedBox(height: 10),
-                  RichText(
-                    text: TextSpan(
-                      text: "ราคาสินค้า",
-                      style: TextStyle(
-                        color: Colors.black.withOpacity(1.0),
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 5),
-                  CustomTextField(
-                    controller: priceController,
-                    hintText: 'Price',
                     validator: (value) {
                       return null;
                     },
