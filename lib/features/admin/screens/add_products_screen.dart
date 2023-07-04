@@ -255,6 +255,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
                             'บาท/กำ',
                             'บาท/ผล',
                             'บาท/หวี',
+                            'บาท/10 กำ',
                           ].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
@@ -297,55 +298,66 @@ class _AddProductScreenState extends State<AddProductScreen> {
                       ),
                     ),
                   ),
-                  if (productPrices.isNotEmpty) const SizedBox(height: 10),
-                  Container(
-                    height: 50,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton<String>(
-                        isExpanded: true,
-                        value: selectedProductPriceId,
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            selectedProductPriceId = newValue!;
-                          });
-                        },
-                        items: [
-                          const DropdownMenuItem<String>(
-                            value: '0',
-                            child: Text(
-                                'ไม่มีสินค้าที่ใกล้เคียง/ไม่แสดงราคาสินค้าแนะนำ'),
-                          ),
-                          ...productPrices.map((productPrice) {
-                            return DropdownMenuItem<String>(
-                              value: productPrice.productId,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Flexible(
-                                      child: Text(
-                                        productPrice.productName,
-                                        overflow: TextOverflow.ellipsis,
-                                      ),
-                                    ),
-                                    Text(
-                                        '${productPrice.priceMax} ${productPrice.unit}'),
-                                  ],
-                                ),
-                              ),
-                            );
-                          }).toList(),
-                        ],
+                  if (productPrices.isNotEmpty) ...[
+                    RichText(
+                      text: TextSpan(
+                        text: "ราคาสินค้าวันนี้",
+                        style: TextStyle(
+                          color: Colors.black.withOpacity(1.0),
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 5),
+                    Container(
+                      height: 50,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: selectedProductPriceId,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              selectedProductPriceId = newValue!;
+                            });
+                          },
+                          items: [
+                            const DropdownMenuItem<String>(
+                              value: '0',
+                              child: Text(
+                                  'ไม่มีสินค้าที่ใกล้เคียง/ไม่แสดงราคาสินค้าแนะนำ'),
+                            ),
+                            ...productPrices.map((productPrice) {
+                              return DropdownMenuItem<String>(
+                                value: productPrice.productId,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Flexible(
+                                        child: Text(
+                                          productPrice.productName,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      Text(
+                                          '${productPrice.priceMax} ${productPrice.unit}'),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            }).toList(),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                   const SizedBox(height: 10),
                   RichText(
                     text: TextSpan(

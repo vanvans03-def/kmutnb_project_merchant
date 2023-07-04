@@ -271,6 +271,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           'บาท/กำ',
                           'บาท/ผล',
                           'บาท/หวี',
+                          'บาท/10 กำ',
                         ].map<DropdownMenuItem<String>>((String value) {
                           return DropdownMenuItem<String>(
                             value: value,
