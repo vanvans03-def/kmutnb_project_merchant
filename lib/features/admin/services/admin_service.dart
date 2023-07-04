@@ -507,12 +507,14 @@ class AdminService {
   Future<List<ProductPrice>> searchProductprice({
     required BuildContext context,
     required String productName,
+    required String productSaleType,
   }) async {
     //final userProvider = Provider.of<UserProvider>(context, listen: false);
     List<ProductPrice> productpricesList = [];
     try {
       http.Response res = await http.get(
-          Uri.parse('$uri/api/productprices/search?productName=$productName'),
+          Uri.parse(
+              '$uri/api/productprices/search?productName=$productName&productType=$productSaleType'),
           headers: {
             'Content-Type': 'application/json; charset=UTF=8',
           });

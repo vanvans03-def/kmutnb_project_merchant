@@ -9,6 +9,7 @@ class OrderStore {
   final int orderedAt;
   final int status;
   final String image;
+  final String deliveryType;
 
   OrderStore({
     required this.id,
@@ -19,6 +20,7 @@ class OrderStore {
     required this.orderedAt,
     required this.status,
     required this.image,
+    required this.deliveryType,
   });
 
   Map<String, dynamic> toMap() {
@@ -31,6 +33,7 @@ class OrderStore {
       'orderedAt': orderedAt,
       'status': status,
       'image': image,
+      'deliveryType': deliveryType,
     };
   }
 
@@ -46,6 +49,7 @@ class OrderStore {
       orderedAt: map['orderedAt']?.toInt() ?? 0,
       status: map['status']?.toInt() ?? 0,
       image: map['image'] ?? '',
+      deliveryType: map['deliveryType'] ?? '',
     );
   }
 

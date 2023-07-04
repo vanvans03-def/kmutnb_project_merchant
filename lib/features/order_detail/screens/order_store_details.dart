@@ -170,6 +170,7 @@ class _OrderStoreDetailScreen extends State<OrderStoreDetailScreen> {
                     )}'),
                     Text('รหัสออเดอร์:             ${widget.order.id}'),
                     Text('ยอดรวมออเดอร์:      \฿${widget.order.totalPrice}'),
+                    Text('รูปแบบการจัดส่ง:     ${widget.order.deliveryType}')
                   ],
                 ),
               ),
