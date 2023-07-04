@@ -30,4 +30,8 @@ class StoreProvider extends ChangeNotifier {
     _store = store;
     notifyListeners();
   }
+
+  void logout() {
+    setStore({});
+  }
 }
